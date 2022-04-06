@@ -1,0 +1,49 @@
+device PIC18F8722
+hwtool sim
+set warningmessagebreakoptions.W0223_ADC_UNDERFLOW ignore
+set warningmessagebreakoptions.W0222_ADC_OVERFLOW ignore
+set oscillator.frequency 10
+set oscillator.frequencyunit Mega
+program "${elf_binary_loc}"
+
+reset MCLR
+
+break *${msec1000_passed}
+run
+
+wait
+delete
+break *${msec500_passed}
+continue
+
+wait
+continue
+
+
+wait
+echo msec_result_0: stopwatch should be 0.5±0.1 seconds
+stopwatch
+continue
+
+wait
+echo msec_result_1: stopwatch should be 0.5±0.1 seconds
+stopwatch
+continue
+
+wait
+echo msec_result_2: stopwatch should be 0.5±0.1 seconds
+stopwatch
+continue
+
+wait
+echo msec_result_3: stopwatch should be 0.5±0.1 seconds
+stopwatch
+continue
+
+wait
+echo msec_result_4: stopwatch should be 0.5±0.1 seconds
+stopwatch
+
+quit
+
+quit

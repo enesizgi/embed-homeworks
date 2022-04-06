@@ -1,0 +1,424 @@
+%CMF
+# %PSECTS Section
+# For each object file, details of its psects are enumerated here.
+# The begining of the section is indicated by %PSECTS.  The first
+# line indicates the name of the first object file, e.g.
+#    $foo.obj
+# Each line that follows describes a psect in that object file, until
+# the next object file.  The lines that describe a psect have the
+# format:
+#    <psect name> <class name> <space> <link address> <load addresses> <length> <delta>
+# All addresses and the length are given in unqualified hexadecimal
+# in delta units.  Any other numeric values are decimal.
+%PSECTS
+$build/default/debug/the_1_2310142.o
+resetVec CODE 0 1FED6 1FED6 12A 1
+CODE - 0 0 0 BE 1
+udata_acs COMRAM 1 0 0 9 1
+config CONFIG 4 300001 300001 D 1
+# %UNUSED Section
+# This section enumerates the unused ranges of each CLASS. Each entry
+# is described on a single line as follows:
+#    <class name> <range> <delta>
+# Addresses given in the range are in hexadecimal and units of delta.
+%UNUSED
+RAM 60-F5F 1
+SFR F60-FFF 1
+BANK0 60-FF 1
+BANK1 100-1FF 1
+BANK2 200-2FF 1
+BANK3 300-3FF 1
+BANK4 400-4FF 1
+BANK5 500-5FF 1
+BANK6 600-6FF 1
+BANK7 700-7FF 1
+BANK8 800-8FF 1
+BANK9 900-9FF 1
+CONST BE-1FED5 1
+IDLOC 200000-200007 1
+SMALLCONST 1000-1FED5 1
+CODE BE-1FED5 1
+BANK10 A00-AFF 1
+BANK11 B00-BFF 1
+BANK12 C00-CFF 1
+BANK13 D00-DFF 1
+BANK14 E00-EFF 1
+BANK15 F00-F5F 1
+BIGRAM BE-F5F 1
+COMRAM 9-5F 1
+CONFIG 300000-300000 1
+EEDATA F00000-F003FF 1
+MEDIUMCONST 1000-FFFF 1
+MEDIUMCONST 11000-1FED5 1
+# %LINETAB Section
+# This section enumerates the file/line to address mappings.
+# The beginning of the section is indicated by %LINETAB.
+# The first line indicates the name of the first object file, e.g.
+#   $foo.obj
+# Each line that follows describes a single mapping until the next
+# object file.  Mappings have the following format:
+#    <address> <psect name> <class name> ><line number>:<file name>
+# The address is absolute and given given in unqualified hex 
+# in delta units of the psect. All mappings within an object file
+# are in ascending order of addresses.
+# All other numeric values are in decimal.
+%LINETAB
+$build/default/debug/the_1_2310142.o
+0 CODE ABS >216:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+0 CODE ABS >218:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+2 CODE ABS >219:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+4 CODE ABS >220:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+6 CODE ABS >221:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+8 CODE ABS >222:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+A CODE ABS >223:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+C CODE ABS >224:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+E CODE ABS >225:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+10 CODE ABS >226:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+12 CODE ABS >227:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+14 CODE ABS >228:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+16 CODE ABS >229:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+18 CODE ABS >230:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1A CODE ABS >231:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1C CODE ABS >232:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1E CODE ABS >233:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+20 CODE ABS >234:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+22 CODE ABS >235:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+24 CODE ABS >236:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+26 CODE ABS >237:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+28 CODE ABS >238:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+2A CODE ABS >239:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+2E CODE ABS >240:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+32 CODE ABS >241:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+34 CODE ABS >242:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+36 CODE ABS >243:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+38 CODE ABS >244:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+3A CODE ABS >246:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+3A CODE ABS >247:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+3C CODE ABS >248:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+40 CODE ABS >249:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+42 CODE ABS >250:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+44 CODE ABS >251:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+46 CODE ABS >253:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+48 CODE ABS >254:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+4A CODE ABS >255:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+4C CODE ABS >256:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+4E CODE ABS >257:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+50 CODE ABS >258:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+52 CODE ABS >259:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+54 CODE ABS >260:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+58 CODE ABS >261:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+5A CODE ABS >262:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+5C CODE ABS >263:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+5E CODE ABS >264:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+60 CODE ABS >265:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+62 CODE ABS >267:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+62 CODE ABS >268:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+64 CODE ABS >269:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+66 CODE ABS >270:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+68 CODE ABS >271:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+6C CODE ABS >272:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+6C CODE ABS >273:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+6E CODE ABS >274:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+72 CODE ABS >275:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+76 CODE ABS >276:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+76 CODE ABS >277:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+78 CODE ABS >280:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+7C CODE ABS >281:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+7C CODE ABS >282:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+7E CODE ABS >283:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+80 CODE ABS >284:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+82 CODE ABS >286:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+86 CODE ABS >287:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+86 CODE ABS >288:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+8A CODE ABS >289:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+8C CODE ABS >290:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+8E CODE ABS >291:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+90 CODE ABS >292:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+92 CODE ABS >294:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+94 CODE ABS >295:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+96 CODE ABS >296:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+98 CODE ABS >298:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+9C CODE ABS >299:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+9C CODE ABS >300:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+9E CODE ABS >301:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+A0 CODE ABS >302:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+A2 CODE ABS >304:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+A4 CODE ABS >305:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+A6 CODE ABS >306:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+AA CODE ABS >307:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+AE CODE ABS >308:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+AE CODE ABS >309:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+B2 CODE ABS >310:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+B6 CODE ABS >311:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+B6 CODE ABS >312:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+BA CODE ABS >313:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FED6 resetVec CODE >33:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FED6 resetVec CODE >34:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEDA resetVec CODE >38:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEDA resetVec CODE >39:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEDC resetVec CODE >40:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEDE resetVec CODE >44:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEDE resetVec CODE >45:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEE0 resetVec CODE >46:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEE2 resetVec CODE >48:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEE2 resetVec CODE >49:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEE4 resetVec CODE >50:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEE6 resetVec CODE >51:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEE6 resetVec CODE >52:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEE8 resetVec CODE >53:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEEA resetVec CODE >54:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEEC resetVec CODE >55:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEEE resetVec CODE >56:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEF2 resetVec CODE >57:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEF2 resetVec CODE >58:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEF4 resetVec CODE >59:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEF6 resetVec CODE >60:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEF8 resetVec CODE >61:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEFA resetVec CODE >62:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FEFC resetVec CODE >63:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF00 resetVec CODE >64:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF00 resetVec CODE >65:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF02 resetVec CODE >66:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF04 resetVec CODE >67:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF06 resetVec CODE >69:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF06 resetVec CODE >70:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF0A resetVec CODE >71:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF0C resetVec CODE >72:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF0E resetVec CODE >73:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF10 resetVec CODE >74:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF12 resetVec CODE >75:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF16 resetVec CODE >76:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF16 resetVec CODE >77:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF18 resetVec CODE >78:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF1A resetVec CODE >80:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF1A resetVec CODE >81:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF1E resetVec CODE >82:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF20 resetVec CODE >83:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF22 resetVec CODE >84:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF24 resetVec CODE >85:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF26 resetVec CODE >86:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF2A resetVec CODE >87:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF2A resetVec CODE >88:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF2C resetVec CODE >89:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF2E resetVec CODE >91:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF2E resetVec CODE >92:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF30 resetVec CODE >93:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF32 resetVec CODE >94:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF34 resetVec CODE >95:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF36 resetVec CODE >96:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF38 resetVec CODE >98:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF38 resetVec CODE >99:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF3A resetVec CODE >100:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF3C resetVec CODE >101:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF3E resetVec CODE >103:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF42 resetVec CODE >104:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF44 resetVec CODE >105:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF46 resetVec CODE >106:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF46 resetVec CODE >107:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF4A resetVec CODE >108:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF4C resetVec CODE >109:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF4E resetVec CODE >111:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF4E resetVec CODE >112:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF50 resetVec CODE >113:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF52 resetVec CODE >114:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF54 resetVec CODE >116:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF58 resetVec CODE >117:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF5A resetVec CODE >118:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF5C resetVec CODE >119:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF5C resetVec CODE >120:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF60 resetVec CODE >121:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF62 resetVec CODE >122:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF64 resetVec CODE >124:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF64 resetVec CODE >125:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF66 resetVec CODE >126:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF68 resetVec CODE >127:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF6A resetVec CODE >128:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF6C resetVec CODE >129:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF6E resetVec CODE >130:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF70 resetVec CODE >131:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF72 resetVec CODE >132:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF72 resetVec CODE >134:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF74 resetVec CODE >135:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF74 resetVec CODE >138:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF74 resetVec CODE >139:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF76 resetVec CODE >140:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF78 resetVec CODE >141:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF7A resetVec CODE >143:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF7C resetVec CODE >144:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF7E resetVec CODE >145:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF80 resetVec CODE >147:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF84 resetVec CODE >148:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF84 resetVec CODE >149:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF86 resetVec CODE >150:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF88 resetVec CODE >151:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF8A resetVec CODE >153:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF8E resetVec CODE >154:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF8E resetVec CODE >155:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF90 resetVec CODE >156:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF92 resetVec CODE >157:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF94 resetVec CODE >158:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF96 resetVec CODE >159:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF98 resetVec CODE >160:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF9C resetVec CODE >161:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF9C resetVec CODE >162:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FF9E resetVec CODE >163:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFA0 resetVec CODE >164:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFA4 resetVec CODE >165:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFA4 resetVec CODE >166:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFA6 resetVec CODE >167:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFA8 resetVec CODE >168:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFAA resetVec CODE >169:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFAA resetVec CODE >170:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFAC resetVec CODE >171:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFAE resetVec CODE >172:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFB0 resetVec CODE >173:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFB2 resetVec CODE >174:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFB4 resetVec CODE >175:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFB6 resetVec CODE >176:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFB8 resetVec CODE >177:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFBA resetVec CODE >178:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFBC resetVec CODE >179:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFBE resetVec CODE >180:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFC0 resetVec CODE >181:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFC2 resetVec CODE >183:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFC2 resetVec CODE >184:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFC4 resetVec CODE >185:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFC6 resetVec CODE >186:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFC8 resetVec CODE >187:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFCC resetVec CODE >188:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFD0 resetVec CODE >189:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFD0 resetVec CODE >190:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFD4 resetVec CODE >191:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFD8 resetVec CODE >193:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFD8 resetVec CODE >194:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFDC resetVec CODE >195:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFE0 resetVec CODE >196:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFE0 resetVec CODE >197:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFE2 resetVec CODE >198:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFE4 resetVec CODE >199:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFE8 resetVec CODE >200:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFE8 resetVec CODE >201:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFEA resetVec CODE >202:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFEC resetVec CODE >203:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFF0 resetVec CODE >204:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFF0 resetVec CODE >205:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFF2 resetVec CODE >206:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFF4 resetVec CODE >207:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFF8 resetVec CODE >208:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFF8 resetVec CODE >209:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFFA resetVec CODE >210:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+1FFFC resetVec CODE >211:/Users/enesizgi/MPLABXProjects/the1.X/the_1_2310142.s
+# %SYMTAB Section
+# An enumeration of all symbols in the program.
+# The beginning of the section is indicated by %SYMTAB.
+# Each line describes a single symbol as follows:
+#    <label> <value> [-]<load-adj> <class> <space> <psect> <file-name>
+# The value and load-adj are both in unqualified hexadecimal.
+# All other numeric values are in decimal.  The load-adj is the
+# quantity one needs to add to the symbol value in order to obtain the load
+# address of the symbol.  This value may be signed. If the symbol
+# was defined in a psect then <psect> will be "-". File-name
+# is the name of the object file in which the symbol was defined.
+%SYMTAB
+pB 3 0 COMRAM 1 udata_acs build/default/debug/the_1_2310142.o
+pC 4 0 COMRAM 1 udata_acs build/default/debug/the_1_2310142.o
+pD 5 0 COMRAM 1 udata_acs build/default/debug/the_1_2310142.o
+__Hspace_0 20000 0 ABS 0 - -
+__Hspace_1 9 0 ABS 0 - -
+__Hspace_3 0 0 ABS 0 - -
+__Hspace_4 60000F 0 ABS 0 - -
+__Hudata_bank0 BE 0 ABS 0 udata_bank0 -
+__Hudata_bank1 BE 0 ABS 0 udata_bank1 -
+__Hudata_bank2 BE 0 ABS 0 udata_bank2 -
+__Hudata_bank3 BE 0 ABS 0 udata_bank3 -
+__Hudata_bank4 BE 0 ABS 0 udata_bank4 -
+__Hudata_bank5 BE 0 ABS 0 udata_bank5 -
+__Hudata_bank6 BE 0 ABS 0 udata_bank6 -
+__Hudata_bank7 BE 0 ABS 0 udata_bank7 -
+__Hudata_bank8 BE 0 ABS 0 udata_bank8 -
+__Hudata_bank9 BE 0 ABS 0 udata_bank9 -
+isRE4Pressed 8 0 COMRAM 1 udata_acs build/default/debug/the_1_2310142.o
+__LresetVec BE 0 ABS 0 resetVec -
+__Hudata_bank10 BE 0 ABS 0 udata_bank10 -
+__Hudata_bank11 BE 0 ABS 0 udata_bank11 -
+__Hudata_bank12 BE 0 ABS 0 udata_bank12 -
+__Hudata_bank13 BE 0 ABS 0 udata_bank13 -
+__Hudata_bank14 BE 0 ABS 0 udata_bank14 -
+__Hudata_bank15 BE 0 ABS 0 udata_bank15 -
+isRA4Pressed 7 0 COMRAM 1 udata_acs build/default/debug/the_1_2310142.o
+__HresetVec BE 0 ABS 0 resetVec -
+__Hedata BE 0 ABS 0 edata -
+__Hudata BE 0 ABS 0 udata -
+__Hconfig 30000E 0 CONFIG 4 config -
+__Ledata BE 0 ABS 0 edata -
+__Ludata BE 0 ABS 0 udata -
+__HCODE BE 0 ABS 0 CODE -
+__Hcode BE 0 ABS 0 code -
+__Hdata BE 0 ABS 0 data -
+__LCODE 0 0 ABS 0 CODE -
+__Lcode BE 0 ABS 0 code -
+__Ldata BE 0 ABS 0 data -
+__S0 20000 0 ABS 0 - -
+__S1 9 0 ABS 0 - -
+__S3 0 0 ABS 0 - -
+var1 0 0 COMRAM 1 udata_acs build/default/debug/the_1_2310142.o
+var2 1 0 COMRAM 1 udata_acs build/default/debug/the_1_2310142.o
+var3 2 0 COMRAM 1 udata_acs build/default/debug/the_1_2310142.o
+__Ludata_bank10 BE 0 ABS 0 udata_bank10 -
+__Ludata_bank11 BE 0 ABS 0 udata_bank11 -
+__Ludata_bank12 BE 0 ABS 0 udata_bank12 -
+__Ludata_bank13 BE 0 ABS 0 udata_bank13 -
+__Ludata_bank14 BE 0 ABS 0 udata_bank14 -
+__Ludata_bank15 BE 0 ABS 0 udata_bank15 -
+__Lconfig 0 0 CONFIG 4 config -
+__Lspace_0 0 0 ABS 0 - -
+__Lspace_1 0 0 ABS 0 - -
+__Lspace_3 0 0 ABS 0 - -
+__Lspace_4 0 0 ABS 0 - -
+__Ludata_bank0 BE 0 ABS 0 udata_bank0 -
+__Ludata_bank1 BE 0 ABS 0 udata_bank1 -
+__Ludata_bank2 BE 0 ABS 0 udata_bank2 -
+__Ludata_bank3 BE 0 ABS 0 udata_bank3 -
+__Ludata_bank4 BE 0 ABS 0 udata_bank4 -
+__Ludata_bank5 BE 0 ABS 0 udata_bank5 -
+__Ludata_bank6 BE 0 ABS 0 udata_bank6 -
+__Ludata_bank7 BE 0 ABS 0 udata_bank7 -
+__Ludata_bank8 BE 0 ABS 0 udata_bank8 -
+__Ludata_bank9 BE 0 ABS 0 udata_bank9 -
+selectedPort 6 0 COMRAM 1 udata_acs build/default/debug/the_1_2310142.o
+__Hudata_acs BE 0 ABS 0 udata_acs -
+__Ludata_acs BE 0 ABS 0 udata_acs -
+# %SPLITSTAB Section
+# This section enumerates all the psect splits performed by the assembler.
+# The beginning of the section is indicated by %SPLITSTAB.
+# Each line is a record a particular split, where the parent psect is on
+# the left and the child on the right.  Note that a child psect is always
+# split form the top of the parent psect. All splits from a given parent
+# are listed in the order in which they occurred.
+%SPLITSTAB
+# %DABS Section
+# This section contains a table of all usuage of the assember
+# directive DABS in the program. Each line has the following format:
+#   <name> <space> <address> <size>
+# If the DABS was originally labelled then that shall be <name>,
+# otherwise name will be "-".  The <space> number is in decimal.
+# <address> and <size> are in byte units as unqaulified hexadecimal
+%DABS
+# %SEGMENTS Section
+# This sections enumerates the segments of the program.  Each segment
+# is described on a single line as follows:
+#    <name> <space> <link address> <file address> <size> <delta>
+# Addresses and size are in unqualified hexadecimal.  The link address
+# and size are in units of delta. The file address is in units of bytes.
+# All other numeric quantities are in decimal.
+%SEGMENTS
+resetVec 0 1FED6 1FED6 12A 1
+udata_acs 1 0 0 9 1
+# %NOTES Section
+# This section contains data of all the note-psects.  The beginning of the section
+# is indicated by %NOTES. The first line indicates the name and decimal
+# byte-length of the first note-psect, e.g.
+#   $codecov_info_hdr 16
+# Each line that follows contains the byte-data of the psect in hexadecimal as a
+# space-separated list. These lines are limited to 16 bytes of data.
+%NOTES
