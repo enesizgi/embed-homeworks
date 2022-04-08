@@ -6,7 +6,7 @@ PROCESSOR 18F8722
 CONFIG OSC = HSPLL, FCMEN = OFF, IESO = OFF, PWRT = OFF, BOREN = OFF, WDT = OFF, MCLRE = ON, LPT1OSC = OFF, LVP = OFF, XINST = OFF, DEBUG = OFF
 
 ; global variable declarations
-GLOBAL var1,var2,var3,pB,pC,pD,selectedPort,isRA4Pressed, isRE4Pressed
+GLOBAL var1,var2,var3,pB,pC,pD,selectedPort,isRA4Pressed, isRE4Pressed, pBint, pCint
 
 ; allocating memory for variables
 PSECT udata_acs
@@ -28,6 +28,10 @@ PSECT udata_acs
 	DS     1
     isRE4Pressed:
 	DS     1
+    pBint:
+	DS 1
+    pCint:
+	DS 1
 
 PSECT resetVec,class=CODE,reloc=2
 resetVec:
@@ -130,10 +134,30 @@ toggle_portD:
     RRNCF PORTD
     return
 first_it_portD:
+    movlw 0xFF
+    andwf PORTB, 0
+    bz set_portB_var1
+set_portB_var1_return:
+    movlw 0xFF
+    andwf PORTC, 0
+    bz set_portC_var2
+set_portC_var2_return:
+    movlw 0x0
+    movwf PORTD
+    movff PORTB, PORTD
     
     return
-change_portC:
-    
+set_portB_var1:
+    movff pB, PORTB
+    movlw 0x0
+    movwf pB
+    goto set_portB_var1_return
+set_portC_var2:
+    movff pC, PORTC
+    movlw 0x0
+    movwf pC
+    goto set_portC_var2_return
+
     
 ra4_action:
     movlw 0x01
@@ -152,6 +176,8 @@ one_or_three_ra4:
     ; selectedPortD
     goto loop
 selectedPortC_ra4:
+    movlw 0x01
+    xorwf pCint
     movlw 0xFF
     andwf PORTC,0
     bz portC_blink
@@ -196,18 +222,26 @@ portB_blink:
 portB_1:
     movlw 0x03
     movwf var1
+    movlw 0x02
+    movwf pBint
     goto portB_swap
 portB_3:
     movlw 0x07
     movwf var1
+    movlw 0x03
+    movwf pBint
     goto portB_swap
 portB_7:
     movlw 0x0F
     movwf var1
+    movlw 0x04
+    movwf pBint
     goto portB_swap
 portB_15:
     movlw 0x01
     movwf var1
+    movlw 0x01
+    movwf pBint
     goto portB_swap
 
     
@@ -215,9 +249,18 @@ portB_15:
 PSECT CODE
 main:
     ; some code to initialize and wait 1000ms here, maybe
-    movlw 0
-    movwf var1
-    movwf selectedPort
+    clrf var1
+    clrf selectedPort
+    ;var1,var2,var3,pB,pC,pD,selectedPort,isRA4Pressed, isRE4Pressed, pBint, pCint
+    clrf var2
+    clrf var3
+    clrf pB
+    clrf pC
+    clrf pD
+    clrf isRA4Pressed
+    clrf isRE4Pressed
+    clrf pBint
+    clrf pCint
     MOVLW 0x00                         ; all output
     MOVWF TRISB
     CLRF PORTB                         ; clear all
