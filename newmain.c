@@ -62,10 +62,10 @@ void sevenSeg(char J, char D){
             PORTH = 0x02;       // RH1 = 1, others = 0
             break;
         case 'D2':
-            PORTH = 0x03;       // RH2 = 1, others = 0
+            PORTH = 0x04;       // RH2 = 1, others = 0
             break;
         case 'D3':
-            PORTH = 0x04;       // RH3 = 1, others = 0
+            PORTH = 0x08;       // RH3 = 1, others = 0
             break;
     }
 }
