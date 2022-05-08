@@ -17,6 +17,7 @@
 void tmr_isr();
 void __interrupt(high_priority) highPriorityISR(void) {
     if (INTCONbits.TMR0IF) tmr_isr();
+    
 }
 void __interrupt(low_priority) lowPriorityISR(void) {}
 
@@ -36,11 +37,18 @@ void init_ports() {
     TRISE = 0x00;  // 
     TRISF = 0x00;
     TRISG = 0x1f;  // 0001 1111
+    TRISH = 0x00;
+    TRISJ = 0x00;
+    
+    PORTH = 0x00;
+    PORTJ = 0x00;
 }
 
 void init_irq(){
-    INTCONbits.TMR0IE = 1;
+    INTCON = 0x10;
+    INTCONbits.TMR0IE = 1;  // MAYBE
     INTCONbits.GIE = 1;
+    RCONbits.IPEN = 0;
 }
 
 // ************* Timer task and functions ****************
@@ -126,26 +134,6 @@ uint8_t inp_config_cnt = 0; // Current count for CONFIGURE input(i.e. RA4)
 uint8_t inp_port_cnt = 0;   // Current count for PORT SELECT input (i.e. RE4)
 uint8_t inp_config_btn_st = 0, inp_port_btn_st = 0;
 
-// This function resets the counter for PORT SELECT input 
-void inp_port_reset() { inp_port_cnt = 0; }
-// This function resets the counter for CONFIGURE input
-void inp_config_reset() { inp_config_cnt = 0; }
-
-// This is the input task function
-void input_task() {
-    if (PORTEbits.RE4) inp_port_btn_st = 1;
-    else if (inp_port_btn_st == 1) {
-        // A high pulse has been observed on the PORT input
-        inp_port_btn_st = 0;
-        inp_port_cnt++;
-    }
-    if (PORTAbits.RA4) inp_config_btn_st = 1;
-    else if (inp_config_btn_st == 1) {
-        // A high pulse has been observed on the CONFIGURE input
-        inp_config_btn_st = 0;
-        inp_config_cnt++;
-    }
-}
 
 // ************* Display task and functions ****************
 // This is the "display task", which is responsible from maintaining and 
@@ -167,65 +155,8 @@ uint8_t dsp_updatereq = 1;
 // and count (PORTD). Level is 0,1,2 or 3, action is 0 (attack) or 1 (defend)
 // and 0 <= count < 8 is the countdown start value. Port bit masks are
 // computed accordingly here.
-void dsp_set_state(uint8_t level, uint8_t action, uint8_t count ) {
-    dsp_portb = (uint8_t) ((0x01 << level) -  0x01);
-    dsp_portc = (action == 0)?0x01:0x02;
-    dsp_portd = (uint8_t) ((count==0)?0x00:(((0x01<<(count-1))-0x01)<<1)|0x01);
-    dsp_updatereq = 1;
-}
-// This function sets the current blink state as defined above
-// 0: no blink, 1: blink PORTB, 2: blink PORTC
-void dsp_set_blink( uint8_t blink ) {
-    dsp_blink = blink; dsp_off = 0;
-    dsp_updatereq = 1;
-}
-// This function updates the actual port outputs based on the blink on/off
-// state and the computed port mask values.
-void dsp_update_ports() {
-    PORTB = (dsp_off & (dsp_blink == 1))?0x00:((PORTB & 0xf0) | dsp_portb);
-    PORTC = (dsp_off & (dsp_blink == 2))?0x00:((PORTC & 0xFC) | dsp_portc);
-    PORTD = dsp_portd;
-}
-// This function turns on all output LEDs on all ports. Used during the first
-// 1s initialization stage.
-void dsp_allportson() {
-    PORTB = 0x0f;
-    PORTC = 0x03;
-    PORTD = 0xff;
-    dsp_updatereq = 0;
-}
 
-// This is the display task function
-void display_task() {
-    if (dsp_updatereq) {
-        // If an update request has been sent, update actual port values and 
-        // abort existing timers if the blink has been disabled.
-        dsp_off = 0;
-        dsp_update_ports();
-        dsp_updatereq = 0;
-        if (dsp_blink != 0) tmr_abort();
-        return;
-    }
-    
-    // If blinking is enabled, this section handles the timer and 
-    // monitors for its completion to toggle on/off states
-    if (dsp_blink != 0) {
-        if (tmr_state == TMR_DONE) {
-            // Timer is DONE, so this is probably when the previous blink
-            // cycle has ended
-            // been started.
-            dsp_off = 1 - dsp_off;
-            tmr_start(1);
-            dsp_update_ports();
-        } else if (tmr_state == TMR_IDLE) {
-            // Timer is IDLE, so this is probably when blinking has just
-            // been started.
-            dsp_off = 0;             
-            tmr_start(1);
-            dsp_update_ports();
-        }
-    }
-}
+
 
 // ************* Game task and functions ****************
 // This task handles the overall game logic and control remaining tasks 
@@ -237,115 +168,13 @@ game_state_t game_state = G_INIT;
 // Current game choices and the countdown
 uint8_t game_level = 1, game_action = 0, game_count = 0;
 
-void game_task() {
-    switch (game_state) {
-        case G_INIT:
-            // INIT state starts a 1s timer (i.e. 2 ticks of 500ms) and
-            // goes to INIT_WAIT
-            dsp_set_state(game_level, game_action, game_count);
-            dsp_allportson();
-            tmr_start(2);
-            game_state = G_INIT_WAIT;
-            break;
-        case G_INIT_WAIT:
-            // INIT_WAIT is done when the timer task signals the end of the 
-            // requested period. At that point, the game state goes to the
-            // START state
-            if (tmr_state == TMR_DONE) {
-                dsp_set_blink(0);
-                inp_port_reset();
-                inp_config_reset();
-                game_state = G_START;
-            }
-            break;
-        case G_START:
-            // START is done when the user presses the PORT button. 
-            // PORTB blink is enabled and game state goes to LEVEL selection
-            if (inp_port_cnt != 0) {
-                inp_port_reset();
-                dsp_set_blink(1);
-                game_state = G_LEVEL;
-            }
-            break;
-        case G_LEVEL:
-            // LEVEL state ends when the user pressed the PORT input, which 
-            // is when blinking is changed to ACTION and game state goes into
-            // ACTION selection.
-            if (inp_port_cnt != 0) {
-                inp_port_reset();
-                dsp_set_blink(2);
-                game_state = G_ACTION;
-            }
-            // If the CONFIGURE input is observed, level is increased up to
-            // a maximum of 4.
-            if (inp_config_cnt != 0) {
-                inp_config_reset();
-                if (game_level < 4) game_level++;
-                else game_level = 1;
-                dsp_set_state(game_level, game_action, game_count);
-            }
-            break;
-        case G_ACTION:
-            // ACTION state ends when the user pressed the PORT input, which 
-            // is when blinking is disabled and game state goes into
-            // the COUNTDOWN state .
-            if (inp_port_cnt != 0) {
-                inp_port_reset();
-                dsp_set_blink(0);
-                // This is where we compute the countdown amount for
-                // the next state to use
-                game_count = (game_action==0)?game_level:2*game_level;
-                dsp_set_state(game_level, game_action, game_count);
-                game_state = G_CNTDWN;
-                tmr_start(1);
-            }
-            // Within the ACTION state, a CONFIGURE input toggles between
-            // attack and defend actions.
-            if (inp_config_cnt != 0) {
-                inp_config_reset();
-                game_action = 1 - game_action;
-                dsp_set_state(game_level, game_action, game_count);
-            }
-            break;
-        case G_CNTDWN:
-            // The COUNTDOWN state uses the timer task to decrement the 
-            // countdown once every 500ms until the countdown is finished
-            // The game transitions into the END state after that.
-            if (tmr_state == TMR_DONE) {
-                if (--game_count != 0) {
-                    dsp_set_state(game_level, game_action, game_count);
-                    tmr_start(1);
-                } else {
-                    dsp_set_state(game_level, game_action, 0);
-                    tmr_start(1);
-                    game_state = G_END;
-                }
-            }
-            break;
-        case G_END:
-            // The END state waits for another 500ms after which the
-            // game restarts from the INIT state all over again.
-            if (tmr_state == TMR_DONE) {
-                game_level = 1; game_action = 0; game_count = 0;
-                dsp_set_state(game_level, game_action, game_count);
-                dsp_set_blink(0);
-                inp_port_reset();
-                inp_config_reset();
-                game_state = G_START;
-            }
-            break;
-    }    
-}
-
 void main(void) {
     init_vars();  // DONE
     init_ports();   // DONE 
     tmr_init();  // DONE
-    init_irq(); // Comment out if you want timer polling
+    init_irq(); // DONE
     while (1) {
-        timer_task();
-        input_task();
-        display_task();
-        game_task();
+        //timer_task();
+        T0CONbits.TMR0ON = 0x01; 
     }
 }

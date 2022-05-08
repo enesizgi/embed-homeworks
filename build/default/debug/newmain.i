@@ -7,14 +7,7 @@
 # 1 "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC18Fxxxx_DFP/1.3.36/xc8\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
 # 1 "newmain.c" 2
-
-
-
-
-
-
-
-
+# 15 "newmain.c"
 # 1 "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC18Fxxxx_DFP/1.3.36/xc8\\pic\\include\\xc.h" 1 3
 # 18 "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC18Fxxxx_DFP/1.3.36/xc8\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -7867,12 +7860,144 @@ __attribute__((__unsupported__("The " "Write_b_eep" " routine is no longer suppo
 unsigned char __t1rd16on(void);
 unsigned char __t3rd16on(void);
 # 34 "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC18Fxxxx_DFP/1.3.36/xc8\\pic\\include\\xc.h" 2 3
-# 9 "newmain.c" 2
+# 15 "newmain.c" 2
 
+
+void tmr_isr();
+void __attribute__((picinterrupt(("high_priority")))) highPriorityISR(void) {
+    if (INTCONbits.TMR0IF) tmr_isr();
+
+}
+void __attribute__((picinterrupt(("low_priority")))) lowPriorityISR(void) {}
+
+
+int health;
+int level;
+void init_vars()
+{
+    health = 9;
+    level = 1;
+}
+void init_ports() {
+    TRISA = 0x00;
+    TRISB = 0x00;
+    TRISC = 0x01;
+    TRISD = 0x00;
+    TRISE = 0x00;
+    TRISF = 0x00;
+    TRISG = 0x1f;
+    TRISH = 0x00;
+    TRISJ = 0x00;
+
+    PORTH = 0x00;
+    PORTJ = 0x00;
+}
+
+void init_irq(){
+    INTCON = 0x10;
+    INTCONbits.TMR0IE = 1;
+    INTCONbits.GIE = 1;
+    RCONbits.IPEN = 0;
+}
+
+
+
+
+
+
+typedef enum {TMR_IDLE, TMR_RUN, TMR_DONE} tmr_state_t;
+tmr_state_t tmr_state = TMR_IDLE;
+uint8_t tmr_startreq = 0;
+uint8_t tmr_ticks_left;
+# 71 "newmain.c"
+void tmr_isr(){
+    INTCONbits.TMR0IF = 0;
+    if (--tmr_ticks_left == 0)
+        tmr_state = TMR_DONE;
+}
+void tmr_init() {
+
+
+
+    T0CON = 0x47;
+    TMR0L = 0x00;
+}
+
+
+
+void tmr_start(uint8_t ticks) {
+    tmr_ticks_left = ticks;
+    tmr_startreq = 1;
+    tmr_state = TMR_IDLE;
+}
+
+void tmr_abort() {
+    T0CON &= 0x7f;
+    tmr_startreq = 0;
+    tmr_state = TMR_IDLE;
+}
+
+
+void timer_task() {
+    static uint16_t tmr_count = 0;
+    switch (tmr_state) {
+        case TMR_IDLE:
+            if (tmr_startreq) {
+
+                tmr_startreq = 0;
+
+                INTCONbits.T0IF = 0;
+                T0CON |= 0x80;
+                tmr_state = TMR_RUN;
+            }
+            break;
+        case TMR_RUN:
+
+
+
+
+
+            if (INTCONbits.T0IF) {
+                INTCONbits.T0IF = 0;
+                if (--tmr_ticks_left == 0) tmr_state = TMR_DONE;
+
+            }
+            break;
+        case TMR_DONE:
+
+            break;
+    }
+}
+
+
+
+
+uint8_t inp_config_cnt = 0;
+uint8_t inp_port_cnt = 0;
+uint8_t inp_config_btn_st = 0, inp_port_btn_st = 0;
+# 144 "newmain.c"
+uint8_t dsp_portb = 0x01, dsp_portc = 0x01, dsp_portd = 0x00;
+
+uint8_t dsp_blink = 0;
+
+
+uint8_t dsp_off = 0;
+
+
+uint8_t dsp_updatereq = 1;
+# 166 "newmain.c"
+typedef enum {G_INIT,G_INIT_WAIT,G_START, G_LEVEL,G_ACTION,G_CNTDWN,G_END} game_state_t;
+game_state_t game_state = G_INIT;
+
+uint8_t game_level = 1, game_action = 0, game_count = 0;
 
 void main(void) {
-    TRISB = 0x00;
-    PORTB = 0xfc;
+    init_vars();
+    init_ports();
+    tmr_init();
+    init_irq();
+    while (1) {
 
-    return;
+
+    }
 }
