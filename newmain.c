@@ -27,6 +27,7 @@ int health;
 int level;
 int isGameStarted;
 int isGameFinished;
+int isRC0Pressed;
 int tmr1flag = 0;
 unsigned short int ltmrval;
 unsigned short int htmrval;
@@ -37,6 +38,7 @@ void init_vars()
     level = 1;
     isGameStarted = 0;
     isGameFinished = 0;
+    isRC0Pressed = 0;
 }
 void init_ports()
 {
@@ -95,8 +97,8 @@ void tmr_init()
     // This setup assumes a 40MHz 18F8722, which corresponds to a 10MHz
     // instruction cycle
     T0CON = 0x47; // internal clock with 1:256 prescaler and 8-bit
-    TMR0L = 0x00;  // Initialize TMR0 to 0, without a PRELOAD
-    T1CON = 0xc9;  // Setting TMR1 to generate random notes
+    TMR0L = 0x00; // Initialize TMR0 to 0, without a PRELOAD
+    T1CON = 0xc9; // Setting TMR1 to generate random notes
 }
 // This function resets and starts the timer with the given max counter
 // and ticks. The total time waited is ticks*cntmax, after which the timer
@@ -152,24 +154,29 @@ void timer_task()
     }
 }
 
-void randomgen(){
-    int noteval,lastbit,intermbit,num,val,i;
+void randomgen()
+{
+    int noteval, lastbit, intermbit, num, val, i;
     PORTA = 0x00;
-    
-    if (tmr1flag == 0){
+
+    if (tmr1flag == 0)
+    {
         htmrval = TMR1H;
         ltmrval = TMR1L;
         noteval = 0x07 &= ltmrval; // Reading Timer1 value
         tmr1flag = 1;
     }
-    if (tmr1flag == 1){
+    if (tmr1flag == 1)
+    {
         noteval = noteval % 5;
         val = 0x01;
-        for(i=0;i<noteval;i++){
+        for (i = 0; i < noteval; i++)
+        {
             val = val << 1;
         }
-        PORTA = val;                
-        if (level == 1){
+        PORTA = val;
+        if (level == 1)
+        {
             lastbit = 0x01 &= TMR1L;
             intermbit = 0x01 &= TMR1H;
             htmrval = htmrval >> 8;
@@ -179,9 +186,11 @@ void randomgen(){
             ltmrval = ltmrval |= lastbit;
             htmrval = htmrval |= intermbit;
         }
-        if (level == 2){
+        if (level == 2)
+        {
             num = 3;
-            while(num > 0){
+            while (num > 0)
+            {
                 lastbit = 0x01 &= TMR1L;
                 intermbit = 0x01 &= TMR1H;
                 htmrval = htmrval >> 8;
@@ -193,9 +202,11 @@ void randomgen(){
                 num--;
             }
         }
-        if (level == 3){
+        if (level == 3)
+        {
             num = 5;
-            while(num > 0){
+            while (num > 0)
+            {
                 lastbit = 0x01 &= TMR1L;
                 intermbit = 0x01 &= TMR1H;
                 htmrval = htmrval >> 8;
@@ -214,6 +225,24 @@ void randomgen(){
 // whenever a high pulse is observed (i.e. HIGH followed by a LOW).
 void input_task()
 {
+    if (!isGameStarted || isGameFinished)
+    {
+        if (isRC0Pressed)
+        {
+            if (PORTCbits.RC0 == 0)
+            {
+                isRC0Pressed = 0;
+                isGameStarted = 1;
+                isGameFinished = 0;
+                TRISC = 0x00;
+                PORTC = 0x00;
+            }
+        }
+        else if (PORTCbits.RC0 == 1)
+        {
+            isRC0Pressed = 1;
+        }
+    }
 }
 uint8_t inp_config_cnt = 0; // Current count for CONFIGURE input(i.e. RA4)
 uint8_t inp_port_cnt = 0;   // Current count for PORT SELECT input (i.e. RE4)
@@ -277,20 +306,21 @@ void game_task()
         if (tmr_state == TMR_DONE) // 500 ms passed
         {
             shift_task();
-            randomgen();               // generate note
+            randomgen(); // generate note
             tmr_state = TMR_RUN;
         }
         break;
     }
 }
 
-void shape_shifter(){
-    PORTF=PORTE;
-    PORTE=PORTD;
-    PORTD=PORTC;
-    PORTC=PORTB;
-    PORTB=PORTA;
-    PORTA=0;
+void shape_shifter()
+{
+    PORTF = PORTE;
+    PORTE = PORTD;
+    PORTD = PORTC;
+    PORTC = PORTB;
+    PORTB = PORTA;
+    PORTA = 0;
 }
 // Current game choices and the countdown
 uint8_t game_level = 1, game_action = 0, game_count = 0;
@@ -305,14 +335,13 @@ void main(void)
     {
         // check here if rc0 pressed
         //        T0CONbits.TMR0ON = 0x01;
-        timer_task();
         input_task();
-        sevenseg_task();
-        game_task();
-
         if (!isGameStarted || isGameFinished)
         {
             continue;
         }
+        timer_task();
+        sevenseg_task();
+        game_task();
     }
 }
