@@ -28,6 +28,11 @@ int level;
 int isGameStarted;
 int isGameFinished;
 int isRC0Pressed;
+int isRG0Pressed;
+int isRG1Pressed;
+int isRG2Pressed;
+int isRG3Pressed;
+int isRG4Pressed;
 int tmr1flag = 0;
 int ltmrval;
 int htmrval;
@@ -39,6 +44,11 @@ void init_vars()
     isGameStarted = 0;
     isGameFinished = 0;
     isRC0Pressed = 0;
+    isRG0Pressed = -1;
+    isRG1Pressed = -1;
+    isRG2Pressed = -1;
+    isRG3Pressed = -1;
+    isRG4Pressed = -1;
 }
 void init_ports()
 {
@@ -92,7 +102,7 @@ uint8_t tmr_ticks_left;           // Number of "ticks" until "done"
 
 void tmr_isr()
 {
-    INTCONbits.TMR0IF = 0;  // Reset flag
+    INTCONbits.TMR0IF = 0; // Reset flag
     if (--tmr_ticks_left == 0)
         tmr_state = TMR_DONE;
 }
@@ -102,7 +112,7 @@ void tmr_init()
     // This setup assumes a 40MHz 18F8722, which corresponds to a 10MHz
     // instruction cycle
     T0CON = 0x47; // internal clock with 1:256 prescaler and 8-bit
-    TMR0 = 0x00; // Initialize TMR0 to 0, without a PRELOAD
+    TMR0 = 0x00;  // Initialize TMR0 to 0, without a PRELOAD
     T1CON = 0xc9; // Setting TMR1 to generate random notes
 }
 // This function resets and starts the timer with the given max counter
@@ -123,7 +133,6 @@ void tmr_abort()
     tmr_startreq = 0;
     tmr_state = TMR_IDLE;
 }
-
 
 void randomgen()
 {
@@ -196,6 +205,7 @@ void randomgen()
 // whenever a high pulse is observed (i.e. HIGH followed by a LOW).
 void input_task()
 {
+    // DONT FORGET TO SET THE VARIABLES -1 AGAIN IN GAME TASK
     if (!isGameStarted || isGameFinished)
     {
         if (isRC0Pressed)
@@ -213,6 +223,66 @@ void input_task()
         {
             isRC0Pressed = 1;
         }
+    }
+
+    if (isRG0Pressed == 0)
+    {
+        if (PORTGbits.RG0 == 0)
+        {
+            isRG0Pressed = 1;
+        }
+    }
+    else if (PORTGbits.RG0 == 1)
+    {
+        isRG0Pressed = 0;
+    }
+
+    if (isRG1Pressed == 0)
+    {
+        if (PORTGbits.RG1 == 0)
+        {
+            isRG1Pressed = 1;
+        }
+    }
+    else if (PORTGbits.RG1 == 1)
+    {
+        isRG1Pressed = 0;
+    }
+
+    if (isRG2Pressed == 0)
+    {
+        if (PORTGbits.RG2 == 0)
+        {
+            isRG2Pressed = 1;
+        }
+    }
+    else if (PORTGbits.RG2 == 1)
+    {
+        isRG2Pressed = 0;
+    }
+
+    if (isRG3Pressed == 0)
+    {
+        if (PORTGbits.RG3 == 0)
+        {
+            isRG3Pressed = 1;
+        }
+    }
+    else if (PORTGbits.RG3 == 1)
+    {
+        isRG3Pressed = 0;
+    }
+
+    if (isRG4Pressed == 0)
+    {
+        if (PORTGbits.RG4 == 0)
+        {
+            isRG4Pressed = 1;
+        }
+    }
+    else if (PORTGbits.RG4 == 1)
+    {
+        isRG4Pressed = 0;
     }
 }
 uint8_t inp_config_cnt = 0; // Current count for CONFIGURE input(i.e. RA4)
@@ -274,28 +344,28 @@ void game_task()
         init_sevseg();
         tmr_start(77); // TMR0 counts 77 times so that 500 ms
         game_state = LEVEL1;
-        //shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
-        randomgen();    // generate note    
-        ++level_subcount;    
+        // shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
+        randomgen(); // generate note
+        ++level_subcount;
         break;
     case LEVEL1:
         // START state
         if (tmr_state == TMR_DONE) // 500 ms passed
         {
-            if(level_subcount < L1)
+            if (level_subcount < L1)
             {
-                shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
-                randomgen();    // generate note
+                shift_task(); // Shift RA->RB, RB-RC, ... , RE->RF
+                randomgen();  // generate note
             }
-            if(level_subcount >= L1)
+            if (level_subcount >= L1)
             {
-                shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
-                //if(level_subcount == L1) PORTA = 0x00;
+                shift_task(); // Shift RA->RB, RB-RC, ... , RE->RF
+                // if(level_subcount == L1) PORTA = 0x00;
             }
             ++level_subcount;
-            if(level_subcount == 6 + L1)  // 5 is the A B C D E F PORST count  i.e., level_subcount == 11
+            if (level_subcount == 6 + L1) // 5 is the A B C D E F PORST count  i.e., level_subcount == 11
 
-            tmr_start(77);  // TMR0 counts 77 times so that 500 ms
+                tmr_start(77); // TMR0 counts 77 times so that 500 ms
         }
         break;
     }
@@ -328,7 +398,6 @@ void main(void)
         {
             continue;
         }
-        //  timer_task();
         // sevenseg_task();
         // game_task();
     }
