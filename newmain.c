@@ -214,6 +214,8 @@ void input_task()
             isRC0Pressed = 1;
         }
     }
+
+
 }
 uint8_t inp_config_cnt = 0; // Current count for CONFIGURE input(i.e. RA4)
 uint8_t inp_port_cnt = 0;   // Current count for PORT SELECT input (i.e. RE4)
@@ -253,11 +255,10 @@ typedef enum
 {
     G_INIT,
     LEVEL1,
-    LEVEL1_INP,
+    LEVEL2_INIT,
     LEVEL2,
-    LEVEL2_INP,
+    LEVEL3_INIT,
     LEVEL3,
-    LEVEL3_INP,
     END
 } game_state_t;
 game_state_t game_state = G_INIT;
@@ -280,6 +281,7 @@ void game_task()
         break;
     case LEVEL1:
         // START state
+        
         if (tmr_state == TMR_DONE) // 500 ms passed
         {
             if(level_subcount < L1)
@@ -294,10 +296,73 @@ void game_task()
             }
             ++level_subcount;
             if(level_subcount == 6 + L1)  // 5 is the A B C D E F PORST count  i.e., level_subcount == 11
-
+            {
+                game_state = LEVEL2_INIT;
+            }
             tmr_start(77);  // TMR0 counts 77 times so that 500 ms
         }
         break;
+    case LEVEL2_INIT:
+        level_subcount = 0;
+        tmr_start(XXX); // TMR0 counts 77 times so that 500 ms
+        game_state = LEVEL2;
+        //shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
+        randomgen();    // generate note    
+        ++level_subcount;    
+        break;
+    case LEVEL2:
+        if (tmr_state == TMR_DONE) // 500 ms passed
+        {
+            if(level_subcount < L2)
+            {
+                shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
+                randomgen();    // generate note
+            }
+            if(level_subcount >= L2)
+            {
+                shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
+                //if(level_subcount == L1) PORTA = 0x00;
+            }
+            ++level_subcount;
+            if(level_subcount == 6 + L2)  // 5 is the A B C D E F PORST count  i.e., level_subcount == 11
+            {
+                game_state = LEVEL2;
+            }
+            tmr_start(XXX);  // TMR0 counts 77 times so that 500 ms
+        }
+        break;
+    case LEVEL3_INIT:
+        level_subcount = 0;
+        tmr_start(XXX); // TMR0 counts 77 times so that 500 ms
+        game_state = LEVEL3;
+        //shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
+        randomgen();    // generate note    
+        ++level_subcount;    
+        break;
+    case LEVEL3:
+        if (tmr_state == TMR_DONE) // 500 ms passed
+        {
+            if(level_subcount < L3)
+            {
+                shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
+                randomgen();    // generate note
+            }
+            if(level_subcount >= L3)
+            {
+                shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
+                //if(level_subcount == L1) PORTA = 0x00;
+            }
+            ++level_subcount;
+            if(level_subcount == 6 + L3)  // 5 is the A B C D E F PORST count  i.e., level_subcount == 11
+            {
+                game_state = END;    // Oyun biter.  TO BE DONE
+            }
+            tmr_start(XXX);  // TMR0 counts 77 times so that 500 ms
+        }
+        break;
+        case END:
+            // make 7seg display End
+            break;
     }
 }
 
