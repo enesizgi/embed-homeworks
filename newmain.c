@@ -268,6 +268,8 @@ uint8_t L1 = 5, L2 = 10, L3 = 15;
 
 void game_task()
 {
+        //switch case RF == RG
+            //tmr_state = TMR_DONE;
     switch (game_state)
     {
     case G_INIT:
@@ -281,7 +283,7 @@ void game_task()
         break;
     case LEVEL1:
         // START state
-        
+
         if (tmr_state == TMR_DONE) // 500 ms passed
         {
             if(level_subcount < L1)
