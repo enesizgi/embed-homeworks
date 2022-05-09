@@ -288,10 +288,14 @@ void game_task()
     }
 }
 
-void shift_task()
-{
+void shape_shifter(){
+    PORTF=PORTE;
+    PORTE=PORTD;
+    PORTD=PORTC;
+    PORTC=PORTB;
+    PORTB=PORTA;
+    PORTA=0;
 }
-
 // Current game choices and the countdown
 uint8_t game_level = 1, game_action = 0, game_count = 0;
 
