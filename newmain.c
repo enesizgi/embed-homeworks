@@ -212,11 +212,11 @@ void game_task()
         break;
     case LEVEL1:
         // START state
-        if (TMR_STATE == TMR_DONE) // 500 ms passed
+        if (tmr_state == TMR_DONE) // 500 ms passed
         {
             shift_task();
             randomgen();               // generate note
-            TMR_STATE = TMR_RUN;
+            tmr_state = TMR_RUN;
         }
         break;
     }
