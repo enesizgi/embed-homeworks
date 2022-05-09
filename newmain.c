@@ -24,10 +24,14 @@ void __interrupt(low_priority) lowPriorityISR(void) {}
 // ************* Utility functions ****************
 int health;
 int level;
+int isGameStarted;
+int isGameFinished;
 void init_vars()
 {
     health = 9;
     level = 1;
+    isGameStarted = 0;
+    isGameFinished = 0;
 }
 void init_ports() {
     TRISA = 0x00;  // 
@@ -174,7 +178,13 @@ void main(void) {
     tmr_init();  // DONE
     init_irq(); // DONE
     while (1) {
-        //timer_task();
-        T0CONbits.TMR0ON = 0x01; 
+        // check here if rc0 pressed
+//        T0CONbits.TMR0ON = 0x01; 
+        
+        
+        if (!isGameStarted || isGameFinished) {
+            continue;
+        }
+        
     }
 }
