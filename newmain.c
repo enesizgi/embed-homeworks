@@ -95,12 +95,8 @@ void tmr_init()
     // This setup assumes a 40MHz 18F8722, which corresponds to a 10MHz
     // instruction cycle
     T0CON = 0x47; // internal clock with 1:256 prescaler and 8-bit
-<<<<<<< HEAD
-    TMR0L = 0x00; // Initialize TMR0 to 0, without a PRELOAD
-=======
     TMR0L = 0x00;  // Initialize TMR0 to 0, without a PRELOAD
     T1CON = 0xc9;  // Setting TMR1 to generate random notes
->>>>>>> randomgen
 }
 // This function resets and starts the timer with the given max counter
 // and ticks. The total time waited is ticks*cntmax, after which the timer
