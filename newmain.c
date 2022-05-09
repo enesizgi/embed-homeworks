@@ -323,10 +323,6 @@ void main(void)
     {
         // check here if rc0 pressed
         //        T0CONbits.TMR0ON = 0x01;
-<<<<<<< HEAD
-
-=======
->>>>>>> b1b555d46f01f1cccfbd87cee1c2cceb1e17ce4f
         input_task();
         if ((isGameStarted == 0) || (isGameFinished == 1))
         {
