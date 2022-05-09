@@ -81,7 +81,7 @@ uint8_t tmr_ticks_left;           // Number of "ticks" until "done"
 
 void tmr_isr()
 {
-    INTCONbits.TMR0IF = 0;
+    INTCONbits.TMR0IF = 0;  // Reset flag
     if (--tmr_ticks_left == 0)
         tmr_state = TMR_DONE;
 }
@@ -91,7 +91,7 @@ void tmr_init()
     // This setup assumes a 40MHz 18F8722, which corresponds to a 10MHz
     // instruction cycle
     T0CON = 0x47; // internal clock with 1:256 prescaler and 8-bit
-    TMR0L = 0x00; // Initialize TMR0 to 0, without a PRELOAD
+    TMR0 = 0x00; // Initialize TMR0 to 0, without a PRELOAD
 }
 // This function resets and starts the timer with the given max counter
 // and ticks. The total time waited is ticks*cntmax, after which the timer
@@ -99,8 +99,10 @@ void tmr_init()
 void tmr_start(uint8_t ticks)
 {
     tmr_ticks_left = ticks;
-    tmr_startreq = 1;
-    tmr_state = TMR_IDLE;
+    tmr_state = TMR_RUN;
+    TMR0 = 0x00;
+    INTCONbits.T0IF = 0;
+    T0CON |= 0x80; // Set TMR0ON
 }
 // This function aborts the current timer run and goes back to IDLE
 void tmr_abort()
@@ -110,42 +112,6 @@ void tmr_abort()
     tmr_state = TMR_IDLE;
 }
 
-// This is the timer task
-void timer_task()
-{
-    static uint16_t tmr_count = 0; // Current timer count, static local var.
-    switch (tmr_state)
-    {
-    case TMR_IDLE:
-        if (tmr_startreq)
-        {
-            // If a start request has been issued, go to the RUN state
-            tmr_startreq = 0;
-            // tmr_preload();
-            INTCONbits.T0IF = 0;
-            T0CON |= 0x80; // Set TMR0ON
-            tmr_state = TMR_RUN;
-        }
-        break;
-    case TMR_RUN:
-        // Timer remains in the RUN state until the counter reaches its max
-        // "ticks" number of times.
-
-        // This part is "polling" the TMR0 flag. Unused if interrupts
-        // are enabled
-        if (INTCONbits.T0IF)
-        {
-            INTCONbits.T0IF = 0;
-            if (--tmr_ticks_left == 0)
-                tmr_state = TMR_DONE;
-            // else tmr_preload();
-        }
-        break;
-    case TMR_DONE:
-        // State waits here until tmr_start() or tmr_abort() is called
-        break;
-    }
-}
 
 // ************* Input task and functions ****************
 // The "input task" monitors RA4 and RE4 and increments associated counters
@@ -200,6 +166,9 @@ typedef enum
 } game_state_t;
 game_state_t game_state = G_INIT;
 
+uint8_t level_subcount = 0;
+uint8_t L1 = 5, L2 = 10, L3 = 15;
+
 void game_task()
 {
     switch (game_state)
@@ -207,16 +176,30 @@ void game_task()
     case G_INIT:
         // tmr_start(2);  // MAYBE
         init_sevseg();
-        start_timer0(); // NEED
+        tmr_start(77); // TMR0 counts 77 times so that 500 ms
         game_state = LEVEL1;
+        //shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
+        randomgen();    // generate note    
+        ++level_subcount;    
         break;
     case LEVEL1:
         // START state
         if (TMR_STATE == TMR_DONE) // 500 ms passed
         {
-            shift_task();
-            randomgen();               // generate note
-            TMR_STATE = TMR_RUN;
+            if(level_subcount < L1)
+            {
+                shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
+                randomgen();    // generate note
+            }
+            if(level_subcount >= L1)
+            {
+                shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
+                //if(level_subcount == L1) PORTA = 0x00;
+            }
+            ++level_subcount;
+            if(level_subcount == 6 + L1)  // 5 is the A B C D E F PORST count  i.e., level_subcount == 11
+
+            tmr_start(77);  // TMR0 counts 77 times so that 500 ms
         }
         break;
     }
@@ -239,7 +222,7 @@ void main(void)
     {
         // check here if rc0 pressed
         //        T0CONbits.TMR0ON = 0x01;
-        timer_task();
+
         input_task();
         sevenseg_task();
         game_task();
