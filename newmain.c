@@ -226,18 +226,6 @@ void shift_task()
 {
 }
 
-void generate_and_shift_task()
-{
-    switch (game_state)
-    {
-    case LEVEL1:
-        break;
-
-    default:
-        break;
-    }
-}
-
 // Current game choices and the countdown
 uint8_t game_level = 1, game_action = 0, game_count = 0;
 
