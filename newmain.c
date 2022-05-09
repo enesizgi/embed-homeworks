@@ -26,6 +26,10 @@ int health;
 int level;
 int isGameStarted;
 int isGameFinished;
+int tmr1flag = 0;
+unsigned short int ltmrval;
+unsigned short int htmrval;
+
 void init_vars()
 {
     health = 9;
@@ -43,7 +47,7 @@ void init_ports() {
     TRISG = 0x1f;  // 0001 1111
     TRISH = 0x00;
     TRISJ = 0x00;
-    
+
     PORTH = 0x00;
     PORTJ = 0x00;
 }
@@ -83,6 +87,7 @@ void tmr_init() {
     // instruction cycle
     T0CON = 0x47; // internal clock with 1:256 prescaler and 8-bit
     TMR0L = 0x00;  // Initialize TMR0 to 0, without a PRELOAD
+    T1CON = 0xc9;  // Setting TMR1 to generate random notes
 }
 // This function resets and starts the timer with the given max counter 
 // and ticks. The total time waited is ticks*cntmax, after which the timer
@@ -131,6 +136,63 @@ void timer_task() {
     }
 }
 
+void randomgen(){
+    int noteval,lastbit,intermbit,num,val,i;
+    PORTA = 0x00;
+    
+    if (tmr1flag == 0){
+        htmrval = TMR1H;
+        ltmrval = TMR1L;
+        noteval = 0x07 &= ltmrval; // Reading Timer1 value
+        tmr1flag = 1;
+    }
+    if (tmr1flag == 1){
+        noteval = noteval % 5;
+        val = 0x01;
+        for(i=0;i<noteval;i++){
+            val = val << 1;
+        }
+        PORTA = val;                
+        if (level == 1){
+            lastbit = 0x01 &= TMR1L;
+            intermbit = 0x01 &= TMR1H;
+            htmrval = htmrval >> 8;
+            ltmrval = ltmrval >> 8;
+            lastbit = lastbit << 7;
+            intermbit = intermbit << 7;
+            ltmrval = ltmrval |= lastbit;
+            htmrval = htmrval |= intermbit;
+        }
+        if (level == 2){
+            num = 3;
+            while(num > 0){
+                lastbit = 0x01 &= TMR1L;
+                intermbit = 0x01 &= TMR1H;
+                htmrval = htmrval >> 8;
+                ltmrval = ltmrval >> 8;
+                lastbit = lastbit << 7;
+                intermbit = intermbit << 7;
+                ltmrval = ltmrval |= lastbit;
+                htmrval = htmrval |= intermbit;
+                num--;
+            }
+        }
+        if (level == 3){
+            num = 5;
+            while(num > 0){
+                lastbit = 0x01 &= TMR1L;
+                intermbit = 0x01 &= TMR1H;
+                htmrval = htmrval >> 8;
+                ltmrval = ltmrval >> 8;
+                lastbit = lastbit << 7;
+                intermbit = intermbit << 7;
+                ltmrval = ltmrval |= lastbit;
+                htmrval = htmrval |= intermbit;
+                num--;
+            }
+        }
+    }
+}
 // ************* Input task and functions ****************
 // The "input task" monitors RA4 and RE4 and increments associated counters 
 // whenever a high pulse is observed (i.e. HIGH followed by a LOW).
