@@ -303,6 +303,68 @@ void init_sevseg()
     // DO: make the 7seg 9--1
 }
 
+void sevenSeg(char J, char D){
+    switch(J){  
+        // All dps are reset (i.e., bit7 -> 0)
+        case '0': // Also case O
+            PORTJ = 0x3f;  // abcdef    -> 1111 1100
+            break;
+        case '1':
+            PORTJ = 0x3d; // bc         -> 0110 0000
+            break;
+        case '2':
+            PORTJ = 0x5b;
+            break;
+        case '3':
+            PORTJ = 0x4f;
+            break;
+        case '4': 
+            PORTJ = 0x66;  
+            break;
+        case '5':
+            PORTJ = 0x6d; 
+            break;
+        case '6':
+            PORTJ = 0x7d;
+            break;
+        case '7':
+            PORTJ = 0x07;
+            break;
+        case '8': 
+            PORTJ = 0x7f; 
+            break;
+        case '9':
+            PORTJ = 0x6f; 
+            break;
+        case 'L':
+            PORTJ = 0xd8;
+            break;
+        case 'E':
+            PORTJ = 0x79;
+            break;
+        case 'n': 
+            PORTJ = 0x54; 
+            break;
+        case 'd':
+            PORTJ = 0x5e; 
+            break;
+    }
+    switch(D){
+        case 'D0':
+            PORTH = 0x01;       // RH0 = 1, others = 0
+            break;
+        case 'D1':
+            PORTH = 0x02;       // RH1 = 1, others = 0
+            break;
+        case 'D2':
+            PORTH = 0x04;       // RH2 = 1, others = 0
+            break;
+        case 'D3':
+            PORTH = 0x08;       // RH3 = 1, others = 0
+            break;
+    }
+}
+
 // ************* Game task and functions ****************
 // This task handles the overall game logic and control remaining tasks
 // through their utility functions and flags
