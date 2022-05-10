@@ -23,19 +23,20 @@ void __interrupt(high_priority) highPriorityISR(void)
 void __interrupt(low_priority) lowPriorityISR(void) {}
 
 // ************* Utility functions ****************
-int health;
-int level;
-int isGameStarted;
-int isGameFinished;
-int isRC0Pressed;
-int isRG0Pressed;
-int isRG1Pressed;
-int isRG2Pressed;
-int isRG3Pressed;
-int isRG4Pressed;
-int tmr1flag = 0;
-int ltmrval;
-int htmrval;
+uint8_t health;
+uint8_t level;
+uint8_t isGameStarted;
+uint8_t isGameFinished;
+uint8_t isRC0Pressed;
+uint8_t isRG0Pressed;
+uint8_t isRG1Pressed;
+uint8_t isRG2Pressed;
+uint8_t isRG3Pressed;
+uint8_t isRG4Pressed;
+uint8_t whichRG;
+uint8_t tmr1flag = 0;
+uint8_t ltmrval;
+uint8_t htmrval;
 
 void init_vars()
 {
@@ -83,7 +84,7 @@ void init_irq()
 // The "timer" task is responsible from maintaining  counter which,
 // once started, counts up to a maximum count, and repeats this "ticks"
 // number of times before declaring itself to be "done". The timer can be
-// in one of three states: IDLE, RUN, DONE.
+// in one of three states: RUN, DONE.
 typedef enum
 {
     TMR_IDLE,
@@ -136,7 +137,7 @@ void tmr_abort()
 
 void randomgen()
 {
-    int noteval, lastbit, intermbit, num, val, i;
+    uint8_t noteval, lastbit, intermbit, num, val, i;
     PORTA = 0x00;
 
     if (tmr1flag == 0)
@@ -201,11 +202,13 @@ void randomgen()
     }
 }
 // ************* Input task and functions ****************
-// The "input task" monitors RA4 and RE4 and increments associated counters
-// whenever a high pulse is observed (i.e. HIGH followed by a LOW).
+// The "input task" monitors RC0 and RG0-4 and sets associated flags
+
 void input_task()
 {
-    // DONT FORGET TO SET THE VARIABLES -1 AGAIN IN GAME TASK
+    ///////////////////////////////////////////////////RC0 TASK///////////////////////////////////////////////////
+
+    // DONT FORGET TO SET THE VARIABLES -1 AGAIN IN GAME TASK  // Setted to 0 MAYBE -1 ?
     if (!isGameStarted || isGameFinished)
     {
         if (isRC0Pressed)
@@ -224,12 +227,13 @@ void input_task()
             isRC0Pressed = 1;
         }
     }
-
+    ///////////////////////////////////////////////////RG TASK///////////////////////////////////////////////////
     if (isRG0Pressed == 0)
     {
         if (PORTGbits.RG0 == 0)
         {
             isRG0Pressed = 1;
+            whichRG = 0;
         }
     }
     else if (PORTGbits.RG0 == 1)
@@ -242,6 +246,7 @@ void input_task()
         if (PORTGbits.RG1 == 0)
         {
             isRG1Pressed = 1;
+            whichRG = 1;
         }
     }
     else if (PORTGbits.RG1 == 1)
@@ -254,6 +259,7 @@ void input_task()
         if (PORTGbits.RG2 == 0)
         {
             isRG2Pressed = 1;
+            whichRG = 2;
         }
     }
     else if (PORTGbits.RG2 == 1)
@@ -266,6 +272,7 @@ void input_task()
         if (PORTGbits.RG3 == 0)
         {
             isRG3Pressed = 1;
+            whichRG = 3;
         }
     }
     else if (PORTGbits.RG3 == 1)
@@ -278,6 +285,7 @@ void input_task()
         if (PORTGbits.RG4 == 0)
         {
             isRG4Pressed = 1;
+            whichRG = 4;
         }
     }
     else if (PORTGbits.RG4 == 1)
@@ -285,9 +293,6 @@ void input_task()
         isRG4Pressed = 0;
     }
 }
-uint8_t inp_config_cnt = 0; // Current count for CONFIGURE input(i.e. RA4)
-uint8_t inp_port_cnt = 0;   // Current count for PORT SELECT input (i.e. RE4)
-uint8_t inp_config_btn_st = 0, inp_port_btn_st = 0;
 
 // ************* 7 segment display task and functions ****************
 // This is the "display task", which is responsible from maintaining and
@@ -297,22 +302,6 @@ void init_sevseg()
 {
     // DO: make the 7seg 9--1
 }
-
-// Current expected states of output ports
-uint8_t dsp_portb = 0x01, dsp_portc = 0x01, dsp_portd = 0x00;
-// Current blink configuration 0: no blink, 1: blink PORTB, 2: blink PORTC
-uint8_t dsp_blink = 0;
-// Display state for all ports. This is used to implement blinking
-// 0: display turned on, 1: display turned off (blink)
-uint8_t dsp_off = 0;
-// This flag indicates that the actual port outputs should be updated on next
-// iteration
-uint8_t dsp_updatereq = 1;
-
-// This function sets the current states for "level" (PORTB), action (PORTC)
-// and count (PORTD). Level is 0,1,2 or 3, action is 0 (attack) or 1 (defend)
-// and 0 <= count < 8 is the countdown start value. Port bit masks are
-// computed accordingly here.
 
 // ************* Game task and functions ****************
 // This task handles the overall game logic and control remaining tasks
@@ -334,18 +323,82 @@ game_state_t game_state = G_INIT;
 uint8_t level_subcount = 0;
 uint8_t L1 = 5, L2 = 10, L3 = 15;
 
+void shape_shifter()
+{
+    PORTF = PORTE;
+    PORTE = PORTD;
+    PORTD = PORTC;
+    PORTC = PORTB;
+    PORTB = PORTA;
+    PORTA = 0x00;
+}
+
+void reset_task()
+{
+    isGameFinished = 1;
+    isGameStarted = 0;
+    game_state = G_INIT;
+    tmr1flag = 0;
+}
+
 void game_task()
 {
-        //switch case RF == RG
-            //tmr_state = TMR_DONE;
+    // switch case RF == RG
+    // tmr_state = TMR_DONE;
+    // Check if the player presses more than one buttons or does not press at all.
+    // MAYBE don't sure about not pressing a button, is it to be punished here or by means of counter ???
+    // Now it does NOT checks for not pressing, if you want to check it go to proper commit.
+    uint8_t count = 0;
+    if (isRG0Pressed)
+        count++;
+    if (isRG1Pressed)
+        count++;
+    if (isRG2Pressed)
+        count++;
+    if (isRG3Pressed)
+        count++;
+    if (isRG4Pressed)
+        count++;
+
+    if (count > 1)
+        whichRG = -1;
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    switch (whichRG)
+    {
+    case -1:
+        // health--;  // use decreaser();
+        break;
+    case 0:
+        if (PORTFbits.RF0 == 1)
+            tmr_state = TMR_DONE; // MAYBE shift fast or just delete RF
+        else
+            // decrease();
+            break;
+    case 1:
+        if (PORTFbits.RF1 == 1)
+            tmr_state = TMR_DONE;
+        break;
+    case 2:
+        if (PORTFbits.RF2 == 1)
+            tmr_state = TMR_DONE;
+        break;
+    case 3:
+        if (PORTFbits.RF3 == 1)
+            tmr_state = TMR_DONE;
+        break;
+    case 4:
+        if (PORTFbits.RF4 == 1)
+            tmr_state = TMR_DONE;
+        break;
+    }
     switch (game_state)
     {
     case G_INIT:
-        // tmr_start(2);  // MAYBE
         init_sevseg();
         tmr_start(77); // TMR0 counts 77 times so that 500 ms
         game_state = LEVEL1;
-        // shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
+        // shape_shifter();   // Shift RA->RB, RB-RC, ... , RE->RF
         randomgen(); // generate note
         ++level_subcount;
         break;
@@ -356,95 +409,87 @@ void game_task()
         {
             if (level_subcount < L1)
             {
-                shift_task(); // Shift RA->RB, RB-RC, ... , RE->RF
-                randomgen();  // generate note
+                shape_shifter(); // Shift RA->RB, RB-RC, ... , RE->RF
+                randomgen();     // generate note
             }
             if (level_subcount >= L1)
             {
-                shift_task(); // Shift RA->RB, RB-RC, ... , RE->RF
+                shape_shifter(); // Shift RA->RB, RB-RC, ... , RE->RF
                 // if(level_subcount == L1) PORTA = 0x00;
             }
             ++level_subcount;
-            if(level_subcount == 6 + L1)  // 5 is the A B C D E F PORST count  i.e., level_subcount == 11
+            if (level_subcount == 6 + L1) // 5 is the A B C D E F PORST count  i.e., level_subcount == 11
             {
                 game_state = LEVEL2_INIT;
             }
-            tmr_start(77);  // TMR0 counts 77 times so that 500 ms
+            tmr_start(77); // TMR0 counts 77 times so that 500 ms
         }
         break;
     case LEVEL2_INIT:
         level_subcount = 0;
         tmr_start(61); // TMR0 counts 77 times so that 500 ms
         game_state = LEVEL2;
-        //shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
-        randomgen();    // generate note    
-        ++level_subcount;    
+        // shape_shifter();   // Shift RA->RB, RB-RC, ... , RE->RF
+        randomgen(); // generate note
+        ++level_subcount;
         break;
     case LEVEL2:
         if (tmr_state == TMR_DONE) // 400 ms passed
         {
-            if(level_subcount < L2)
+            if (level_subcount < L2)
             {
-                shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
-                randomgen();    // generate note
+                shape_shifter(); // Shift RA->RB, RB-RC, ... , RE->RF
+                randomgen();     // generate note
             }
-            if(level_subcount >= L2)
+            if (level_subcount >= L2)
             {
-                shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
-                //if(level_subcount == L1) PORTA = 0x00;
+                shape_shifter(); // Shift RA->RB, RB-RC, ... , RE->RF
+                // if(level_subcount == L1) PORTA = 0x00;
             }
             ++level_subcount;
-            if(level_subcount == 6 + L2)  // 5 is the A B C D E F PORST count  i.e., level_subcount == 11
+            if (level_subcount == 6 + L2) // 5 is the A B C D E F PORST count  i.e., level_subcount == 11
             {
                 game_state = LEVEL2;
             }
-            tmr_start(61);  // TMR0 counts 61 times so that 400 ms
+            tmr_start(61); // TMR0 counts 61 times so that 400 ms
         }
         break;
     case LEVEL3_INIT:
         level_subcount = 0;
         tmr_start(46); // TMR0 counts 46 times so that 300 ms
         game_state = LEVEL3;
-        //shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
-        randomgen();    // generate note    
-        ++level_subcount;    
+        // shape_shifter();   // Shift RA->RB, RB-RC, ... , RE->RF
+        randomgen(); // generate note
+        ++level_subcount;
         break;
     case LEVEL3:
         if (tmr_state == TMR_DONE) // 300 ms passed
         {
-            if(level_subcount < L3)
+            if (level_subcount < L3)
             {
-                shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
-                randomgen();    // generate note
+                shape_shifter(); // Shift RA->RB, RB-RC, ... , RE->RF
+                randomgen();     // generate note
             }
-            if(level_subcount >= L3)
+            if (level_subcount >= L3)
             {
-                shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
-                //if(level_subcount == L1) PORTA = 0x00;
+                shape_shifter(); // Shift RA->RB, RB-RC, ... , RE->RF
+                // if(level_subcount == L1) PORTA = 0x00;
             }
             ++level_subcount;
-            if(level_subcount == 6 + L3)  // 5 is the A B C D E F PORST count  i.e., level_subcount == 11
+            if (level_subcount == 6 + L3) // 5 is the A B C D E F PORST count  i.e., level_subcount == 11
             {
-                game_state = END;    // Oyun biter.  TO BE DONE
+                game_state = END; // Oyun biter.  TO BE DONE
             }
-            tmr_start(46);  // TMR0 counts 77 times so that 500 ms
+            tmr_start(46); // TMR0 counts 77 times so that 500 ms
         }
         break;
-        case END:
-            // make 7seg display End
-            break;
+    case END:
+        reset_task();
+        // make 7seg display End
+        break;
     }
 }
 
-void shape_shifter()
-{
-    PORTF = PORTE;
-    PORTE = PORTD;
-    PORTD = PORTC;
-    PORTC = PORTB;
-    PORTB = PORTA;
-    PORTA = 0;
-}
 // Current game choices and the countdown
 uint8_t game_level = 1, game_action = 0, game_count = 0;
 
@@ -456,8 +501,12 @@ void main(void)
     init_irq();   // DONE
     while (1)
     {
-        // check here if rc0 pressed
-        //        T0CONbits.TMR0ON = 0x01;
+        // TODO timer1 interrupt check
+        // TODO 7seg time-based things
+        // TODO 7seg task
+        // TODO decreaser (--health)
+        // TODO finish when health == 0 and display LOSE
+        // check here if rc0 pre
         input_task();
         if ((isGameStarted == 0) || (isGameFinished == 1))
         {
