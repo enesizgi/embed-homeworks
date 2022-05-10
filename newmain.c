@@ -374,14 +374,14 @@ void game_task()
         break;
     case LEVEL2_INIT:
         level_subcount = 0;
-        tmr_start(XXX); // TMR0 counts 77 times so that 500 ms
+        tmr_start(61); // TMR0 counts 77 times so that 500 ms
         game_state = LEVEL2;
         //shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
         randomgen();    // generate note    
         ++level_subcount;    
         break;
     case LEVEL2:
-        if (tmr_state == TMR_DONE) // 500 ms passed
+        if (tmr_state == TMR_DONE) // 400 ms passed
         {
             if(level_subcount < L2)
             {
@@ -398,19 +398,19 @@ void game_task()
             {
                 game_state = LEVEL2;
             }
-            tmr_start(XXX);  // TMR0 counts 77 times so that 500 ms
+            tmr_start(61);  // TMR0 counts 61 times so that 400 ms
         }
         break;
     case LEVEL3_INIT:
         level_subcount = 0;
-        tmr_start(XXX); // TMR0 counts 77 times so that 500 ms
+        tmr_start(46); // TMR0 counts 46 times so that 300 ms
         game_state = LEVEL3;
         //shift_task();   // Shift RA->RB, RB-RC, ... , RE->RF
         randomgen();    // generate note    
         ++level_subcount;    
         break;
     case LEVEL3:
-        if (tmr_state == TMR_DONE) // 500 ms passed
+        if (tmr_state == TMR_DONE) // 300 ms passed
         {
             if(level_subcount < L3)
             {
@@ -427,7 +427,7 @@ void game_task()
             {
                 game_state = END;    // Oyun biter.  TO BE DONE
             }
-            tmr_start(XXX);  // TMR0 counts 77 times so that 500 ms
+            tmr_start(46);  // TMR0 counts 77 times so that 500 ms
         }
         break;
         case END:
