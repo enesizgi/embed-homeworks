@@ -303,65 +303,68 @@ void init_sevseg()
     // DO: make the 7seg 9--1
 }
 
-void sevenSeg(char J, char D){
-    switch(J){  
-        // All dps are reset (i.e., bit7 -> 0)
-        case '0': // Also case O
-            PORTJ = 0x3f;  // abcdef    -> 1111 1100
-            break;
-        case '1':
-            PORTJ = 0x3d; // bc         -> 0110 0000
-            break;
-        case '2':
-            PORTJ = 0x5b;
-            break;
-        case '3':
-            PORTJ = 0x4f;
-            break;
-        case '4': 
-            PORTJ = 0x66;  
-            break;
-        case '5':
-            PORTJ = 0x6d; 
-            break;
-        case '6':
-            PORTJ = 0x7d;
-            break;
-        case '7':
-            PORTJ = 0x07;
-            break;
-        case '8': 
-            PORTJ = 0x7f; 
-            break;
-        case '9':
-            PORTJ = 0x6f; 
-            break;
-        case 'L':
-            PORTJ = 0xd8;
-            break;
-        case 'E':
-            PORTJ = 0x79;
-            break;
-        case 'n': 
-            PORTJ = 0x54; 
-            break;
-        case 'd':
-            PORTJ = 0x5e; 
-            break;
+void sevenSeg(char J, char D)
+{
+    switch (J)
+    {
+    // All dps are reset (i.e., bit7 -> 0)
+    case '0':         // Also case O
+        PORTJ = 0x3f; // abcdef    -> 1111 1100
+        break;
+    case '1':
+        PORTJ = 0x3d; // bc         -> 0110 0000
+        break;
+    case '2':
+        PORTJ = 0x5b;
+        break;
+    case '3':
+        PORTJ = 0x4f;
+        break;
+    case '4':
+        PORTJ = 0x66;
+        break;
+    case '5':
+        PORTJ = 0x6d;
+        break;
+    case '6':
+        PORTJ = 0x7d;
+        break;
+    case '7':
+        PORTJ = 0x07;
+        break;
+    case '8':
+        PORTJ = 0x7f;
+        break;
+    case '9':
+        PORTJ = 0x6f;
+        break;
+    case 'L':
+        PORTJ = 0xd8;
+        break;
+    case 'E':
+        PORTJ = 0x79;
+        break;
+    case 'n':
+        PORTJ = 0x54;
+        break;
+    case 'd':
+        PORTJ = 0x5e;
+        break;
     }
-    switch(D){
-        case 'D0':
-            PORTH = 0x01;       // RH0 = 1, others = 0
-            break;
-        case 'D1':
-            PORTH = 0x02;       // RH1 = 1, others = 0
-            break;
-        case 'D2':
-            PORTH = 0x04;       // RH2 = 1, others = 0
-            break;
-        case 'D3':
-            PORTH = 0x08;       // RH3 = 1, others = 0
-            break;
+    switch (D)
+    {
+    case 'D0':
+        PORTH = 0x01; // RH0 = 1, others = 0
+        break;
+    case 'D1':
+        PORTH = 0x02; // RH1 = 1, others = 0
+        break;
+    case 'D2':
+        PORTH = 0x04; // RH2 = 1, others = 0
+        break;
+    case 'D3':
+        PORTH = 0x08; // RH3 = 1, others = 0
+        break;
     }
 }
 
@@ -378,7 +381,8 @@ typedef enum
     LEVEL2,
     LEVEL3_INIT,
     LEVEL3,
-    END
+    END,
+    LOSE
 } game_state_t;
 game_state_t game_state = G_INIT;
 
@@ -401,6 +405,15 @@ void reset_task()
     isGameStarted = 0;
     game_state = G_INIT;
     tmr1flag = 0;
+}
+
+void health_decreaser()
+{
+    health--;
+    if (health == 0)
+    {
+        game_state = LOSE;
+    }
 }
 
 void game_task()
@@ -429,29 +442,37 @@ void game_task()
     switch (whichRG)
     {
     case -1:
-        // health--;  // use decreaser();
+        health_decreaser();
         break;
     case 0:
         if (PORTFbits.RF0 == 1)
             tmr_state = TMR_DONE; // MAYBE shift fast or just delete RF
         else
-            // decrease();
-            break;
+            health_decreaser();
+        break;
     case 1:
         if (PORTFbits.RF1 == 1)
             tmr_state = TMR_DONE;
+        else
+            health_decreaser();
         break;
     case 2:
         if (PORTFbits.RF2 == 1)
             tmr_state = TMR_DONE;
+        else
+            health_decreaser();
         break;
     case 3:
         if (PORTFbits.RF3 == 1)
             tmr_state = TMR_DONE;
+        else
+            health_decreaser();
         break;
     case 4:
         if (PORTFbits.RF4 == 1)
             tmr_state = TMR_DONE;
+        else
+            health_decreaser();
         break;
     }
     switch (game_state)
@@ -545,15 +566,16 @@ void game_task()
             tmr_start(46); // TMR0 counts 77 times so that 500 ms
         }
         break;
+    case LOSE:
+        reset_task();
+        //make seven segment display lose
+        break;
     case END:
         reset_task();
         // make 7seg display End
         break;
     }
 }
-
-// Current game choices and the countdown
-uint8_t game_level = 1, game_action = 0, game_count = 0;
 
 void main(void)
 {
@@ -563,11 +585,10 @@ void main(void)
     init_irq();   // DONE
     while (1)
     {
-        // TODO timer1 interrupt check
-        // TODO 7seg time-based things
-        // TODO 7seg task
-        // TODO decreaser (--health)
-        // TODO finish when health == 0 and display LOSE
+        // TODO: timer1 interrupt check
+        // TODO: 7seg time-based things
+        // TODO: 7seg task
+        // TODO: finish when health == 0 and display LOSE
         // check here if rc0 pre
         input_task();
         if ((isGameStarted == 0) || (isGameFinished == 1))
