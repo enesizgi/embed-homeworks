@@ -10,10 +10,13 @@
 #pragma config WDT = OFF
 
 void tmr_isr();
+uint8_t sevenSegCounter;
 void __interrupt(high_priority) highPriorityISR(void)
 {
     if (INTCONbits.TMR0IF)
         tmr_isr();
+    sevenSegCounter++;
+    sevenSegCounter %= 12;
 }
 void __interrupt(low_priority) lowPriorityISR(void) {}
 
@@ -22,16 +25,36 @@ uint8_t health;
 uint8_t level;
 uint8_t isGameStarted;
 uint8_t isGameFinished;
-uint8_t isRC0Pressed;
-uint8_t isRG0Pressed;
-uint8_t isRG1Pressed;
-uint8_t isRG2Pressed;
-uint8_t isRG3Pressed;
-uint8_t isRG4Pressed;
+int8_t isRC0Pressed;
+int8_t isRG0Pressed;
+int8_t isRG1Pressed;
+int8_t isRG2Pressed;
+int8_t isRG3Pressed;
+int8_t isRG4Pressed;
 uint8_t whichRG;
 uint8_t tmr1flag = 0;
 uint8_t ltmrval;
 uint8_t htmrval;
+
+// Game state definitions and the global state
+typedef enum
+{
+    G_INIT,
+    LEVEL1,
+    LEVEL2_INIT,
+    LEVEL2,
+    LEVEL3_INIT,
+    LEVEL3,
+    END,
+    LOSE
+} game_state_t;
+game_state_t game_state;
+
+uint8_t level_subcount = 0;
+uint8_t L1 = 5, L2 = 10, L3 = 15;
+
+// Current game choices and the countdown
+uint8_t game_level = 1;
 
 void init_vars()
 {
@@ -45,6 +68,8 @@ void init_vars()
     isRG2Pressed = -1;
     isRG3Pressed = -1;
     isRG4Pressed = -1;
+    sevenSegCounter = 0;
+    whichRG = 5;
 }
 void init_ports()
 {
@@ -82,21 +107,18 @@ void init_irq()
 // in one of three states: RUN, DONE.
 typedef enum
 {
-    TMR_IDLE,
     TMR_RUN,
     TMR_DONE
 } tmr_state_t;
-tmr_state_t tmr_state = TMR_IDLE; // Current timer state
+tmr_state_t tmr_state = TMR_RUN; // Current timer state
 uint8_t tmr_startreq = 0;         // Flag to request the timer to start
 uint8_t tmr_ticks_left;           // Number of "ticks" until "done"
-
 
 void tmr_isr()
 {
     INTCONbits.TMR0IF = 0; // Reset flag
     if (--tmr_ticks_left == 0)
         tmr_state = TMR_DONE;
-    
 }
 void tmr_init()
 {
@@ -117,13 +139,6 @@ void tmr_start(uint8_t ticks)
     TMR0 = 0x00;
     INTCONbits.T0IF = 0;
     T0CON |= 0x80; // Set TMR0ON
-}
-// This function aborts the current timer run and goes back to IDLE
-void tmr_abort()
-{
-    T0CON &= 0x7f; // Unset TMR0ON
-    tmr_startreq = 0;
-    tmr_state = TMR_IDLE;
 }
 
 void randomgen()
@@ -290,137 +305,138 @@ void input_task()
 // This is the "display task", which is responsible from maintaining and
 // updating outputs on PORTB, PORTC and PORTD. This task handles all
 // blinking functionality when configured by using the timer task.
-
-
+void sevenSeg(uint8_t J, uint8_t D);
 void sevenSeg_controller()
 {
     switch (game_state)
     {
-    case INIT:
-        sevenSeg(health, 0);
-        sevenSeg(game_level, 3);
+    case G_INIT:
+        if (sevenSegCounter % 2 == 0)
+            sevenSeg(health, 0);
+        else
+            sevenSeg(game_level, 3);
         break;
     case LEVEL1:
-        sevenSeg(health, 0);
-        sevenSeg(game_level, 3);
+        if (sevenSegCounter % 2 == 0)
+            sevenSeg(health, 0);
+        else
+            sevenSeg(game_level, 3);
         break;
-
     case LEVEL2_INIT:
-        sevenSeg(health, 0);
-        sevenSeg(game_level, 3);
+        if (sevenSegCounter % 2 == 0)
+            sevenSeg(health, 0);
+        else
+            sevenSeg(game_level, 3);
         break;
     case LEVEL2:
-        sevenSeg(health, 0);
-        sevenSeg(game_level, 3);
+        if (sevenSegCounter % 2 == 0)
+            sevenSeg(health, 0);
+        else
+            sevenSeg(game_level, 3);
         break;
 
     case LEVEL3_INIT:
-        sevenSeg(health, 0);
-        sevenSeg(game_level, 3);
+        if (sevenSegCounter % 2 == 0)
+            sevenSeg(health, 0);
+        else
+            sevenSeg(game_level, 3);
         break;
     case LEVEL3:
-        sevenSeg(health, 0);
-        sevenSeg(game_level, 3);
+        if (sevenSegCounter % 2 == 0)
+            sevenSeg(health, 0);
+        else
+            sevenSeg(game_level, 3);
         break;
-
-    case END:  // MAYBE rc0 a kadar bunun yanmasi lazim
-        sevenSeg(11, 0);    // E
-        sevenSeg(12, 1);    // n
-        sevenSeg(13,2);     // d
+    case END: // MAYBE rc0 a kadar bunun yanmasi lazim
+        if (sevenSegCounter % 3 == 0)
+            sevenSeg(11, 0); // E
+        else if (sevenSegCounter % 3 == 1)
+            sevenSeg(12, 1); // n
+        else
+            sevenSeg(13, 2); // d
         break;
     case LOSE:
-        sevenSeg(10, 0);    // L
-        sevenSeg(0, 1);     // O
-        sevenSeg(5,2);      // S
-        sevenSeg(11, 0);    // E
+        if (sevenSegCounter % 4 == 0)
+            sevenSeg(10, 0); // L
+        else if (sevenSegCounter % 4 == 1)
+            sevenSeg(0, 1); // O
+        else if (sevenSegCounter % 4 == 2)
+            sevenSeg(5, 2); // S
+        else
+            sevenSeg(11, 0); // E
         break;
     }
 }
 
-void sevenSeg(int J, char D)
+void sevenSeg(uint8_t J, uint8_t D)
 {
-    switch(J){  
-        
-        // All dps are reset (i.e., bit7 -> 0)
-        case 0: // Also case O
-            PORTJ = 0x3f;  // abcdef    -> 1111 1100
-            break;
-        case 1:
-            PORTJ = 0x3d; // bc         -> 0110 0000
-            break;
-        case 2:
-            PORTJ = 0x5b;
-            break;
-        case 3:
-            PORTJ = 0x4f;
-            break;
-        case 4: 
-            PORTJ = 0x66;  
-            break;
-        case 5:
-            PORTJ = 0x6d; 
-            break;
-        case 6:
-            PORTJ = 0x7d;
-            break;
-        case 7:
-            PORTJ = 0x07;
-            break;
-        case 8: 
-            PORTJ = 0x7f; 
-            break;
-        case 9:
-            PORTJ = 0x6f; 
-            break;
-        case 10:    // L
-            PORTJ = 0xd8;
-            break;
-        case 11:    // E
-            PORTJ = 0x79;
-            break;
-        case 12:    // n 
-            PORTJ = 0x54; 
-            break;
-        case 13:    // d
-            PORTJ = 0x5e; 
-            break;
+    switch (J)
+    {
+
+    // All dps are reset (i.e., bit7 -> 0)
+    case 0:           // Also case O
+        PORTJ = 0x3f; // abcdef    -> 1111 1100
+        break;
+    case 1:
+        PORTJ = 0x3d; // bc         -> 0110 0000
+        break;
+    case 2:
+        PORTJ = 0x5b;
+        break;
+    case 3:
+        PORTJ = 0x4f;
+        break;
+    case 4:
+        PORTJ = 0x66;
+        break;
+    case 5:
+        PORTJ = 0x6d;
+        break;
+    case 6:
+        PORTJ = 0x7d;
+        break;
+    case 7:
+        PORTJ = 0x07;
+        break;
+    case 8:
+        PORTJ = 0x7f;
+        break;
+    case 9:
+        PORTJ = 0x6f;
+        break;
+    case 10: // L
+        PORTJ = 0xd8;
+        break;
+    case 11: // E
+        PORTJ = 0x79;
+        break;
+    case 12: // n
+        PORTJ = 0x54;
+        break;
+    case 13: // d
+        PORTJ = 0x5e;
+        break;
     }
-    switch(D){
-        case 0:
-            PORTH = 0x01;       // RH0 = 1, others = 0
-            break;
-        case 1:
-            PORTH = 0x02;       // RH1 = 1, others = 0
-            break;
-        case 2:
-            PORTH = 0x04;       // RH2 = 1, others = 0
-            break;
-        case 3:
-            PORTH = 0x08;       // RH3 = 1, others = 0
-            break;
+    switch (D)
+    {
+    case 0:
+        PORTH = 0x01; // RH0 = 1, others = 0
+        break;
+    case 1:
+        PORTH = 0x02; // RH1 = 1, others = 0
+        break;
+    case 2:
+        PORTH = 0x04; // RH2 = 1, others = 0
+        break;
+    case 3:
+        PORTH = 0x08; // RH3 = 1, others = 0
+        break;
     }
 }
 
 // ************* Game task and functions ****************
 // This task handles the overall game logic and control remaining tasks
 // through their utility functions and flags
-
-// Game state definitions and the global state
-typedef enum
-{
-    G_INIT,
-    LEVEL1,
-    LEVEL2_INIT,
-    LEVEL2,
-    LEVEL3_INIT,
-    LEVEL3,
-    END,
-    LOSE
-} game_state_t;
-game_state_t game_state;
-
-uint8_t level_subcount = 0;
-uint8_t L1 = 5, L2 = 10, L3 = 15;
 
 void shape_shifter()
 {
@@ -456,15 +472,15 @@ void game_task()
     // MAYBE don't sure about not pressing a button, is it to be punished here or by means of counter ???
     // Now it does NOT checks for not pressing, if you want to check it go to proper commit.
     uint8_t count = 0;
-    if (isRG0Pressed)
+    if (isRG0Pressed != -1)
         count++;
-    if (isRG1Pressed)
+    if (isRG1Pressed != -1)
         count++;
-    if (isRG2Pressed)
+    if (isRG2Pressed != -1)
         count++;
-    if (isRG3Pressed)
+    if (isRG3Pressed != -1)
         count++;
-    if (isRG4Pressed)
+    if (isRG4Pressed != -1)
         count++;
 
     if (count > 1)
@@ -506,11 +522,12 @@ void game_task()
         else
             health_decreaser();
         break;
+    default:
+        break;
     }
     switch (game_state)
     {
     case G_INIT:
-        init_sevseg();
         tmr_start(77); // TMR0 counts 77 times so that 500 ms
         game_state = LEVEL1;
         // shape_shifter();   // Shift RA->RB, RB-RC, ... , RE->RF
@@ -603,17 +620,13 @@ void game_task()
         break;
     case LOSE:
         reset_task();
-        //make seven segment display lose
         break;
     case END:
         reset_task();
-        // make 7seg display End
         break;
     }
 }
 
-// Current game choices and the countdown
-uint8_t game_level = 1;
 void main(void)
 {
     init_vars();  // DONE
@@ -630,6 +643,6 @@ void main(void)
         {
             continue;
         }
-        // game_task();
+        game_task();
     }
 }
