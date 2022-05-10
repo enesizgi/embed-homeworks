@@ -106,6 +106,7 @@ void tmr_isr()
     INTCONbits.TMR0IF = 0; // Reset flag
     if (--tmr_ticks_left == 0)
         tmr_state = TMR_DONE;
+    
 }
 void tmr_init()
 {
@@ -225,6 +226,7 @@ void input_task()
         else if (PORTCbits.RC0 == 1)
         {
             isRC0Pressed = 1;
+            game_state = G_INIT;
         }
     }
     ///////////////////////////////////////////////////RG TASK///////////////////////////////////////////////////
@@ -303,68 +305,112 @@ void init_sevseg()
     // DO: make the 7seg 9--1
 }
 
-void sevenSeg(char J, char D)
+void sevenSeg_controller()
 {
-    switch (J)
+    switch (game_state)
     {
-    // All dps are reset (i.e., bit7 -> 0)
-    case '0':         // Also case O
-        PORTJ = 0x3f; // abcdef    -> 1111 1100
+    case INIT:
+        sevenSeg(health, 0);
+        sevenSeg(game_level, 3);
         break;
-    case '1':
-        PORTJ = 0x3d; // bc         -> 0110 0000
+    case LEVEL1:
+        sevenSeg(health, 0);
+        sevenSeg(game_level, 3);
         break;
-    case '2':
-        PORTJ = 0x5b;
+
+    case LEVEL2_INIT:
+        sevenSeg(health, 0);
+        sevenSeg(game_level, 3);
         break;
-    case '3':
-        PORTJ = 0x4f;
+    case LEVEL2:
+        sevenSeg(health, 0);
+        sevenSeg(game_level, 3);
         break;
-    case '4':
-        PORTJ = 0x66;
+
+    case LEVEL3_INIT:
+        sevenSeg(health, 0);
+        sevenSeg(game_level, 3);
         break;
-    case '5':
-        PORTJ = 0x6d;
+    case LEVEL3:
+        sevenSeg(health, 0);
+        sevenSeg(game_level, 3);
         break;
-    case '6':
-        PORTJ = 0x7d;
+
+    case END:  // MAYBE rc0 a kadar bunun yanmasi lazim
+        sevenSeg(11, 0);    // E
+        sevenSeg(12, 1);    // n
+        sevenSeg(13,2);     // d
         break;
-    case '7':
-        PORTJ = 0x07;
-        break;
-    case '8':
-        PORTJ = 0x7f;
-        break;
-    case '9':
-        PORTJ = 0x6f;
-        break;
-    case 'L':
-        PORTJ = 0xd8;
-        break;
-    case 'E':
-        PORTJ = 0x79;
-        break;
-    case 'n':
-        PORTJ = 0x54;
-        break;
-    case 'd':
-        PORTJ = 0x5e;
+    case LOSE:
+        sevenSeg(10, 0);    // L
+        sevenSeg(0, 1);     // O
+        sevenSeg(5,2);      // S
+        sevenSeg(11, 0);    // E
         break;
     }
-    switch (D)
-    {
-    case 'D0':
-        PORTH = 0x01; // RH0 = 1, others = 0
-        break;
-    case 'D1':
-        PORTH = 0x02; // RH1 = 1, others = 0
-        break;
-    case 'D2':
-        PORTH = 0x04; // RH2 = 1, others = 0
-        break;
-    case 'D3':
-        PORTH = 0x08; // RH3 = 1, others = 0
-        break;
+}
+
+void sevenSeg(int J, char D)
+{
+    switch(J){  
+        
+        // All dps are reset (i.e., bit7 -> 0)
+        case 0: // Also case O
+            PORTJ = 0x3f;  // abcdef    -> 1111 1100
+            break;
+        case 1:
+            PORTJ = 0x3d; // bc         -> 0110 0000
+            break;
+        case 2:
+            PORTJ = 0x5b;
+            break;
+        case 3:
+            PORTJ = 0x4f;
+            break;
+        case 4: 
+            PORTJ = 0x66;  
+            break;
+        case 5:
+            PORTJ = 0x6d; 
+            break;
+        case 6:
+            PORTJ = 0x7d;
+            break;
+        case 7:
+            PORTJ = 0x07;
+            break;
+        case 8: 
+            PORTJ = 0x7f; 
+            break;
+        case 9:
+            PORTJ = 0x6f; 
+            break;
+        case 10:    // L
+            PORTJ = 0xd8;
+            break;
+        case 11:    // E
+            PORTJ = 0x79;
+            break;
+        case 12:    // n 
+            PORTJ = 0x54; 
+            break;
+        case 13:    // d
+            PORTJ = 0x5e; 
+            break;
+    }
+    switch(D){
+        case 0:
+            PORTH = 0x01;       // RH0 = 1, others = 0
+            break;
+        case 1:
+            PORTH = 0x02;       // RH1 = 1, others = 0
+            break;
+        case 2:
+            PORTH = 0x04;       // RH2 = 1, others = 0
+            break;
+        case 3:
+            PORTH = 0x08;       // RH3 = 1, others = 0
+            break;
     }
 }
 
@@ -384,7 +430,7 @@ typedef enum
     END,
     LOSE
 } game_state_t;
-game_state_t game_state = G_INIT;
+game_state_t game_state;
 
 uint8_t level_subcount = 0;
 uint8_t L1 = 5, L2 = 10, L3 = 15;
@@ -403,7 +449,6 @@ void reset_task()
 {
     isGameFinished = 1;
     isGameStarted = 0;
-    game_state = G_INIT;
     tmr1flag = 0;
 }
 
@@ -484,6 +529,7 @@ void game_task()
         // shape_shifter();   // Shift RA->RB, RB-RC, ... , RE->RF
         randomgen(); // generate note
         ++level_subcount;
+        game_level = 1;
         break;
     case LEVEL1:
         // START state
@@ -515,6 +561,7 @@ void game_task()
         // shape_shifter();   // Shift RA->RB, RB-RC, ... , RE->RF
         randomgen(); // generate note
         ++level_subcount;
+        game_level = 2;
         break;
     case LEVEL2:
         if (tmr_state == TMR_DONE) // 400 ms passed
@@ -544,6 +591,7 @@ void game_task()
         // shape_shifter();   // Shift RA->RB, RB-RC, ... , RE->RF
         randomgen(); // generate note
         ++level_subcount;
+        game_level = 3;
         break;
     case LEVEL3:
         if (tmr_state == TMR_DONE) // 300 ms passed
@@ -577,6 +625,8 @@ void game_task()
     }
 }
 
+// Current game choices and the countdown
+uint8_t game_level = 1;
 void main(void)
 {
     init_vars();  // DONE
@@ -591,11 +641,11 @@ void main(void)
         // TODO: finish when health == 0 and display LOSE
         // check here if rc0 pre
         input_task();
+        sevenSeg_controller();
         if ((isGameStarted == 0) || (isGameFinished == 1))
         {
             continue;
         }
-        // sevenseg_task();
         // game_task();
     }
 }
