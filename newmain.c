@@ -1,19 +1,14 @@
 /*
  * File:   20212_the1.c
- * Author: Uluc Saranli
- *
- * This file is an example C solution for the CENG 336 THE1 within the
- * Spring 2022 semester. It illustrates modular design principles using
- * various tasks and their data elements within a Round-Robin style
- * architecture. Note that this implementation will not necessarily pass
- * the grading scripts as-is, but should be able to do so with minor
- * changes and handling of edge-cases.
- *
- * Created on April 8, 2022, 12:05 PM
+ * Author: Afsar Saranli
  */
 
 #include <xc.h>
 #include <stdint.h>
+// CONFIG
+#pragma config OSC = HSPLL
+#pragma config WDT = OFF
+
 void tmr_isr();
 void __interrupt(high_priority) highPriorityISR(void)
 {
@@ -95,11 +90,6 @@ tmr_state_t tmr_state = TMR_IDLE; // Current timer state
 uint8_t tmr_startreq = 0;         // Flag to request the timer to start
 uint8_t tmr_ticks_left;           // Number of "ticks" until "done"
 
-// Preload value for 16bit timer0 1:256 prescaler and 10MHz instruction clock
-// to achieve 500ms
-// i.e. preload = 65536 - 0.5*10000000/256
-#define TIMER0_PRELOAD 46005
-//#define TIMER0_PRELOAD 60653
 
 void tmr_isr()
 {
@@ -300,10 +290,7 @@ void input_task()
 // This is the "display task", which is responsible from maintaining and
 // updating outputs on PORTB, PORTC and PORTD. This task handles all
 // blinking functionality when configured by using the timer task.
-void init_sevseg()
-{
-    // DO: make the 7seg 9--1
-}
+
 
 void sevenSeg_controller()
 {
@@ -635,11 +622,8 @@ void main(void)
     init_irq();   // DONE
     while (1)
     {
-        // TODO: timer1 interrupt check
         // TODO: 7seg time-based things
         // TODO: 7seg task
-        // TODO: finish when health == 0 and display LOSE
-        // check here if rc0 pre
         input_task();
         sevenSeg_controller();
         if ((isGameStarted == 0) || (isGameFinished == 1))
