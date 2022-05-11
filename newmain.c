@@ -11,13 +11,14 @@
 
 void tmr_isr();
 uint8_t sevenSegCounter;
+uint8_t sevenSeg2WayCounter;
+uint8_t sevenSeg3WayCounter;
+uint8_t sevenSeg4WayCounter;
 void __interrupt(high_priority) highPriorityISR(void)
 {
     if (INTCONbits.TMR0IF)
     {
         tmr_isr();
-        // sevenSegCounter++;
-        // sevenSegCounter %= 12;
     }
 }
 void __interrupt(low_priority) lowPriorityISR(void) {}
@@ -73,18 +74,21 @@ void init_vars()
     isRG3Pressed = -1;
     isRG4Pressed = -1;
     sevenSegCounter = 0;
+    sevenSeg2WayCounter = 0;
+    sevenSeg3WayCounter = 0;
+    sevenSeg4WayCounter = 0;
     whichRG = 5;
     isPressed = 0;
     starterDelay = 0;
 }
 void init_ports()
 {
-   ADCON1 = 0x0f;  //MAYBE ff
-    TRISA = 0x00; //
-    TRISB = 0x00; //
-    TRISC = 0x01; // TRIS RC0 will be changed during the game
-    TRISD = 0x00; //
-    TRISE = 0x00; //
+    ADCON1 = 0x0f; // MAYBE ff
+    TRISA = 0x00;  //
+    TRISB = 0x00;  //
+    TRISC = 0x01;  // TRIS RC0 will be changed during the game
+    TRISD = 0x00;  //
+    TRISE = 0x00;  //
     TRISF = 0x00;
     TRISG = 0x1f; // 0001 1111
     TRISH = 0x00;
@@ -102,7 +106,7 @@ void init_ports()
 void init_irq()
 {
     INTCON = 0xa0;
-    //RCONbits.IPEN = 0; MAYBE
+    // RCONbits.IPEN = 0; MAYBE
 }
 
 // ************* Timer task and functions ****************
@@ -121,6 +125,18 @@ uint8_t tmr_ticks_left;          // Number of "ticks" until "done"
 
 void tmr_isr()
 {
+    if (sevenSeg2WayCounter == 1)
+        sevenSeg2WayCounter = 0;
+    else
+        sevenSeg2WayCounter = 1;
+    if (sevenSeg3WayCounter == 2)
+        sevenSeg3WayCounter = 0;
+    else
+        sevenSeg3WayCounter++;
+    if (sevenSeg4WayCounter == 3)
+        sevenSeg4WayCounter = 0;
+    else
+        sevenSeg4WayCounter++;
     INTCONbits.TMR0IF = 0; // Reset flag
     if (--tmr_ticks_left == 0)
         tmr_state = TMR_DONE;
@@ -143,15 +159,13 @@ void tmr_start(uint8_t ticks)
     tmr_state = TMR_RUN;
     TMR0 = 0x00;
     INTCONbits.TMR0IF = 0;
-    //T0CON |= 0x80; // Set TMR0ON
+    // T0CON |= 0x80; // Set TMR0ON
 }
 
 void randomgen()
 {
     uint8_t noteval, lastbit, intermbit, num, val, i;
-    // PORTA = 0x00;
-    PORTA = 0x01;
-    return;
+    PORTA = 0x00;
 
     if (tmr1flag == 0)
     {
@@ -320,56 +334,56 @@ void sevenSeg_controller()
     switch (game_state)
     {
     case G_INIT:
-        if (sevenSegCounter % 2 == 0)
+        if (sevenSeg2WayCounter == 0)
             sevenSeg(health, 0);
         else
             sevenSeg(game_level, 3);
         break;
     case LEVEL1:
-        if (sevenSegCounter % 2 == 0)
+        if (sevenSeg2WayCounter == 0)
             sevenSeg(health, 0);
         else
             sevenSeg(game_level, 3);
         break;
     case LEVEL2_INIT:
-        if (sevenSegCounter % 2 == 0)
+        if (sevenSeg2WayCounter == 0)
             sevenSeg(health, 0);
         else
             sevenSeg(game_level, 3);
         break;
     case LEVEL2:
-        if (sevenSegCounter % 2 == 0)
+        if (sevenSeg2WayCounter == 0)
             sevenSeg(health, 0);
         else
             sevenSeg(game_level, 3);
         break;
 
     case LEVEL3_INIT:
-        if (sevenSegCounter % 2 == 0)
+        if (sevenSeg2WayCounter == 0)
             sevenSeg(health, 0);
         else
             sevenSeg(game_level, 3);
         break;
     case LEVEL3:
-        if (sevenSegCounter % 2 == 0)
+        if (sevenSeg2WayCounter == 0)
             sevenSeg(health, 0);
         else
             sevenSeg(game_level, 3);
         break;
     case END: // MAYBE rc0 a kadar bunun yanmasi lazim
-        if (sevenSegCounter % 3 == 0)
+        if (sevenSeg3WayCounter == 0)
             sevenSeg(11, 0); // E
-        else if (sevenSegCounter % 3 == 1)
+        else if (sevenSeg3WayCounter == 1)
             sevenSeg(12, 1); // n
         else
             sevenSeg(13, 2); // d
         break;
     case LOSE:
-        if (sevenSegCounter % 4 == 0)
+        if (sevenSeg4WayCounter == 0)
             sevenSeg(10, 0); // L
-        else if (sevenSegCounter % 4 == 1)
+        else if (sevenSeg4WayCounter == 1)
             sevenSeg(0, 1); // O
-        else if (sevenSegCounter % 4 == 2)
+        else if (sevenSeg4WayCounter == 2)
             sevenSeg(5, 2); // S
         else
             sevenSeg(11, 3); // E
@@ -552,7 +566,7 @@ void game_task()
     default:
         break;
     }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     whichRG = 5;
     switch (game_state)
     {
@@ -689,19 +703,19 @@ void main(void)
     init_ports(); // DONE
     tmr_init();   // DONE
     init_irq();   // DONE
-    isRC0Pressed = 0;
-    isGameStarted = 1;
-    isGameFinished = 0;
-    TRISC = 0x00;
-    PORTC = 0x00;
-    T0CON |= 0x80; // Set TMR0ON
+//    isRC0Pressed = 0;
+//    isGameStarted = 1;
+//    isGameFinished = 0;
+//    TRISC = 0x00;
+//    PORTC = 0x00;
+//    T0CON |= 0x80; // Set TMR0ON
     while (1)
     {
         // TODO: 7seg time-based things
         // TODO: 7seg task
         input_task();
         // sevenSeg_controller();      // TODO: try to implement in another way
-        // TIMER1 
+        // TIMER1
         if ((isGameStarted == 0) || (isGameFinished == 1))
         {
             continue;
