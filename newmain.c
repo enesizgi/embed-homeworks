@@ -32,6 +32,7 @@ int8_t isRG2Pressed;
 int8_t isRG3Pressed;
 int8_t isRG4Pressed;
 int8_t isPressed;
+int8_t starterDelay;
 uint8_t whichRG;
 uint8_t tmr1flag = 0;
 uint8_t ltmrval;
@@ -72,6 +73,7 @@ void init_vars()
     sevenSegCounter = 0;
     whichRG = 5;
     isPressed = 0;
+    starterDelay = 0;
 }
 void init_ports()
 {
@@ -564,7 +566,8 @@ void game_task()
 
         if (tmr_state == TMR_DONE) // 500 ms passed
         {
-            if (isPressed == 0)
+            starterDelay++;
+            if (isPressed == 0 && starterDelay >= 6)
             {
                 health_decreaser();
             }
@@ -602,7 +605,8 @@ void game_task()
     case LEVEL2:
         if (tmr_state == TMR_DONE) // 400 ms passed
         {
-            if (isPressed == 0)
+            starterDelay++;
+            if (isPressed == 0 && starterDelay >= 6)
             {
                 health_decreaser();
             }
@@ -640,7 +644,8 @@ void game_task()
     case LEVEL3:
         if (tmr_state == TMR_DONE) // 300 ms passed
         {
-            if (isPressed == 0)
+            starterDelay++;
+            if (isPressed == 0 && starterDelay >= 6)
             {
                 health_decreaser();
             }
