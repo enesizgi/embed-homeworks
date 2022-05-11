@@ -150,7 +150,12 @@ void randomgen()
 {
     uint8_t noteval, lastbit, intermbit, num, val, i;
     // PORTA = 0x00;
-    PORTA = 0x01;
+    PORTA = 0x1f;    PORTB = 0x1f;
+    PORTC = 0x1f;
+    PORTD = 0x1f;
+    PORTE = 0x1f;
+    PORTF = 0x1f;
+
     return;
 
     if (tmr1flag == 0)
@@ -227,7 +232,7 @@ void input_task()
     {
         if (isRC0Pressed == 1)
         {
-            if (PORTCbits.RC0 == 0)
+            if (PORTCbits.RC0== 0)
             {
                 isRC0Pressed = 0;
                 isGameStarted = 1;
@@ -689,12 +694,7 @@ void main(void)
     init_ports(); // DONE
     tmr_init();   // DONE
     init_irq();   // DONE
-    isRC0Pressed = 0;
-    isGameStarted = 1;
-    isGameFinished = 0;
-    TRISC = 0x00;
-    PORTC = 0x00;
-    T0CON |= 0x80; // Set TMR0ON
+
     while (1)
     {
         // TODO: 7seg time-based things
