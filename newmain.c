@@ -552,7 +552,7 @@ void game_task()
     switch (game_state)
     {
     case G_INIT:
-        tmr_start(77); // TMR0 counts 77 times so that 500 ms
+        tmr_start(255); // TMR0 counts 77 times so that 500 ms
         game_state = LEVEL1;
         // shape_shifter();   // Shift RA->RB, RB-RC, ... , RE->RF
         randomgen(); // generate note
@@ -587,7 +587,7 @@ void game_task()
             {
                 game_state = LEVEL2_INIT;
             }
-            tmr_start(77); // TMR0 counts 77 times so that 500 ms
+            tmr_start(255); // TMR0 counts 77 times so that 500 ms
         }
         break;
     case LEVEL2_INIT:
@@ -681,6 +681,12 @@ void main(void)
     init_ports(); // DONE
     tmr_init();   // DONE
     init_irq();   // DONE
+    isRC0Pressed = 0;
+    isGameStarted = 1;
+    isGameFinished = 0;
+    TRISC = 0x00;
+    PORTC = 0x00;
+    game_state = G_INIT;
     while (1)
     {
         // TODO: 7seg time-based things
