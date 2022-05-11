@@ -16,8 +16,8 @@ void __interrupt(high_priority) highPriorityISR(void)
     if (INTCONbits.TMR0IF)
     {
         tmr_isr();
-        sevenSegCounter++;
-        sevenSegCounter %= 12;
+        // sevenSegCounter++;
+        // sevenSegCounter %= 12;
     }
 }
 void __interrupt(low_priority) lowPriorityISR(void) {}
@@ -79,7 +79,7 @@ void init_vars()
 }
 void init_ports()
 {
-   // ADCON1 = 0x0f;  //MAYBE ff
+   ADCON1 = 0x0f;  //MAYBE ff
     TRISA = 0x00; //
     TRISB = 0x00; //
     TRISC = 0x01; // TRIS RC0 will be changed during the game
@@ -149,7 +149,9 @@ void tmr_start(uint8_t ticks)
 void randomgen()
 {
     uint8_t noteval, lastbit, intermbit, num, val, i;
-    PORTA = 0x00;
+    // PORTA = 0x00;
+    PORTA = 0x01;
+    return;
 
     if (tmr1flag == 0)
     {
@@ -161,7 +163,7 @@ void randomgen()
     if (tmr1flag == 1)
     {
         noteval = 0x07 & ltmrval; // Reading Timer1 value
-        noteval = noteval % 5;TMR0ON
+        noteval = noteval % 5;
         val = 0x01;
         for (i = 0; i < noteval; i++)
         {
@@ -527,7 +529,8 @@ void game_task()
     case 1:
         if (PORTFbits.RF1 == 1)
             tmr_state = TMR_DONE;
-        elseisRC0Pressed
+        else
+            health_decreaser();
     case 2:
         if (PORTFbits.RF2 == 1)
             tmr_state = TMR_DONE;
@@ -697,7 +700,7 @@ void main(void)
         // TODO: 7seg time-based things
         // TODO: 7seg task
         input_task();
-        sevenSeg_controller();      // TODO: try to implement in another way
+        // sevenSeg_controller();      // TODO: try to implement in another way
         // TIMER1 
         if ((isGameStarted == 0) || (isGameFinished == 1))
         {
