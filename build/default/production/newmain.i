@@ -7864,12 +7864,15 @@ typedef uint32_t uint_fast32_t;
 
 void tmr_isr();
 uint8_t sevenSegCounter;
+uint8_t sevenSeg2WayCounter;
+uint8_t sevenSeg3WayCounter;
+uint8_t sevenSeg4WayCounter;
 void __attribute__((picinterrupt(("high_priority")))) highPriorityISR(void)
 {
     if (INTCONbits.TMR0IF)
+    {
         tmr_isr();
-    sevenSegCounter++;
-    sevenSegCounter %= 12;
+    }
 }
 void __attribute__((picinterrupt(("low_priority")))) lowPriorityISR(void) {}
 
@@ -7887,7 +7890,7 @@ int8_t isRG4Pressed;
 int8_t isPressed;
 int8_t starterDelay;
 uint8_t whichRG;
-uint8_t tmr1flag = 0;
+uint8_t tmr1flag;
 uint8_t ltmrval;
 uint8_t htmrval;
 
@@ -7905,11 +7908,11 @@ typedef enum
 } game_state_t;
 game_state_t game_state;
 
-uint8_t level_subcount = 0;
+uint8_t level_subcount;
 uint8_t L1 = 5, L2 = 10, L3 = 15;
 
 
-uint8_t game_level = 1;
+uint8_t game_level;
 
 void init_vars()
 {
@@ -7924,16 +7927,26 @@ void init_vars()
     isRG3Pressed = -1;
     isRG4Pressed = -1;
     sevenSegCounter = 0;
+    sevenSeg2WayCounter = 0;
+    sevenSeg3WayCounter = 0;
+    sevenSeg4WayCounter = 0;
     whichRG = 5;
     isPressed = 0;
     starterDelay = 0;
+    level_subcount = 0;
+    game_level = 1;
+    game_state = G_INIT;
+    tmr1flag = 0;
 }
+
+
+
 void init_ports()
 {
-
+    ADCON1 = 0x0f;
     TRISA = 0x00;
     TRISB = 0x00;
-
+    TRISC = 0x01;
     TRISD = 0x00;
     TRISE = 0x00;
     TRISF = 0x00;
@@ -7948,14 +7961,14 @@ void init_ports()
     PORTF = 0x00;
     PORTH = 0x00;
     PORTJ = 0x00;
+
+    T1CON = 0xc1;
 }
 
 void init_irq()
 {
-    INTCON = 0x10;
-    INTCONbits.TMR0IE = 1;
-    INTCONbits.GIE = 1;
-    RCONbits.IPEN = 0;
+    INTCON = 0xa0;
+
 }
 
 
@@ -7974,6 +7987,18 @@ uint8_t tmr_ticks_left;
 
 void tmr_isr()
 {
+    if (sevenSeg2WayCounter == 1)
+        sevenSeg2WayCounter = 0;
+    else
+        sevenSeg2WayCounter = 1;
+    if (sevenSeg3WayCounter == 2)
+        sevenSeg3WayCounter = 0;
+    else
+        sevenSeg3WayCounter++;
+    if (sevenSeg4WayCounter == 3)
+        sevenSeg4WayCounter = 0;
+    else
+        sevenSeg4WayCounter++;
     INTCONbits.TMR0IF = 0;
     if (--tmr_ticks_left == 0)
         tmr_state = TMR_DONE;
@@ -7985,7 +8010,7 @@ void tmr_init()
 
     T0CON = 0x47;
     TMR0 = 0x00;
-    T1CON = 0xc9;
+    T1CON = 0xc1;
 }
 
 
@@ -7995,8 +8020,8 @@ void tmr_start(uint8_t ticks)
     tmr_ticks_left = ticks;
     tmr_state = TMR_RUN;
     TMR0 = 0x00;
-    INTCONbits.T0IF = 0;
-    T0CON |= 0x80;
+    INTCONbits.TMR0IF = 0;
+
 }
 
 void randomgen()
@@ -8006,10 +8031,11 @@ void randomgen()
 
     if (tmr1flag == 0)
     {
-        htmrval = TMR1H;
         ltmrval = TMR1L;
+        htmrval = TMR1H;
         noteval = 0x07 & ltmrval;
         tmr1flag = 1;
+
     }
     if (tmr1flag == 1)
     {
@@ -8078,19 +8104,22 @@ void input_task()
     {
         if (isRC0Pressed == 1)
         {
-            if (PORTCbits.RC0 == 0)
-            {
+# 266 "newmain.c"
+        }
+        else if (PORTCbits.RC0 == 1)
+        {
+            health = 9;
+            isRC0Pressed = 1;
+            game_state = G_INIT;
+                init_vars();
+                init_ports();
                 isRC0Pressed = 0;
                 isGameStarted = 1;
                 isGameFinished = 0;
                 TRISC = 0x00;
                 PORTC = 0x00;
-            }
-        }
-        else if (PORTCbits.RC0 == 1)
-        {
-            isRC0Pressed = 1;
-            game_state = G_INIT;
+                T0CON |= 0x80;
+                T1CON = 0xc9;
         }
     }
 
@@ -8170,56 +8199,56 @@ void sevenSeg_controller()
     switch (game_state)
     {
     case G_INIT:
-        if (sevenSegCounter % 2 == 0)
+        if (sevenSeg2WayCounter == 0)
             sevenSeg(health, 0);
         else
             sevenSeg(game_level, 3);
         break;
     case LEVEL1:
-        if (sevenSegCounter % 2 == 0)
+        if (sevenSeg2WayCounter == 0)
             sevenSeg(health, 0);
         else
             sevenSeg(game_level, 3);
         break;
     case LEVEL2_INIT:
-        if (sevenSegCounter % 2 == 0)
+        if (sevenSeg2WayCounter == 0)
             sevenSeg(health, 0);
         else
             sevenSeg(game_level, 3);
         break;
     case LEVEL2:
-        if (sevenSegCounter % 2 == 0)
+        if (sevenSeg2WayCounter == 0)
             sevenSeg(health, 0);
         else
             sevenSeg(game_level, 3);
         break;
 
     case LEVEL3_INIT:
-        if (sevenSegCounter % 2 == 0)
+        if (sevenSeg2WayCounter == 0)
             sevenSeg(health, 0);
         else
             sevenSeg(game_level, 3);
         break;
     case LEVEL3:
-        if (sevenSegCounter % 2 == 0)
+        if (sevenSeg2WayCounter == 0)
             sevenSeg(health, 0);
         else
             sevenSeg(game_level, 3);
         break;
     case END:
-        if (sevenSegCounter % 3 == 0)
+        if (sevenSeg3WayCounter == 0)
             sevenSeg(11, 0);
-        else if (sevenSegCounter % 3 == 1)
+        else if (sevenSeg3WayCounter == 1)
             sevenSeg(12, 1);
         else
             sevenSeg(13, 2);
         break;
     case LOSE:
-        if (sevenSegCounter % 4 == 0)
+        if (sevenSeg4WayCounter == 0)
             sevenSeg(10, 0);
-        else if (sevenSegCounter % 4 == 1)
+        else if (sevenSeg4WayCounter == 1)
             sevenSeg(0, 1);
-        else if (sevenSegCounter % 4 == 2)
+        else if (sevenSeg4WayCounter == 2)
             sevenSeg(5, 2);
         else
             sevenSeg(11, 3);
@@ -8309,9 +8338,10 @@ void shape_shifter()
 
 void reset_task()
 {
-    isGameFinished = 1;
+
     isGameStarted = 0;
-    tmr1flag = 0;
+    isGameFinished = 1;
+    init_ports();
 }
 
 void health_decreaser()
@@ -8381,7 +8411,6 @@ void game_task()
             tmr_state = TMR_DONE;
         else
             health_decreaser();
-        break;
     case 2:
         if (PORTFbits.RF2 == 1)
             tmr_state = TMR_DONE;
@@ -8403,6 +8432,7 @@ void game_task()
     default:
         break;
     }
+
     whichRG = 5;
     switch (game_state)
     {
@@ -8539,18 +8569,13 @@ void main(void)
     init_ports();
     tmr_init();
     init_irq();
-    isRC0Pressed = 0;
-    isGameStarted = 1;
-    isGameFinished = 0;
-    TRISC = 0x00;
-    PORTC = 0x00;
-
     while (1)
     {
 
 
         input_task();
         sevenSeg_controller();
+
         if ((isGameStarted == 0) || (isGameFinished == 1))
         {
             continue;

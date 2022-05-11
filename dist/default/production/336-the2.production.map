@@ -5,7 +5,7 @@ Linker command line:
 -W-3 --edf=/opt/microchip/xc8/v2.30/pic/dat/en_msgs.txt -cn \
   -h+dist/default/production/336-the2.production.sym \
   --cmf=dist/default/production/336-the2.production.cmf -z -Q18F8722 \
-  -o/tmp/xcXLJjDkd --defsym=__MPLAB_BUILD=1 \
+  -o/tmp/xcXOMhnFE --defsym=__MPLAB_BUILD=1 \
   -Mdist/default/production/336-the2.production.map -E1 -ver=XC8 Compiler \
   --acfsm=1493 -ASTACK=060h-0F5Fh -pstack=STACK -ACODE=00h-01FFFFh \
   -ACONST=00h-01FFFFh -ASMALLCONST=01000h-010FFhx496 \
@@ -26,7 +26,7 @@ Linker command line:
   -pfarbss=FARRAM,fardata=FARRAM,nvFARRAM=FARRAM \
   -pintsave_regs=BIGRAM,bigbss=BIGRAM,bigdata=BIGRAM -pbss=RAM \
   -pidata=CODE,irdata=CODE,ibigdata=CODE,ifardata=CODE -prparam=COMRAM \
-  /tmp/xcXNHkhFF.o dist/default/production/336-the2.production.o 
+  /tmp/xcXFfDAHm.o dist/default/production/336-the2.production.o 
 
 Object code version is 3.11
 
@@ -35,7 +35,7 @@ Machine type is 18F8722
 
 
                 Name                               Link     Load   Length Selector   Space Scale
-/tmp/xcXNHkhFF.o
+/tmp/xcXFfDAHm.o
                 idloc                            200000   200000        8        0       5
                 config                           300000   300000        E        0       4
                 init                                 26       26        4        C       0
@@ -45,31 +45,30 @@ dist/default/production/336-the2.production.o
                 intcode                               8        8        6        4       0
                 idloc                            200000   200000        8        0       5
                 config                           300000   300000        E        0       4
-                temp                                 31       31        1        1       1
-                text18                              D6E      D6E        E        C       0
-                text17                              B24      B24       B0        C       0
-                intcode_body                        CD4      CD4       30        C       0
-                text14                              D36      D36       18        C       0
-                text13                              A74      A74       B0        C       0
-                text12                              7B4      7B4      164        C       0
-                text11                              D60      D60        E        C       0
-                text10                              D04      D04       1A        C       0
-                text9                               D1E      D1E       18        C       0
-                text8                                2A       2A      3AC        C       0
-                text7                               D7C      D7C        C        C       0
-                text6                               C30      C30       3E        C       0
-                text5                               CA4      CA4       30        C       0
-                text4                               61A      61A      19A        C       0
-                text3                               918      918      15C        C       0
-                text2                               3D6      3D6      244        C       0
-                text1                               D4E      D4E       12        C       0
-                text0                               BD4      BD4       5C        C       0
-                cstackCOMRAM                          1        1       16        1       1
-                dataCOMRAM                           2D       2D        4        1       1
-                bssCOMRAM                            17       17        D        1       1
-                cinit                               C6E      C6E       36        C       0
-                nvCOMRAM                             24       24        9        1       1
-                idataCOMRAM                         D88      D88        4        C       0
+                temp                                 2E       2E        1        1       1
+                text17                              B08      B08       62        C       0
+                intcode_body                        CAE      CAE       18        C       0
+                text14                              C96      C96       18        C       0
+                text13                              A58      A58       B0        C       0
+                text12                              798      798      164        C       0
+                text11                              BB6      BB6       4A        C       0
+                text10                              CEE      CEE        E        C       0
+                text9                               C7C      C7C       1A        C       0
+                text8                               CC6      CC6       16        C       0
+                text7                                2A       2A      3B4        C       0
+                text6                               CFC      CFC        6        C       0
+                text5                               B6A      B6A       4C        C       0
+                text4                               5FA      5FA      19E        C       0
+                text3                               8FC      8FC      15C        C       0
+                text2                               3DE      3DE      21C        C       0
+                text1                               CDC      CDC       12        C       0
+                text0                               C00      C00       48        C       0
+                cstackCOMRAM                         12       12       10        1       1
+                dataCOMRAM                           2B       2B        3        1       1
+                bssCOMRAM                             1        1       11        1       1
+                cinit                               C48      C48       34        C       0
+                nvCOMRAM                             22       22        9        1       1
+                idataCOMRAM                         D02      D02        3        C       0
 
 TOTAL           Name                               Link     Load   Length     Space
         CLASS   STACK          
@@ -79,26 +78,25 @@ TOTAL           Name                               Link     Load   Length     Sp
                 intcode                               8        8        6         0
                 init                                 26       26        4         0
                 reset_vec                             0        0        4         0
-                text18                              D6E      D6E        E         0
-                text17                              B24      B24       B0         0
-                intcode_body                        CD4      CD4       30         0
-                text14                              D36      D36       18         0
-                text13                              A74      A74       B0         0
-                text12                              7B4      7B4      164         0
-                text11                              D60      D60        E         0
-                text10                              D04      D04       1A         0
-                text9                               D1E      D1E       18         0
-                text8                                2A       2A      3AC         0
-                text7                               D7C      D7C        C         0
-                text6                               C30      C30       3E         0
-                text5                               CA4      CA4       30         0
-                text4                               61A      61A      19A         0
-                text3                               918      918      15C         0
-                text2                               3D6      3D6      244         0
-                text1                               D4E      D4E       12         0
-                text0                               BD4      BD4       5C         0
-                cinit                               C6E      C6E       36         0
-                idataCOMRAM                         D88      D88        4         0
+                text17                              B08      B08       62         0
+                intcode_body                        CAE      CAE       18         0
+                text14                              C96      C96       18         0
+                text13                              A58      A58       B0         0
+                text12                              798      798      164         0
+                text11                              BB6      BB6       4A         0
+                text10                              CEE      CEE        E         0
+                text9                               C7C      C7C       1A         0
+                text8                               CC6      CC6       16         0
+                text7                                2A       2A      3B4         0
+                text6                               CFC      CFC        6         0
+                text5                               B6A      B6A       4C         0
+                text4                               5FA      5FA      19E         0
+                text3                               8FC      8FC      15C         0
+                text2                               3DE      3DE      21C         0
+                text1                               CDC      CDC       12         0
+                text0                               C00      C00       48         0
+                cinit                               C48      C48       34         0
+                idataCOMRAM                         D02      D02        3         0
 
         CLASS   CONST          
 
@@ -107,11 +105,11 @@ TOTAL           Name                               Link     Load   Length     Sp
         CLASS   MEDIUMCONST    
 
         CLASS   COMRAM         
-                temp                                 31       31        1         1
-                cstackCOMRAM                          1        1       16         1
-                dataCOMRAM                           2D       2D        4         1
-                bssCOMRAM                            17       17        D         1
-                nvCOMRAM                             24       24        9         1
+                temp                                 2E       2E        1         1
+                cstackCOMRAM                         12       12       10         1
+                dataCOMRAM                           2B       2B        3         1
+                bssCOMRAM                             1        1       11         1
+                nvCOMRAM                             22       22        9         1
 
         CLASS   ABS1           
 
@@ -168,9 +166,9 @@ TOTAL           Name                               Link     Load   Length     Sp
 SEGMENTS        Name                           Load    Length   Top    Selector   Space  Class
 
                 reset_vec                      000000  000004  000004         0       0  CODE    
-                cstackCOMRAM                   000001  000031  000032         1       1  COMRAM  
+                bssCOMRAM                      000001  00002E  00002F         1       1  COMRAM  
                 intcode                        000008  000006  00000E         4       0  CODE    
-                intcodelo                      000018  000D74  000D8C         C       0  CODE    
+                intcodelo                      000018  000CED  000D05         C       0  CODE    
 
 
 UNUSED ADDRESS RANGES
@@ -192,14 +190,14 @@ UNUSED ADDRESS RANGES
         BANK7            000700-0007FF              100
         BANK8            000800-0008FF              100
         BANK9            000900-0009FF              100
-        BIGRAM           000032-000F5F              F2E
+        BIGRAM           00002F-000F5F              F31
         CODE             000004-000007                4
                          00000E-000017                A
-                         000D8C-01FFFF            1F274
-        COMRAM           000032-00005F               2E
+                         000D05-01FFFF            1F2FB
+        COMRAM           00002F-00005F               31
         CONST            000004-000007                4
                          00000E-000017                A
-                         000D8C-01FFFF            1F274
+                         000D05-01FFFF            1F2FB
         EEDATA           F00000-F003FF              400
         MEDIUMCONST      001000-00FFFF             F000
                          011000-01FFFF             F000
@@ -210,13 +208,13 @@ UNUSED ADDRESS RANGES
 
                                   Symbol Table
 
-?___awmod                     cstackCOMRAM 000008
-?i2___awmod                   cstackCOMRAM 000001
+?___awmod                     cstackCOMRAM 000013
+_ADCON1                       (abs)        000FC1
 _INTCON                       (abs)        000FF2
 _INTCONbits                   (abs)        000FF2
-_L1                           dataCOMRAM   000030
-_L2                           dataCOMRAM   00002F
-_L3                           dataCOMRAM   00002E
+_L1                           dataCOMRAM   00002D
+_L2                           dataCOMRAM   00002C
+_L3                           dataCOMRAM   00002B
 _PORTA                        (abs)        000F80
 _PORTB                        (abs)        000F81
 _PORTC                        (abs)        000F82
@@ -228,7 +226,6 @@ _PORTFbits                    (abs)        000F85
 _PORTGbits                    (abs)        000F86
 _PORTH                        (abs)        000F87
 _PORTJ                        (abs)        000F88
-_RCONbits                     (abs)        000FD0
 _T0CON                        (abs)        000FD5
 _T1CON                        (abs)        000FCD
 _TMR0                         (abs)        000FD6
@@ -307,12 +304,12 @@ __Hrparam                     rparam       000000
 __Hsfr                        sfr          000000
 __Hsmallconst                 smallconst   000000
 __Hspace_0                    (abs)        001000
-__Hspace_1                    (abs)        000032
+__Hspace_1                    (abs)        00002F
 __Hspace_2                    (abs)        000000
 __Hspace_4                    (abs)        60000E
 __Hstack                      stack        000000
 __Hstruct                     struct       000000
-__Htemp                       temp         000032
+__Htemp                       temp         00002F
 __Htext                       text         000000
 __Htext0                      text0        000000
 __Htext1                      text1        000000
@@ -322,7 +319,6 @@ __Htext12                     text12       000000
 __Htext13                     text13       000000
 __Htext14                     text14       000000
 __Htext17                     text17       000000
-__Htext18                     text18       000000
 __Htext2                      text2        000000
 __Htext3                      text3        000000
 __Htext4                      text4        000000
@@ -400,7 +396,7 @@ __Lspace_2                    (abs)        000000
 __Lspace_4                    (abs)        000000
 __Lstack                      stack        000000
 __Lstruct                     struct       000000
-__Ltemp                       temp         000031
+__Ltemp                       temp         00002E
 __Ltext                       text         000000
 __Ltext0                      text0        000000
 __Ltext1                      text1        000000
@@ -410,7 +406,6 @@ __Ltext12                     text12       000000
 __Ltext13                     text13       000000
 __Ltext14                     text14       000000
 __Ltext17                     text17       000000
-__Ltext18                     text18       000000
 __Ltext2                      text2        000000
 __Ltext3                      text3        000000
 __Ltext4                      text4        000000
@@ -419,16 +414,16 @@ __Ltext6                      text6        000000
 __Ltext7                      text7        000000
 __Ltext8                      text8        000000
 __Ltext9                      text9        000000
-__S0                          (abs)        000D8C
-__S1                          (abs)        000032
+__S0                          (abs)        000D05
+__S1                          (abs)        00002F
 __S2                          (abs)        000000
 __S4                          (abs)        000000
 __S5                          (abs)        000000
-___awmod                      text13       000A74
-___awmod@counter              cstackCOMRAM 00000C
-___awmod@dividend             cstackCOMRAM 000008
-___awmod@divisor              cstackCOMRAM 00000A
-___awmod@sign                 cstackCOMRAM 00000D
+___awmod                      text13       000A58
+___awmod@counter              cstackCOMRAM 000017
+___awmod@dividend             cstackCOMRAM 000013
+___awmod@divisor              cstackCOMRAM 000015
+___awmod@sign                 cstackCOMRAM 000018
 ___extmem_base                (abs)        020000
 ___inthi_sp                   stack        000000
 ___intlo_sp                   stack        000000
@@ -437,54 +432,52 @@ ___rparam_used                (abs)        000001
 ___sp                         stack        000000
 __accesstop                   (abs)        000060
 __activetblptr                (abs)        000003
-__end_of___awmod              text13       000B24
-__end_of__initialization      cinit        000C9A
-__end_of_game_task            text8        0003D6
-__end_of_health_decreaser     text14       000D4E
-__end_of_highPriorityISR      intcode_body 000D04
-__end_of_init_irq             text7        000D88
-__end_of_init_ports           text6        000C6E
-__end_of_init_vars            text5        000CD4
-__end_of_input_task           text4        0007B4
+__end_of___awmod              text13       000B08
+__end_of__initialization      cinit        000C72
+__end_of_game_task            text7        0003DE
+__end_of_health_decreaser     text14       000CAE
+__end_of_highPriorityISR      intcode_body 000CC6
+__end_of_init_irq             text6        000D02
+__end_of_init_ports           text11       000C00
+__end_of_init_vars            text5        000BB6
+__end_of_input_task           text4        000798
 __end_of_lowPriorityISR       intcodelo    000026
-__end_of_main                 text0        000C30
-__end_of_randomgen            text12       000918
-__end_of_reset_task           text11       000D6E
-__end_of_sevenSeg             text3        000A74
-__end_of_sevenSeg_controller  text2        00061A
-__end_of_shape_shifter        text10       000D1E
-__end_of_tmr_init             text1        000D60
-__end_of_tmr_isr              text18       000D7C
-__end_of_tmr_start            text9        000D36
-__end_ofi2___awmod            text17       000BD4
-__initialization              cinit        000C6E
+__end_of_main                 text0        000C48
+__end_of_randomgen            text12       0008FC
+__end_of_reset_task           text10       000CFC
+__end_of_sevenSeg             text3        000A58
+__end_of_sevenSeg_controller  text2        0005FA
+__end_of_shape_shifter        text9        000C96
+__end_of_tmr_init             text1        000CEE
+__end_of_tmr_isr              text17       000B6A
+__end_of_tmr_start            text8        000CDC
+__initialization              cinit        000C48
 __mediumconst                 mediumconst  000000
-__pbssCOMRAM                  bssCOMRAM    000017
-__pcinit                      cinit        000C6E
-__pcstackCOMRAM               cstackCOMRAM 000001
-__pdataCOMRAM                 dataCOMRAM   00002D
-__pidataCOMRAM                idataCOMRAM  000D88
+__pbssCOMRAM                  bssCOMRAM    000001
+__pcinit                      cinit        000C48
+__pcstackCOMRAM               cstackCOMRAM 000012
+__pdataCOMRAM                 dataCOMRAM   00002B
+__pidataCOMRAM                idataCOMRAM  000D02
 __pintcode                    intcode      000008
-__pintcode_body               intcode_body 000CD4
+__pintcode_body               intcode_body 000CAE
 __pintcodelo                  intcodelo    000018
-__pnvCOMRAM                   nvCOMRAM     000024
-__ptext0                      text0        000BD4
-__ptext1                      text1        000D4E
-__ptext10                     text10       000D04
-__ptext11                     text11       000D60
-__ptext12                     text12       0007B4
-__ptext13                     text13       000A74
-__ptext14                     text14       000D36
-__ptext17                     text17       000B24
-__ptext18                     text18       000D6E
-__ptext2                      text2        0003D6
-__ptext3                      text3        000918
-__ptext4                      text4        00061A
-__ptext5                      text5        000CA4
-__ptext6                      text6        000C30
-__ptext7                      text7        000D7C
-__ptext8                      text8        00002A
-__ptext9                      text9        000D1E
+__pnvCOMRAM                   nvCOMRAM     000022
+__ptext0                      text0        000C00
+__ptext1                      text1        000CDC
+__ptext10                     text10       000CEE
+__ptext11                     text11       000BB6
+__ptext12                     text12       000798
+__ptext13                     text13       000A58
+__ptext14                     text14       000C96
+__ptext17                     text17       000B08
+__ptext2                      text2        0003DE
+__ptext3                      text3        0008FC
+__ptext4                      text4        0005FA
+__ptext5                      text5        000B6A
+__ptext6                      text6        000CFC
+__ptext7                      text7        00002A
+__ptext8                      text8        000CC6
+__ptext9                      text9        000C7C
 __ramtop                      ramtop       001000
 __size_of___awmod             (abs)        000000
 __size_of_game_task           (abs)        000000
@@ -504,86 +497,83 @@ __size_of_shape_shifter       (abs)        000000
 __size_of_tmr_init            (abs)        000000
 __size_of_tmr_isr             (abs)        000000
 __size_of_tmr_start           (abs)        000000
-__size_ofi2___awmod           (abs)        000000
 __smallconst                  smallconst   000000
-_game_level                   dataCOMRAM   00002D
-_game_state                   bssCOMRAM    00001B
-_game_task                    text8        00002A
-_health                       nvCOMRAM     00002C
-_health_decreaser             text14       000D36
+_game_level                   nvCOMRAM     000022
+_game_state                   bssCOMRAM    000005
+_game_task                    text7        00002A
+_health                       nvCOMRAM     00002A
+_health_decreaser             text14       000C96
 _highPriorityISR              intcode      000008
-_htmrval                      bssCOMRAM    00001C
-_init_irq                     text7        000D7C
-_init_ports                   text6        000C30
-_init_vars                    text5        000CA4
-_input_task                   text4        00061A
-_isGameFinished               bssCOMRAM    000021
-_isGameStarted                nvCOMRAM     00002A
-_isPressed                    bssCOMRAM    00001F
-_isRC0Pressed                 bssCOMRAM    000020
-_isRG0Pressed                 nvCOMRAM     000029
-_isRG1Pressed                 nvCOMRAM     000028
-_isRG2Pressed                 nvCOMRAM     000027
-_isRG3Pressed                 nvCOMRAM     000026
-_isRG4Pressed                 nvCOMRAM     000025
-_level                        nvCOMRAM     00002B
-_level_subcount               bssCOMRAM    00001A
+_htmrval                      bssCOMRAM    000006
+_init_irq                     text6        000CFC
+_init_ports                   text11       000BB6
+_init_vars                    text5        000B6A
+_input_task                   text4        0005FA
+_isGameFinished               bssCOMRAM    00000B
+_isGameStarted                bssCOMRAM    00000C
+_isPressed                    bssCOMRAM    000009
+_isRC0Pressed                 bssCOMRAM    00000A
+_isRG0Pressed                 nvCOMRAM     000028
+_isRG1Pressed                 nvCOMRAM     000027
+_isRG2Pressed                 nvCOMRAM     000026
+_isRG3Pressed                 nvCOMRAM     000025
+_isRG4Pressed                 nvCOMRAM     000024
+_level                        nvCOMRAM     000029
+_level_subcount               bssCOMRAM    000004
 _lowPriorityISR               intcodelo    000018
-_ltmrval                      bssCOMRAM    000023
-_main                         text0        000BD4
-_randomgen                    text12       0007B4
-_reset_task                   text11       000D60
-_sevenSeg                     text3        000918
-_sevenSegCounter              bssCOMRAM    000022
-_sevenSeg_controller          text2        0003D6
-_shape_shifter                text10       000D04
-_starterDelay                 bssCOMRAM    00001E
-_tmr1flag                     bssCOMRAM    00001D
-_tmr_init                     text1        000D4E
-_tmr_isr                      text18       000D6E
-_tmr_start                    text9        000D1E
-_tmr_startreq                 bssCOMRAM    000018
-_tmr_state                    bssCOMRAM    000019
-_tmr_ticks_left               bssCOMRAM    000017
-_whichRG                      nvCOMRAM     000024
-btemp                         temp         000031
-end_of_initialization         cinit        000C9A
-game_task@count               cstackCOMRAM 000016
-i2___awmod                    text17       000B24
-i2___awmod@counter            cstackCOMRAM 000005
-i2___awmod@dividend           cstackCOMRAM 000001
-i2___awmod@divisor            cstackCOMRAM 000003
-i2___awmod@sign               cstackCOMRAM 000006
-int$flags                     temp         000031
-int_func                      intcode_body 000CD4
+_ltmrval                      bssCOMRAM    000011
+_main                         text0        000C00
+_randomgen                    text12       000798
+_reset_task                   text10       000CEE
+_sevenSeg                     text3        0008FC
+_sevenSeg2WayCounter          bssCOMRAM    00000F
+_sevenSeg3WayCounter          bssCOMRAM    00000E
+_sevenSeg4WayCounter          bssCOMRAM    00000D
+_sevenSegCounter              bssCOMRAM    000010
+_sevenSeg_controller          text2        0003DE
+_shape_shifter                text9        000C7C
+_starterDelay                 bssCOMRAM    000008
+_tmr1flag                     bssCOMRAM    000007
+_tmr_init                     text1        000CDC
+_tmr_isr                      text17       000B08
+_tmr_start                    text8        000CC6
+_tmr_startreq                 bssCOMRAM    000002
+_tmr_state                    bssCOMRAM    000003
+_tmr_ticks_left               bssCOMRAM    000001
+_whichRG                      nvCOMRAM     000023
+btemp                         temp         00002E
+end_of_initialization         cinit        000C72
+game_task@count               cstackCOMRAM 000021
+int$flags                     temp         00002E
+int_func                      intcode_body 000CAE
 intlevel0                     text         000000
 intlevel1                     text         000000
 intlevel2                     text         000000
 intlevel3                     text         000000
-randomgen@i                   cstackCOMRAM 00000E
-randomgen@intermbit           cstackCOMRAM 000013
-randomgen@lastbit             cstackCOMRAM 000012
-randomgen@noteval             cstackCOMRAM 000010
-randomgen@num                 cstackCOMRAM 000011
-randomgen@val                 cstackCOMRAM 00000F
-sevenSeg@D                    cstackCOMRAM 000008
-sevenSeg@J                    cstackCOMRAM 00000B
+randomgen@i                   cstackCOMRAM 000019
+randomgen@intermbit           cstackCOMRAM 00001E
+randomgen@lastbit             cstackCOMRAM 00001D
+randomgen@noteval             cstackCOMRAM 00001B
+randomgen@num                 cstackCOMRAM 00001C
+randomgen@val                 cstackCOMRAM 00001A
+sevenSeg@D                    cstackCOMRAM 000013
+sevenSeg@J                    cstackCOMRAM 000016
 stackhi                       (abs)        000F5F
 stacklo                       (abs)        000060
 start                         init         000026
-start_initialization          cinit        000C6E
-tmr_start@ticks               cstackCOMRAM 000008
-ttemp5                        temp         000032
-ttemp6                        temp         000035
-ttemp7                        temp         000039
-wtemp8                        temp         000032
+start_initialization          cinit        000C48
+tmr_start@ticks               cstackCOMRAM 000013
+ttemp5                        temp         00002F
+ttemp6                        temp         000032
+ttemp7                        temp         000036
+wtemp8                        temp         00002F
 
 
 FUNCTION INFORMATION:
 
  *************** function _main *****************
  Defined at:
-		line 683 in file "newmain.c"
+		line 724 in file "newmain.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
@@ -618,7 +608,7 @@ Total ram usage:        0 bytes
 
  *************** function _tmr_init *****************
  Defined at:
-		line 128 in file "newmain.c"
+		line 153 in file "newmain.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
@@ -648,7 +638,7 @@ Total ram usage:        0 bytes
 
  *************** function _sevenSeg_controller *****************
  Defined at:
-		line 315 in file "newmain.c"
+		line 355 in file "newmain.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
@@ -670,7 +660,6 @@ Total ram usage:        2 bytes
  Hardware stack levels used:    1
  Hardware stack levels required when called:    4
  This function calls:
-		___awmod
 		_sevenSeg
  This function is called by:
 		_main
@@ -679,12 +668,12 @@ Total ram usage:        2 bytes
 
  *************** function _sevenSeg *****************
  Defined at:
-		line 377 in file "newmain.c"
+		line 417 in file "newmain.c"
  Parameters:    Size  Location     Type
   J               1    wreg     unsigned char 
-  D               1    7[COMRAM] unsigned char 
+  D               1    1[COMRAM] unsigned char 
  Auto vars:     Size  Location     Type
-  J               1   10[COMRAM] unsigned char 
+  J               1    4[COMRAM] unsigned char 
  Return value:  Size  Location     Type
                   1    wreg      void 
  Registers used:
@@ -710,7 +699,7 @@ Total ram usage:        4 bytes
 
  *************** function _input_task *****************
  Defined at:
-		line 219 in file "newmain.c"
+		line 245 in file "newmain.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
@@ -718,7 +707,7 @@ Total ram usage:        4 bytes
  Return value:  Size  Location     Type
                   1    wreg      void 
  Registers used:
-		wreg, status,2, status,0
+		wreg, status,2, status,0, cstack
  Tracked objects:
 		On entry : 
 		On exit  : 
@@ -730,9 +719,10 @@ Total ram usage:        4 bytes
       Totals:         0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
 Total ram usage:        0 bytes
  Hardware stack levels used:    1
- Hardware stack levels required when called:    3
+ Hardware stack levels required when called:    4
  This function calls:
-		Nothing
+		_init_ports
+		_init_vars
  This function is called by:
 		_main
  This function uses a non-reentrant model
@@ -740,7 +730,7 @@ Total ram usage:        0 bytes
 
  *************** function _init_vars *****************
  Defined at:
-		line 61 in file "newmain.c"
+		line 64 in file "newmain.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
@@ -764,43 +754,14 @@ Total ram usage:        0 bytes
  This function calls:
 		Nothing
  This function is called by:
-		_main
- This function uses a non-reentrant model
-
-
- *************** function _init_ports *****************
- Defined at:
-		line 78 in file "newmain.c"
- Parameters:    Size  Location     Type
-		None
- Auto vars:     Size  Location     Type
-		None
- Return value:  Size  Location     Type
-                  1    wreg      void 
- Registers used:
-		wreg, status,2
- Tracked objects:
-		On entry : 
-		On exit  : 
-		Unchanged: 
- Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK11  BANK12  BANK13  BANK14  BANK15
-      Params:         0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
-      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
-      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
-      Totals:         0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
-Total ram usage:        0 bytes
- Hardware stack levels used:    1
- Hardware stack levels required when called:    3
- This function calls:
-		Nothing
- This function is called by:
+		_input_task
 		_main
  This function uses a non-reentrant model
 
 
  *************** function _init_irq *****************
  Defined at:
-		line 100 in file "newmain.c"
+		line 115 in file "newmain.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
@@ -830,11 +791,11 @@ Total ram usage:        0 bytes
 
  *************** function _game_task *****************
  Defined at:
-		line 473 in file "newmain.c"
+		line 514 in file "newmain.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
-  count           1   21[COMRAM] unsigned char 
+  count           1   15[COMRAM] unsigned char 
  Return value:  Size  Location     Type
                   1    wreg      void 
  Registers used:
@@ -864,15 +825,15 @@ Total ram usage:        3 bytes
 
  *************** function _tmr_start *****************
  Defined at:
-		line 140 in file "newmain.c"
+		line 165 in file "newmain.c"
  Parameters:    Size  Location     Type
   ticks           1    wreg     unsigned char 
  Auto vars:     Size  Location     Type
-  ticks           1    7[COMRAM] unsigned char 
+  ticks           1    1[COMRAM] unsigned char 
  Return value:  Size  Location     Type
                   1    wreg      void 
  Registers used:
-		wreg, status,2, status,0
+		wreg, status,2
  Tracked objects:
 		On entry : 
 		On exit  : 
@@ -894,7 +855,7 @@ Total ram usage:        1 bytes
 
  *************** function _shape_shifter *****************
  Defined at:
-		line 447 in file "newmain.c"
+		line 487 in file "newmain.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
@@ -924,7 +885,37 @@ Total ram usage:        0 bytes
 
  *************** function _reset_task *****************
  Defined at:
-		line 457 in file "newmain.c"
+		line 497 in file "newmain.c"
+ Parameters:    Size  Location     Type
+		None
+ Auto vars:     Size  Location     Type
+		None
+ Return value:  Size  Location     Type
+                  1    wreg      void 
+ Registers used:
+		wreg, status,2, cstack
+ Tracked objects:
+		On entry : 
+		On exit  : 
+		Unchanged: 
+ Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK11  BANK12  BANK13  BANK14  BANK15
+      Params:         0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
+      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
+      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
+      Totals:         0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
+Total ram usage:        0 bytes
+ Hardware stack levels used:    1
+ Hardware stack levels required when called:    4
+ This function calls:
+		_init_ports
+ This function is called by:
+		_game_task
+ This function uses a non-reentrant model
+
+
+ *************** function _init_ports *****************
+ Defined at:
+		line 91 in file "newmain.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
@@ -948,22 +939,24 @@ Total ram usage:        0 bytes
  This function calls:
 		Nothing
  This function is called by:
-		_game_task
+		_input_task
+		_reset_task
+		_main
  This function uses a non-reentrant model
 
 
  *************** function _randomgen *****************
  Defined at:
-		line 149 in file "newmain.c"
+		line 174 in file "newmain.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
-  intermbit       1   18[COMRAM] unsigned char 
-  lastbit         1   17[COMRAM] unsigned char 
-  num             1   16[COMRAM] unsigned char 
-  noteval         1   15[COMRAM] unsigned char 
-  val             1   14[COMRAM] unsigned char 
-  i               1   13[COMRAM] unsigned char 
+  intermbit       1   12[COMRAM] unsigned char 
+  lastbit         1   11[COMRAM] unsigned char 
+  num             1   10[COMRAM] unsigned char 
+  noteval         1    9[COMRAM] unsigned char 
+  val             1    8[COMRAM] unsigned char 
+  i               1    7[COMRAM] unsigned char 
  Return value:  Size  Location     Type
                   1    wreg      void 
  Registers used:
@@ -991,13 +984,13 @@ Total ram usage:        6 bytes
  Defined at:
 		line 7 in file "/opt/microchip/xc8/v2.30/pic/sources/c99/common/awmod.c"
  Parameters:    Size  Location     Type
-  dividend        2    7[COMRAM] int 
-  divisor         2    9[COMRAM] int 
+  dividend        2    1[COMRAM] int 
+  divisor         2    3[COMRAM] int 
  Auto vars:     Size  Location     Type
-  sign            1   12[COMRAM] unsigned char 
-  counter         1   11[COMRAM] unsigned char 
+  sign            1    6[COMRAM] unsigned char 
+  counter         1    5[COMRAM] unsigned char 
  Return value:  Size  Location     Type
-                  2    7[COMRAM] int 
+                  2    1[COMRAM] int 
  Registers used:
 		wreg, status,2, status,0
  Tracked objects:
@@ -1016,13 +1009,12 @@ Total ram usage:        6 bytes
 		Nothing
  This function is called by:
 		_randomgen
-		_sevenSeg_controller
  This function uses a non-reentrant model
 
 
  *************** function _health_decreaser *****************
  Defined at:
-		line 464 in file "newmain.c"
+		line 505 in file "newmain.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
@@ -1052,7 +1044,7 @@ Total ram usage:        0 bytes
 
  *************** function _lowPriorityISR *****************
  Defined at:
-		line 21 in file "newmain.c"
+		line 24 in file "newmain.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
@@ -1082,7 +1074,7 @@ Total ram usage:        1 bytes
 
  *************** function _highPriorityISR *****************
  Defined at:
-		line 14 in file "newmain.c"
+		line 17 in file "newmain.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
@@ -1105,46 +1097,14 @@ Total ram usage:        0 bytes
  Hardware stack levels required when called:    1
  This function calls:
 		_tmr_isr
-		i2___awmod
  This function is called by:
 		Interrupt level 2
  This function uses a non-reentrant model
 
 
- *************** function i2___awmod *****************
- Defined at:
-		line 7 in file "/opt/microchip/xc8/v2.30/pic/sources/c99/common/awmod.c"
- Parameters:    Size  Location     Type
-  dividend        2    0[COMRAM] int 
-  divisor         2    2[COMRAM] int 
- Auto vars:     Size  Location     Type
-  sign            1    5[COMRAM] unsigned char 
-  counter         1    4[COMRAM] unsigned char 
- Return value:  Size  Location     Type
-                  2    0[COMRAM] int 
- Registers used:
-		wreg, status,2, status,0
- Tracked objects:
-		On entry : 
-		On exit  : 
-		Unchanged: 
- Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK11  BANK12  BANK13  BANK14  BANK15
-      Params:         4       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
-      Locals:         2       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
-      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
-      Totals:         6       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
-Total ram usage:        6 bytes
- Hardware stack levels used:    1
- This function calls:
-		Nothing
- This function is called by:
-		_highPriorityISR
- This function uses a non-reentrant model
-
-
  *************** function _tmr_isr *****************
  Defined at:
-		line 122 in file "newmain.c"
+		line 135 in file "newmain.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
@@ -1152,7 +1112,7 @@ Total ram usage:        6 bytes
  Return value:  Size  Location     Type
                   1    wreg      void 
  Registers used:
-		wreg, status,2
+		wreg, status,2, status,0
  Tracked objects:
 		On entry : 
 		On exit  : 
@@ -1176,34 +1136,33 @@ MODULE INFORMATION
 
 Module		Function		Class		Link	Load	Size
 /opt/microchip/xc8/v2.30/pic/sources/c99/common/awmod.c
-		___awmod       		CODE           	0A74	0000	176
+		___awmod       		CODE           	0A58	0000	176
 
 /opt/microchip/xc8/v2.30/pic/sources/c99/common/awmod.c estimated size: 176
 
 newmain.c
-		_health_decreaser		CODE           	0D36	0000	24
-		_tmr_start     		CODE           	0D1E	0000	24
-		_randomgen     		CODE           	07B4	0000	356
-		_sevenSeg      		CODE           	0918	0000	348
-		_main          		CODE           	0BD4	0000	92
-		_init_ports    		CODE           	0C30	0000	62
-		_highPriorityISR		CODE           	0008	0000	54
-		_reset_task    		CODE           	0D60	0000	14
-		_sevenSeg_controller		CODE           	03D6	0000	580
-		_game_task     		CODE           	002A	0000	940
-		_shape_shifter 		CODE           	0D04	0000	26
-		_init_vars     		CODE           	0CA4	0000	48
-		_tmr_isr       		CODE           	0D6E	0000	14
-		_tmr_init      		CODE           	0D4E	0000	18
-		_input_task    		CODE           	061A	0000	410
+		_health_decreaser		CODE           	0C96	0000	24
+		_tmr_start     		CODE           	0CC6	0000	22
+		_randomgen     		CODE           	0798	0000	356
+		_sevenSeg      		CODE           	08FC	0000	348
+		_main          		CODE           	0C00	0000	72
+		_init_ports    		CODE           	0BB6	0000	74
+		_highPriorityISR		CODE           	0008	0000	30
+		_reset_task    		CODE           	0CEE	0000	14
+		_sevenSeg_controller		CODE           	03DE	0000	540
+		_game_task     		CODE           	002A	0000	948
+		_shape_shifter 		CODE           	0C7C	0000	26
+		_init_vars     		CODE           	0B6A	0000	76
+		_tmr_isr       		CODE           	0B08	0000	98
+		_tmr_init      		CODE           	0CDC	0000	18
+		_input_task    		CODE           	05FA	0000	414
 		_lowPriorityISR		CODE           	0018	0000	14
-		_init_irq      		CODE           	0D7C	0000	12
+		_init_irq      		CODE           	0CFC	0000	6
 
-newmain.c estimated size: 3036
+newmain.c estimated size: 3080
 
 shared
-		__initialization		CODE           	0C6E	0000	44
-		i2___awmod     		CODE           	0B24	0000	176
+		__initialization		CODE           	0C48	0000	42
 
-shared estimated size: 220
+shared estimated size: 42
 

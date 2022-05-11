@@ -37,7 +37,7 @@ int8_t isRG4Pressed;
 int8_t isPressed;
 int8_t starterDelay;
 uint8_t whichRG;
-uint8_t tmr1flag = 0;
+uint8_t tmr1flag;
 uint8_t ltmrval;
 uint8_t htmrval;
 
@@ -55,11 +55,11 @@ typedef enum
 } game_state_t;
 game_state_t game_state;
 
-uint8_t level_subcount = 0;
+uint8_t level_subcount;
 uint8_t L1 = 5, L2 = 10, L3 = 15;
 
 // Current game choices and the countdown
-uint8_t game_level = 1;
+uint8_t game_level;
 
 void init_vars()
 {
@@ -80,7 +80,14 @@ void init_vars()
     whichRG = 5;
     isPressed = 0;
     starterDelay = 0;
+    level_subcount = 0;
+    game_level = 1;
+    game_state = G_INIT;
+    tmr1flag = 0;
 }
+
+
+
 void init_ports()
 {
     ADCON1 = 0x0f; // MAYBE ff
@@ -101,6 +108,8 @@ void init_ports()
     PORTF = 0x00;
     PORTH = 0x00;
     PORTJ = 0x00;
+    
+    T1CON = 0xc1; // Setting TMR1 to generate random notes
 }
 
 void init_irq()
@@ -148,7 +157,7 @@ void tmr_init()
     // instruction cycle
     T0CON = 0x47; // internal clock with 1:256 prescaler and 8-bit
     TMR0 = 0x00;  // Initialize TMR0 to 0, without a PRELOAD
-    T1CON = 0xc9; // Setting TMR1 to generate random notes
+    T1CON = 0xc1; // Setting TMR1 to generate random notes
 }
 // This function resets and starts the timer with the given max counter
 // and ticks. The total time waited is ticks*cntmax, after which the timer
@@ -173,6 +182,7 @@ void randomgen()
         htmrval = TMR1H;
         noteval = 0x07 & ltmrval; // Reading Timer1 value
         tmr1flag = 1;
+        
     }
     if (tmr1flag == 1)
     {
@@ -240,21 +250,34 @@ void input_task()
     if (!isGameStarted || isGameFinished)
     {
         if (isRC0Pressed == 1)
-        {
+        {/*
             if (PORTCbits.RC0== 0)
             {
+                init_vars();
+                init_ports();
                 isRC0Pressed = 0;
                 isGameStarted = 1;
                 isGameFinished = 0;
                 TRISC = 0x00;
                 PORTC = 0x00;
                 T0CON |= 0x80; // Set TMR0ON
-            }
+                T1CON = 0xc9;
+            }*/
         }
         else if (PORTCbits.RC0 == 1)
         {
+            health = 9;
             isRC0Pressed = 1;
             game_state = G_INIT;
+                init_vars();
+                init_ports();
+                isRC0Pressed = 0;
+                isGameStarted = 1;
+                isGameFinished = 0;
+                TRISC = 0x00;
+                PORTC = 0x00;
+                T0CON |= 0x80; // Set TMR0ON
+                T1CON = 0xc9;
         }
     }
     ///////////////////////////////////////////////////RG TASK///////////////////////////////////////////////////
@@ -473,9 +496,10 @@ void shape_shifter()
 
 void reset_task()
 {
-    isGameFinished = 1;
+
     isGameStarted = 0;
-    tmr1flag = 0;
+    isGameFinished = 1;
+    init_ports();
 }
 
 void health_decreaser()
@@ -708,7 +732,7 @@ void main(void)
         // TODO: 7seg time-based things
         // TODO: 7seg task
         input_task();
-        // sevenSeg_controller();      // TODO: try to implement in another way
+        sevenSeg_controller();      // TODO: try to implement in another way
         // TIMER1
         if ((isGameStarted == 0) || (isGameFinished == 1))
         {
