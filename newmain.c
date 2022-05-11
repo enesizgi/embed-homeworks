@@ -241,7 +241,7 @@ void input_task()
     {
         if (isRC0Pressed == 1)
         {
-            if (PORTCbits.RC0 == 0)
+            if (PORTCbits.RC0== 0)
             {
                 isRC0Pressed = 0;
                 isGameStarted = 1;
@@ -703,12 +703,6 @@ void main(void)
     init_ports(); // DONE
     tmr_init();   // DONE
     init_irq();   // DONE
-//    isRC0Pressed = 0;
-//    isGameStarted = 1;
-//    isGameFinished = 0;
-//    TRISC = 0x00;
-//    PORTC = 0x00;
-//    T0CON |= 0x80; // Set TMR0ON
     while (1)
     {
         // TODO: 7seg time-based things
