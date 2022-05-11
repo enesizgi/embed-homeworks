@@ -76,6 +76,7 @@ void init_vars()
 void init_ports()
 {
     ADCON1 = 0x0f;  //MAYBE ff
+    ADCON0bits.ADON = 0;
     TRISA = 0x00; //
     TRISB = 0x00; //
     TRISC = 0x01; // TRIS RC0 will be changed during the game
@@ -419,6 +420,9 @@ void sevenSeg(uint8_t J, uint8_t D)
         break;
     case 13: // d
         PORTJ = 0x5e;
+        break;
+    default:
+        PORTJ = 0x7f;
         break;
     }
     switch (D)
