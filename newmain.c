@@ -31,6 +31,7 @@ int8_t isRG1Pressed;
 int8_t isRG2Pressed;
 int8_t isRG3Pressed;
 int8_t isRG4Pressed;
+int8_t isPressed;
 uint8_t whichRG;
 uint8_t tmr1flag = 0;
 uint8_t ltmrval;
@@ -70,9 +71,11 @@ void init_vars()
     isRG4Pressed = -1;
     sevenSegCounter = 0;
     whichRG = 5;
+    isPressed = 0;
 }
 void init_ports()
 {
+    ADCON1 = 0x0f;  //MAYBE ff
     TRISA = 0x00; //
     TRISB = 0x00; //
     TRISC = 0x01; // TRIS RC0 will be changed during the game
@@ -111,8 +114,8 @@ typedef enum
     TMR_DONE
 } tmr_state_t;
 tmr_state_t tmr_state = TMR_RUN; // Current timer state
-uint8_t tmr_startreq = 0;         // Flag to request the timer to start
-uint8_t tmr_ticks_left;           // Number of "ticks" until "done"
+uint8_t tmr_startreq = 0;        // Flag to request the timer to start
+uint8_t tmr_ticks_left;          // Number of "ticks" until "done"
 
 void tmr_isr()
 {
@@ -155,6 +158,7 @@ void randomgen()
     }
     if (tmr1flag == 1)
     {
+        noteval = 0x07 & ltmrval; // Reading Timer1 value
         noteval = noteval % 5;
         val = 0x01;
         for (i = 0; i < noteval; i++)
@@ -363,7 +367,7 @@ void sevenSeg_controller()
         else if (sevenSegCounter % 4 == 2)
             sevenSeg(5, 2); // S
         else
-            sevenSeg(11, 0); // E
+            sevenSeg(11, 3); // E
         break;
     }
 }
@@ -378,7 +382,7 @@ void sevenSeg(uint8_t J, uint8_t D)
         PORTJ = 0x3f; // abcdef    -> 1111 1100
         break;
     case 1:
-        PORTJ = 0x3d; // bc         -> 0110 0000
+        PORTJ = 0x06; // bc         -> 0110 0000
         break;
     case 2:
         PORTJ = 0x5b;
@@ -405,7 +409,7 @@ void sevenSeg(uint8_t J, uint8_t D)
         PORTJ = 0x6f;
         break;
     case 10: // L
-        PORTJ = 0xd8;
+        PORTJ = 0x38;
         break;
     case 11: // E
         PORTJ = 0x79;
@@ -472,19 +476,38 @@ void game_task()
     // MAYBE don't sure about not pressing a button, is it to be punished here or by means of counter ???
     // Now it does NOT checks for not pressing, if you want to check it go to proper commit.
     uint8_t count = 0;
-    if (isRG0Pressed != -1)
+    if (isRG0Pressed == 1)
+    {
         count++;
-    if (isRG1Pressed != -1)
+        isRG0Pressed = -1;
+    }
+    if (isRG1Pressed == 1)
+    {
         count++;
-    if (isRG2Pressed != -1)
+        isRG1Pressed = -1;
+    }
+    if (isRG2Pressed == 1)
+    {
         count++;
-    if (isRG3Pressed != -1)
+        isRG2Pressed = -1;
+    }
+    if (isRG3Pressed == 1)
+    {
         count++;
-    if (isRG4Pressed != -1)
+        isRG3Pressed = -1;
+    }
+    if (isRG4Pressed == 1)
+    {
         count++;
+        isRG4Pressed = -1;
+    }
 
     if (count > 1)
+    {
         whichRG = -1;
+        isPressed = 1;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     switch (whichRG)
@@ -525,6 +548,7 @@ void game_task()
     default:
         break;
     }
+    whichRG = 5;
     switch (game_state)
     {
     case G_INIT:
@@ -540,6 +564,14 @@ void game_task()
 
         if (tmr_state == TMR_DONE) // 500 ms passed
         {
+            if (isPressed == 0)
+            {
+                health_decreaser();
+            }
+            else
+            {
+                isPressed = 0;
+            }
             if (level_subcount < L1)
             {
                 shape_shifter(); // Shift RA->RB, RB-RC, ... , RE->RF
@@ -570,6 +602,14 @@ void game_task()
     case LEVEL2:
         if (tmr_state == TMR_DONE) // 400 ms passed
         {
+            if (isPressed == 0)
+            {
+                health_decreaser();
+            }
+            else
+            {
+                isPressed = 0;
+            }
             if (level_subcount < L2)
             {
                 shape_shifter(); // Shift RA->RB, RB-RC, ... , RE->RF
@@ -583,7 +623,7 @@ void game_task()
             ++level_subcount;
             if (level_subcount == 6 + L2) // 5 is the A B C D E F PORST count  i.e., level_subcount == 11
             {
-                game_state = LEVEL2;
+                game_state = LEVEL3_INIT;
             }
             tmr_start(61); // TMR0 counts 61 times so that 400 ms
         }
@@ -600,6 +640,14 @@ void game_task()
     case LEVEL3:
         if (tmr_state == TMR_DONE) // 300 ms passed
         {
+            if (isPressed == 0)
+            {
+                health_decreaser();
+            }
+            else
+            {
+                isPressed = 0;
+            }
             if (level_subcount < L3)
             {
                 shape_shifter(); // Shift RA->RB, RB-RC, ... , RE->RF
