@@ -24,22 +24,16 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;newmain.c: 12: uint8_t health;
 [v _tmr_isr `(v ~T0 @X0 0 e? ]
 [t T111 __interrupt low_priority ]
-"52
-[; ;newmain.c: 52:     isGameStarted = 0;
-[c E4595 0 1 2 3 4 5 6 7 .. ]
-[n E4595 . G_INIT LEVEL1 LEVEL2_INIT LEVEL2 LEVEL3_INIT LEVEL3 END LOSE  ]
-"10174 /opt/microchip/mplabx/v5.45/packs/Microchip/PIC18Fxxxx_DFP/1.2.26/xc8/pic/include/proc/pic18f8722.h
-[; ;/opt/microchip/mplabx/v5.45/packs/Microchip/PIC18Fxxxx_DFP/1.2.26/xc8/pic/include/proc/pic18f8722.h: 10174: extern volatile unsigned char ADCON1 __attribute__((address(0xFC1)));
-[v _ADCON1 `Vuc ~T0 @X0 0 e@4033 ]
-"5457
+"53
+[; ;newmain.c: 53:     isGameStarted = 0;
+[c E4596 0 1 2 3 4 5 6 7 .. ]
+[n E4596 . G_INIT LEVEL1 LEVEL2_INIT LEVEL2 LEVEL3_INIT LEVEL3 END LOSE  ]
+"5457 /opt/microchip/mplabx/v5.45/packs/Microchip/PIC18Fxxxx_DFP/1.2.26/xc8/pic/include/proc/pic18f8722.h
 [; ;/opt/microchip/mplabx/v5.45/packs/Microchip/PIC18Fxxxx_DFP/1.2.26/xc8/pic/include/proc/pic18f8722.h: 5457: extern volatile unsigned char TRISA __attribute__((address(0xF92)));
 [v _TRISA `Vuc ~T0 @X0 0 e@3986 ]
 "5679
 [; ;/opt/microchip/mplabx/v5.45/packs/Microchip/PIC18Fxxxx_DFP/1.2.26/xc8/pic/include/proc/pic18f8722.h: 5679: extern volatile unsigned char TRISB __attribute__((address(0xF93)));
 [v _TRISB `Vuc ~T0 @X0 0 e@3987 ]
-"5901
-[; ;/opt/microchip/mplabx/v5.45/packs/Microchip/PIC18Fxxxx_DFP/1.2.26/xc8/pic/include/proc/pic18f8722.h: 5901: extern volatile unsigned char TRISC __attribute__((address(0xF94)));
-[v _TRISC `Vuc ~T0 @X0 0 e@3988 ]
 "6123
 [; ;/opt/microchip/mplabx/v5.45/packs/Microchip/PIC18Fxxxx_DFP/1.2.26/xc8/pic/include/proc/pic18f8722.h: 6123: extern volatile unsigned char TRISD __attribute__((address(0xF95)));
 [v _TRISD `Vuc ~T0 @X0 0 e@3989 ]
@@ -117,10 +111,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "12084
 [; ;/opt/microchip/mplabx/v5.45/packs/Microchip/PIC18Fxxxx_DFP/1.2.26/xc8/pic/include/proc/pic18f8722.h: 12084: extern volatile RCONbits_t RCONbits __attribute__((address(0xFD0)));
 [v _RCONbits `VS456 ~T0 @X0 0 e@4048 ]
-"116 newmain.c
-[; ;newmain.c: 116: 
-[c E4614 0 1 .. ]
-[n E4614 . TMR_RUN TMR_DONE  ]
+"118 newmain.c
+[; ;newmain.c: 118: 
+[c E4615 0 1 .. ]
+[n E4615 . TMR_RUN TMR_DONE  ]
 "12557 /opt/microchip/mplabx/v5.45/packs/Microchip/PIC18Fxxxx_DFP/1.2.26/xc8/pic/include/proc/pic18f8722.h
 [; ;/opt/microchip/mplabx/v5.45/packs/Microchip/PIC18Fxxxx_DFP/1.2.26/xc8/pic/include/proc/pic18f8722.h: 12557: extern volatile unsigned char T0CON __attribute__((address(0xFD5)));
 [v _T0CON `Vuc ~T0 @X0 0 e@4053 ]
@@ -167,6 +161,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "3005
 [; ;/opt/microchip/mplabx/v5.45/packs/Microchip/PIC18Fxxxx_DFP/1.2.26/xc8/pic/include/proc/pic18f8722.h: 3005: extern volatile PORTCbits_t PORTCbits __attribute__((address(0xF82)));
 [v _PORTCbits `VS130 ~T0 @X0 0 e@3970 ]
+"5901
+[; ;/opt/microchip/mplabx/v5.45/packs/Microchip/PIC18Fxxxx_DFP/1.2.26/xc8/pic/include/proc/pic18f8722.h: 5901: extern volatile unsigned char TRISC __attribute__((address(0xF94)));
+[v _TRISC `Vuc ~T0 @X0 0 e@3988 ]
 "2943
 [; ;/opt/microchip/mplabx/v5.45/packs/Microchip/PIC18Fxxxx_DFP/1.2.26/xc8/pic/include/proc/pic18f8722.h: 2943: extern volatile unsigned char PORTC __attribute__((address(0xF82)));
 [v _PORTC `Vuc ~T0 @X0 0 e@3970 ]
@@ -201,8 +198,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "3965
 [; ;/opt/microchip/mplabx/v5.45/packs/Microchip/PIC18Fxxxx_DFP/1.2.26/xc8/pic/include/proc/pic18f8722.h: 3965: extern volatile PORTGbits_t PORTGbits __attribute__((address(0xF86)));
 [v _PORTGbits `VS161 ~T0 @X0 0 e@3974 ]
-"312 newmain.c
-[; ;newmain.c: 312:         if (sevenSegCounter % 2 == 0)
+"314 newmain.c
+[; ;newmain.c: 314:         if (sevenSegCounter % 2 == 0)
 [v _sevenSeg `(v ~T0 @X0 0 ef2`uc`uc ]
 "3762 /opt/microchip/mplabx/v5.45/packs/Microchip/PIC18Fxxxx_DFP/1.2.26/xc8/pic/include/proc/pic18f8722.h
 [; ;/opt/microchip/mplabx/v5.45/packs/Microchip/PIC18Fxxxx_DFP/1.2.26/xc8/pic/include/proc/pic18f8722.h: 3762:     struct {
@@ -871,64 +868,67 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :UE 503 ]
 }
 "24
-[; ;newmain.c: 24: uint8_t tmr1flag = 0;
+[; ;newmain.c: 24: uint8_t whichRG;
 [v _health `uc ~T0 @X0 1 e ]
 "25
-[; ;newmain.c: 25: uint8_t ltmrval;
+[; ;newmain.c: 25: uint8_t tmr1flag = 0;
 [v _level `uc ~T0 @X0 1 e ]
 "26
-[; ;newmain.c: 26: uint8_t htmrval;
+[; ;newmain.c: 26: uint8_t ltmrval;
 [v _isGameStarted `uc ~T0 @X0 1 e ]
 "27
-[; ;newmain.c: 27: 
+[; ;newmain.c: 27: uint8_t htmrval;
 [v _isGameFinished `uc ~T0 @X0 1 e ]
 "28
 [; ;newmain.c: 28: 
 [v _isRC0Pressed `c ~T0 @X0 1 e ]
 "29
-[; ;newmain.c: 29: typedef enum
+[; ;newmain.c: 29: 
 [v _isRG0Pressed `c ~T0 @X0 1 e ]
 "30
-[; ;newmain.c: 30: {
+[; ;newmain.c: 30: typedef enum
 [v _isRG1Pressed `c ~T0 @X0 1 e ]
 "31
-[; ;newmain.c: 31:     G_INIT,
+[; ;newmain.c: 31: {
 [v _isRG2Pressed `c ~T0 @X0 1 e ]
 "32
-[; ;newmain.c: 32:     LEVEL1,
+[; ;newmain.c: 32:     G_INIT,
 [v _isRG3Pressed `c ~T0 @X0 1 e ]
 "33
-[; ;newmain.c: 33:     LEVEL2_INIT,
+[; ;newmain.c: 33:     LEVEL1,
 [v _isRG4Pressed `c ~T0 @X0 1 e ]
 "34
-[; ;newmain.c: 34:     LEVEL2,
+[; ;newmain.c: 34:     LEVEL2_INIT,
 [v _isPressed `c ~T0 @X0 1 e ]
 "35
-[; ;newmain.c: 35:     LEVEL3_INIT,
-[v _whichRG `uc ~T0 @X0 1 e ]
+[; ;newmain.c: 35:     LEVEL2,
+[v _starterDelay `c ~T0 @X0 1 e ]
 "36
-[; ;newmain.c: 36:     LEVEL3,
+[; ;newmain.c: 36:     LEVEL3_INIT,
+[v _whichRG `uc ~T0 @X0 1 e ]
+"37
+[; ;newmain.c: 37:     LEVEL3,
 [v _tmr1flag `uc ~T0 @X0 1 e ]
 [i _tmr1flag
 -> -> 0 `i `uc
 ]
-"37
-[; ;newmain.c: 37:     END,
-[v _ltmrval `uc ~T0 @X0 1 e ]
 "38
-[; ;newmain.c: 38:     LOSE
+[; ;newmain.c: 38:     END,
+[v _ltmrval `uc ~T0 @X0 1 e ]
+"39
+[; ;newmain.c: 39:     LOSE
 [v _htmrval `uc ~T0 @X0 1 e ]
-"52
-[; ;newmain.c: 52:     isGameStarted = 0;
-[v _game_state `E4595 ~T0 @X0 1 e ]
-"54
-[; ;newmain.c: 54:     isRC0Pressed = 0;
+"53
+[; ;newmain.c: 53:     isGameStarted = 0;
+[v _game_state `E4596 ~T0 @X0 1 e ]
+"55
+[; ;newmain.c: 55:     isRC0Pressed = 0;
 [v _level_subcount `uc ~T0 @X0 1 e ]
 [i _level_subcount
 -> -> 0 `i `uc
 ]
-"55
-[; ;newmain.c: 55:     isRG0Pressed = -1;
+"56
+[; ;newmain.c: 56:     isRG0Pressed = -1;
 [v _L1 `uc ~T0 @X0 1 e ]
 [i _L1
 -> -> 5 `i `uc
@@ -941,1119 +941,1116 @@ Version 4.0 HI-TECH Software Intermediate Code
 [i _L3
 -> -> 15 `i `uc
 ]
-"58
-[; ;newmain.c: 58:     isRG3Pressed = -1;
+"59
+[; ;newmain.c: 59:     isRG3Pressed = -1;
 [v _game_level `uc ~T0 @X0 1 e ]
 [i _game_level
 -> -> 1 `i `uc
 ]
-"60
-[; ;newmain.c: 60:     sevenSegCounter = 0;
-[v _init_vars `(v ~T0 @X0 1 ef ]
 "61
-[; ;newmain.c: 61:     whichRG = 5;
+[; ;newmain.c: 61:     sevenSegCounter = 0;
+[v _init_vars `(v ~T0 @X0 1 ef ]
+"62
+[; ;newmain.c: 62:     whichRG = 5;
 {
 [e :U _init_vars ]
 [f ]
-"62
-[; ;newmain.c: 62:     isPressed = 0;
-[e = _health -> -> 9 `i `uc ]
 "63
-[; ;newmain.c: 63: }
-[e = _level -> -> 1 `i `uc ]
+[; ;newmain.c: 63:     isPressed = 0;
+[e = _health -> -> 9 `i `uc ]
 "64
-[; ;newmain.c: 64: void init_ports()
-[e = _isGameStarted -> -> 0 `i `uc ]
+[; ;newmain.c: 64:     starterDelay = 0;
+[e = _level -> -> 1 `i `uc ]
 "65
-[; ;newmain.c: 65: {
-[e = _isGameFinished -> -> 0 `i `uc ]
+[; ;newmain.c: 65: }
+[e = _isGameStarted -> -> 0 `i `uc ]
 "66
-[; ;newmain.c: 66:     ADCON1 = 0x0f;
-[e = _isRC0Pressed -> -> 0 `i `c ]
+[; ;newmain.c: 66: void init_ports()
+[e = _isGameFinished -> -> 0 `i `uc ]
 "67
-[; ;newmain.c: 67:     TRISA = 0x00;
-[e = _isRG0Pressed -> -U -> 1 `i `c ]
+[; ;newmain.c: 67: {
+[e = _isRC0Pressed -> -> 0 `i `c ]
 "68
-[; ;newmain.c: 68:     TRISB = 0x00;
-[e = _isRG1Pressed -> -U -> 1 `i `c ]
+[; ;newmain.c: 68: 
+[e = _isRG0Pressed -> -U -> 1 `i `c ]
 "69
-[; ;newmain.c: 69:     TRISC = 0x01;
-[e = _isRG2Pressed -> -U -> 1 `i `c ]
+[; ;newmain.c: 69:     TRISA = 0x00;
+[e = _isRG1Pressed -> -U -> 1 `i `c ]
 "70
-[; ;newmain.c: 70:     TRISD = 0x00;
-[e = _isRG3Pressed -> -U -> 1 `i `c ]
+[; ;newmain.c: 70:     TRISB = 0x00;
+[e = _isRG2Pressed -> -U -> 1 `i `c ]
 "71
-[; ;newmain.c: 71:     TRISE = 0x00;
-[e = _isRG4Pressed -> -U -> 1 `i `c ]
+[; ;newmain.c: 71: 
+[e = _isRG3Pressed -> -U -> 1 `i `c ]
 "72
-[; ;newmain.c: 72:     TRISF = 0x00;
-[e = _sevenSegCounter -> -> 0 `i `uc ]
+[; ;newmain.c: 72:     TRISD = 0x00;
+[e = _isRG4Pressed -> -U -> 1 `i `c ]
 "73
-[; ;newmain.c: 73:     TRISG = 0x1f;
-[e = _whichRG -> -> 5 `i `uc ]
+[; ;newmain.c: 73:     TRISE = 0x00;
+[e = _sevenSegCounter -> -> 0 `i `uc ]
 "74
-[; ;newmain.c: 74:     TRISH = 0x00;
-[e = _isPressed -> -> 0 `i `c ]
+[; ;newmain.c: 74:     TRISF = 0x00;
+[e = _whichRG -> -> 5 `i `uc ]
 "75
-[; ;newmain.c: 75:     TRISJ = 0x00;
+[; ;newmain.c: 75:     TRISG = 0x1f;
+[e = _isPressed -> -> 0 `i `c ]
+"76
+[; ;newmain.c: 76:     TRISH = 0x00;
+[e = _starterDelay -> -> 0 `i `c ]
+"77
+[; ;newmain.c: 77:     TRISJ = 0x00;
 [e :UE 504 ]
 }
-"76
-[; ;newmain.c: 76: 
+"78
+[; ;newmain.c: 78: 
 [v _init_ports `(v ~T0 @X0 1 ef ]
-"77
-[; ;newmain.c: 77:     PORTA = 0x00;
+"79
+[; ;newmain.c: 79:     PORTA = 0x00;
 {
 [e :U _init_ports ]
 [f ]
-"78
-[; ;newmain.c: 78:     PORTB = 0x00;
-[e = _ADCON1 -> -> 15 `i `uc ]
-"79
-[; ;newmain.c: 79:     PORTD = 0x00;
-[e = _TRISA -> -> 0 `i `uc ]
-"80
-[; ;newmain.c: 80:     PORTE = 0x00;
-[e = _TRISB -> -> 0 `i `uc ]
 "81
-[; ;newmain.c: 81:     PORTF = 0x00;
-[e = _TRISC -> -> 1 `i `uc ]
+[; ;newmain.c: 81:     PORTD = 0x00;
+[e = _TRISA -> -> 0 `i `uc ]
 "82
-[; ;newmain.c: 82:     PORTH = 0x00;
-[e = _TRISD -> -> 0 `i `uc ]
-"83
-[; ;newmain.c: 83:     PORTJ = 0x00;
-[e = _TRISE -> -> 0 `i `uc ]
+[; ;newmain.c: 82:     PORTE = 0x00;
+[e = _TRISB -> -> 0 `i `uc ]
 "84
-[; ;newmain.c: 84: }
-[e = _TRISF -> -> 0 `i `uc ]
+[; ;newmain.c: 84:     PORTH = 0x00;
+[e = _TRISD -> -> 0 `i `uc ]
 "85
-[; ;newmain.c: 85: 
-[e = _TRISG -> -> 31 `i `uc ]
+[; ;newmain.c: 85:     PORTJ = 0x00;
+[e = _TRISE -> -> 0 `i `uc ]
 "86
-[; ;newmain.c: 86: void init_irq()
-[e = _TRISH -> -> 0 `i `uc ]
+[; ;newmain.c: 86: }
+[e = _TRISF -> -> 0 `i `uc ]
 "87
-[; ;newmain.c: 87: {
-[e = _TRISJ -> -> 0 `i `uc ]
+[; ;newmain.c: 87: 
+[e = _TRISG -> -> 31 `i `uc ]
+"88
+[; ;newmain.c: 88: void init_irq()
+[e = _TRISH -> -> 0 `i `uc ]
 "89
-[; ;newmain.c: 89:     INTCONbits.TMR0IE = 1;
-[e = _PORTA -> -> 0 `i `uc ]
-"90
-[; ;newmain.c: 90:     INTCONbits.GIE = 1;
-[e = _PORTB -> -> 0 `i `uc ]
+[; ;newmain.c: 89: {
+[e = _TRISJ -> -> 0 `i `uc ]
 "91
-[; ;newmain.c: 91:     RCONbits.IPEN = 0;
-[e = _PORTD -> -> 0 `i `uc ]
+[; ;newmain.c: 91:     INTCONbits.TMR0IE = 1;
+[e = _PORTA -> -> 0 `i `uc ]
 "92
-[; ;newmain.c: 92: }
-[e = _PORTE -> -> 0 `i `uc ]
+[; ;newmain.c: 92:     INTCONbits.GIE = 1;
+[e = _PORTB -> -> 0 `i `uc ]
 "93
-[; ;newmain.c: 93: 
-[e = _PORTF -> -> 0 `i `uc ]
+[; ;newmain.c: 93:     RCONbits.IPEN = 0;
+[e = _PORTD -> -> 0 `i `uc ]
 "94
-[; ;newmain.c: 94: 
-[e = _PORTH -> -> 0 `i `uc ]
+[; ;newmain.c: 94: }
+[e = _PORTE -> -> 0 `i `uc ]
 "95
 [; ;newmain.c: 95: 
-[e = _PORTJ -> -> 0 `i `uc ]
+[e = _PORTF -> -> 0 `i `uc ]
 "96
 [; ;newmain.c: 96: 
-[e :UE 505 ]
-}
+[e = _PORTH -> -> 0 `i `uc ]
+"97
+[; ;newmain.c: 97: 
+[e = _PORTJ -> -> 0 `i `uc ]
 "98
 [; ;newmain.c: 98: 
+[e :UE 505 ]
+}
+"100
+[; ;newmain.c: 100: 
 [v _init_irq `(v ~T0 @X0 1 ef ]
-"99
-[; ;newmain.c: 99: typedef enum
+"101
+[; ;newmain.c: 101: typedef enum
 {
 [e :U _init_irq ]
 [f ]
-"100
-[; ;newmain.c: 100: {
-[e = _INTCON -> -> 16 `i `uc ]
-"101
-[; ;newmain.c: 101:     TMR_RUN,
-[e = . . _INTCONbits 0 5 -> -> 1 `i `uc ]
 "102
-[; ;newmain.c: 102:     TMR_DONE
-[e = . . _INTCONbits 1 7 -> -> 1 `i `uc ]
+[; ;newmain.c: 102: {
+[e = _INTCON -> -> 16 `i `uc ]
 "103
-[; ;newmain.c: 103: } tmr_state_t;
-[e = . . _RCONbits 5 7 -> -> 0 `i `uc ]
+[; ;newmain.c: 103:     TMR_RUN,
+[e = . . _INTCONbits 0 5 -> -> 1 `i `uc ]
 "104
-[; ;newmain.c: 104: tmr_state_t tmr_state = TMR_RUN;
+[; ;newmain.c: 104:     TMR_DONE
+[e = . . _INTCONbits 1 7 -> -> 1 `i `uc ]
+"105
+[; ;newmain.c: 105: } tmr_state_t;
+[e = . . _RCONbits 5 7 -> -> 0 `i `uc ]
+"106
+[; ;newmain.c: 106: tmr_state_t tmr_state = TMR_RUN;
 [e :UE 506 ]
 }
-"116
-[; ;newmain.c: 116: 
-[v _tmr_state `E4614 ~T0 @X0 1 e ]
+"118
+[; ;newmain.c: 118: 
+[v _tmr_state `E4615 ~T0 @X0 1 e ]
 [i _tmr_state
-. `E4614 0
+. `E4615 0
 ]
-"117
-[; ;newmain.c: 117: 
+"119
+[; ;newmain.c: 119: 
 [v _tmr_startreq `uc ~T0 @X0 1 e ]
 [i _tmr_startreq
 -> -> 0 `i `uc
 ]
-"118
-[; ;newmain.c: 118: 
-[v _tmr_ticks_left `uc ~T0 @X0 1 e ]
 "120
-[; ;newmain.c: 120:     TMR0 = 0x00;
+[; ;newmain.c: 120: 
+[v _tmr_ticks_left `uc ~T0 @X0 1 e ]
+"122
+[; ;newmain.c: 122:     TMR0 = 0x00;
 [v _tmr_isr `(v ~T0 @X0 1 ef ]
-"121
-[; ;newmain.c: 121:     T1CON = 0xc9;
+"123
+[; ;newmain.c: 123:     T1CON = 0xc9;
 {
 [e :U _tmr_isr ]
 [f ]
-"122
-[; ;newmain.c: 122: }
-[e = . . _INTCONbits 0 2 -> -> 0 `i `uc ]
-"123
-[; ;newmain.c: 123: 
-[e $ ! == -> =- _tmr_ticks_left -> -> 1 `i `uc `i -> 0 `i 508  ]
 "124
-[; ;newmain.c: 124: 
-[e = _tmr_state . `E4614 1 ]
-[e :U 508 ]
+[; ;newmain.c: 124: }
+[e = . . _INTCONbits 0 2 -> -> 0 `i `uc ]
 "125
 [; ;newmain.c: 125: 
+[e $ ! == -> =- _tmr_ticks_left -> -> 1 `i `uc `i -> 0 `i 508  ]
+"126
+[; ;newmain.c: 126: 
+[e = _tmr_state . `E4615 1 ]
+[e :U 508 ]
+"127
+[; ;newmain.c: 127: 
 [e :UE 507 ]
 }
-"126
-[; ;newmain.c: 126: void tmr_start(uint8_t ticks)
+"128
+[; ;newmain.c: 128: void tmr_start(uint8_t ticks)
 [v _tmr_init `(v ~T0 @X0 1 ef ]
-"127
-[; ;newmain.c: 127: {
+"129
+[; ;newmain.c: 129: {
 {
 [e :U _tmr_init ]
 [f ]
-"131
-[; ;newmain.c: 131:     INTCONbits.T0IF = 0;
-[e = _T0CON -> -> 71 `i `uc ]
-"132
-[; ;newmain.c: 132:     T0CON |= 0x80;
-[e = _TMR0 -> -> 0 `i `us ]
 "133
-[; ;newmain.c: 133: }
-[e = _T1CON -> -> 201 `i `uc ]
+[; ;newmain.c: 133:     INTCONbits.T0IF = 0;
+[e = _T0CON -> -> 71 `i `uc ]
 "134
-[; ;newmain.c: 134: 
+[; ;newmain.c: 134:     T0CON |= 0x80;
+[e = _TMR0 -> -> 0 `i `us ]
+"135
+[; ;newmain.c: 135: }
+[e = _T1CON -> -> 201 `i `uc ]
+"136
+[; ;newmain.c: 136: 
 [e :UE 509 ]
 }
-"138
-[; ;newmain.c: 138:     PORTA = 0x00;
+"140
+[; ;newmain.c: 140:     PORTA = 0x00;
 [v _tmr_start `(v ~T0 @X0 1 ef1`uc ]
-"139
-[; ;newmain.c: 139: 
+"141
+[; ;newmain.c: 141: 
 {
 [e :U _tmr_start ]
-"138
-[; ;newmain.c: 138:     PORTA = 0x00;
-[v _ticks `uc ~T0 @X0 1 r1 ]
-"139
-[; ;newmain.c: 139: 
-[f ]
 "140
-[; ;newmain.c: 140:     if (tmr1flag == 0)
-[e = _tmr_ticks_left _ticks ]
+[; ;newmain.c: 140:     PORTA = 0x00;
+[v _ticks `uc ~T0 @X0 1 r1 ]
 "141
-[; ;newmain.c: 141:     {
-[e = _tmr_state . `E4614 0 ]
+[; ;newmain.c: 141: 
+[f ]
 "142
-[; ;newmain.c: 142:         htmrval = TMR1H;
-[e = _TMR0 -> -> 0 `i `us ]
+[; ;newmain.c: 142:     if (tmr1flag == 0)
+[e = _tmr_ticks_left _ticks ]
 "143
-[; ;newmain.c: 143:         ltmrval = TMR1L;
-[e = . . _INTCONbits 1 2 -> -> 0 `i `uc ]
+[; ;newmain.c: 143:     {
+[e = _tmr_state . `E4615 0 ]
 "144
-[; ;newmain.c: 144:         noteval = 0x07 & ltmrval;
-[e =| _T0CON -> -> 128 `i `Vuc ]
+[; ;newmain.c: 144:         htmrval = TMR1H;
+[e = _TMR0 -> -> 0 `i `us ]
 "145
-[; ;newmain.c: 145:         tmr1flag = 1;
+[; ;newmain.c: 145:         ltmrval = TMR1L;
+[e = . . _INTCONbits 1 2 -> -> 0 `i `uc ]
+"146
+[; ;newmain.c: 146:         noteval = 0x07 & ltmrval;
+[e =| _T0CON -> -> 128 `i `Vuc ]
+"147
+[; ;newmain.c: 147:         tmr1flag = 1;
 [e :UE 510 ]
 }
-"147
-[; ;newmain.c: 147:     if (tmr1flag == 1)
+"149
+[; ;newmain.c: 149:     if (tmr1flag == 1)
 [v _randomgen `(v ~T0 @X0 1 ef ]
-"148
-[; ;newmain.c: 148:     {
+"150
+[; ;newmain.c: 150:     {
 {
 [e :U _randomgen ]
 [f ]
-"149
-[; ;newmain.c: 149:         noteval = 0x07 & ltmrval;
+"151
+[; ;newmain.c: 151:         noteval = 0x07 & ltmrval;
 [v _noteval `uc ~T0 @X0 1 a ]
 [v _lastbit `uc ~T0 @X0 1 a ]
 [v _intermbit `uc ~T0 @X0 1 a ]
 [v _num `uc ~T0 @X0 1 a ]
 [v _val `uc ~T0 @X0 1 a ]
 [v _i `uc ~T0 @X0 1 a ]
-"150
-[; ;newmain.c: 150:         noteval = noteval % 5;
-[e = _PORTA -> -> 0 `i `uc ]
 "152
-[; ;newmain.c: 152:         for (i = 0; i < noteval; i++)
-[e $ ! == -> _tmr1flag `i -> 0 `i 512  ]
-"153
-[; ;newmain.c: 153:         {
-{
+[; ;newmain.c: 152:         noteval = noteval % 5;
+[e = _PORTA -> -> 0 `i `uc ]
 "154
-[; ;newmain.c: 154:             val = val << 1;
-[e = _htmrval _TMR1H ]
+[; ;newmain.c: 154:         for (i = 0; i < noteval; i++)
+[e $ ! == -> _tmr1flag `i -> 0 `i 512  ]
 "155
-[; ;newmain.c: 155:         }
-[e = _ltmrval _TMR1L ]
+[; ;newmain.c: 155:         {
+{
 "156
-[; ;newmain.c: 156:         PORTA = val;
-[e = _noteval -> & -> 7 `i -> _ltmrval `i `uc ]
+[; ;newmain.c: 156:             val = val << 1;
+[e = _htmrval _TMR1H ]
 "157
-[; ;newmain.c: 157:         if (level == 1)
-[e = _tmr1flag -> -> 1 `i `uc ]
+[; ;newmain.c: 157:         }
+[e = _ltmrval _TMR1L ]
 "158
-[; ;newmain.c: 158:         {
+[; ;newmain.c: 158:         PORTA = val;
+[e = _noteval -> & -> 7 `i -> _ltmrval `i `uc ]
+"159
+[; ;newmain.c: 159:         if (level == 1)
+[e = _tmr1flag -> -> 1 `i `uc ]
+"160
+[; ;newmain.c: 160:         {
 }
 [e :U 512 ]
-"159
-[; ;newmain.c: 159:             lastbit = 0x01 & TMR1L;
-[e $ ! == -> _tmr1flag `i -> 1 `i 513  ]
-"160
-[; ;newmain.c: 160:             intermbit = 0x01 & TMR1H;
-{
 "161
-[; ;newmain.c: 161:             htmrval = htmrval >> 8;
-[e = _noteval -> & -> 7 `i -> _ltmrval `i `uc ]
+[; ;newmain.c: 161:             lastbit = 0x01 & TMR1L;
+[e $ ! == -> _tmr1flag `i -> 1 `i 513  ]
 "162
-[; ;newmain.c: 162:             ltmrval = ltmrval >> 8;
-[e = _noteval -> % -> _noteval `i -> 5 `i `uc ]
+[; ;newmain.c: 162:             intermbit = 0x01 & TMR1H;
+{
 "163
-[; ;newmain.c: 163:             lastbit = lastbit << 7;
-[e = _val -> -> 1 `i `uc ]
+[; ;newmain.c: 163:             htmrval = htmrval >> 8;
+[e = _noteval -> & -> 7 `i -> _ltmrval `i `uc ]
 "164
-[; ;newmain.c: 164:             intermbit = intermbit << 7;
+[; ;newmain.c: 164:             ltmrval = ltmrval >> 8;
+[e = _noteval -> % -> _noteval `i -> 5 `i `uc ]
+"165
+[; ;newmain.c: 165:             lastbit = lastbit << 7;
+[e = _val -> -> 1 `i `uc ]
+"166
+[; ;newmain.c: 166:             intermbit = intermbit << 7;
 {
 [e = _i -> -> 0 `i `uc ]
 [e $U 517  ]
 [e :U 514 ]
-"165
-[; ;newmain.c: 165:             ltmrval = ltmrval | lastbit;
-{
-"166
-[; ;newmain.c: 166:             htmrval = htmrval | intermbit;
-[e = _val -> << -> _val `i -> 1 `i `uc ]
 "167
-[; ;newmain.c: 167:         }
+[; ;newmain.c: 167:             ltmrval = ltmrval | lastbit;
+{
+"168
+[; ;newmain.c: 168:             htmrval = htmrval | intermbit;
+[e = _val -> << -> _val `i -> 1 `i `uc ]
+"169
+[; ;newmain.c: 169:         }
 }
 [e ++ _i -> -> 1 `i `uc ]
 [e :U 517 ]
 [e $ < -> _i `i -> _noteval `i 514  ]
 [e :U 515 ]
 }
-"168
-[; ;newmain.c: 168:         if (level == 2)
-[e = _PORTA _val ]
-"169
-[; ;newmain.c: 169:         {
-[e $ ! == -> _level `i -> 1 `i 518  ]
 "170
-[; ;newmain.c: 170:             num = 3;
-{
+[; ;newmain.c: 170:         if (level == 2)
+[e = _PORTA _val ]
 "171
-[; ;newmain.c: 171:             while (num > 0)
-[e = _lastbit -> & -> 1 `i -> _TMR1L `i `uc ]
+[; ;newmain.c: 171:         {
+[e $ ! == -> _level `i -> 1 `i 518  ]
 "172
-[; ;newmain.c: 172:             {
-[e = _intermbit -> & -> 1 `i -> _TMR1H `i `uc ]
+[; ;newmain.c: 172:             num = 3;
+{
 "173
-[; ;newmain.c: 173:                 lastbit = 0x01 & TMR1L;
-[e = _htmrval -> >> -> _htmrval `i -> 8 `i `uc ]
+[; ;newmain.c: 173:             while (num > 0)
+[e = _lastbit -> & -> 1 `i -> _TMR1L `i `uc ]
 "174
-[; ;newmain.c: 174:                 intermbit = 0x01 & TMR1H;
-[e = _ltmrval -> >> -> _ltmrval `i -> 8 `i `uc ]
+[; ;newmain.c: 174:             {
+[e = _intermbit -> & -> 1 `i -> _TMR1H `i `uc ]
 "175
-[; ;newmain.c: 175:                 htmrval = htmrval >> 8;
-[e = _lastbit -> << -> _lastbit `i -> 7 `i `uc ]
+[; ;newmain.c: 175:                 lastbit = 0x01 & TMR1L;
+[e = _htmrval -> >> -> _htmrval `i -> 8 `i `uc ]
 "176
-[; ;newmain.c: 176:                 ltmrval = ltmrval >> 8;
-[e = _intermbit -> << -> _intermbit `i -> 7 `i `uc ]
+[; ;newmain.c: 176:                 intermbit = 0x01 & TMR1H;
+[e = _ltmrval -> >> -> _ltmrval `i -> 8 `i `uc ]
 "177
-[; ;newmain.c: 177:                 lastbit = lastbit << 7;
-[e = _ltmrval -> | -> _ltmrval `i -> _lastbit `i `uc ]
+[; ;newmain.c: 177:                 htmrval = htmrval >> 8;
+[e = _lastbit -> << -> _lastbit `i -> 7 `i `uc ]
 "178
-[; ;newmain.c: 178:                 intermbit = intermbit << 7;
-[e = _htmrval -> | -> _htmrval `i -> _intermbit `i `uc ]
+[; ;newmain.c: 178:                 ltmrval = ltmrval >> 8;
+[e = _intermbit -> << -> _intermbit `i -> 7 `i `uc ]
 "179
-[; ;newmain.c: 179:                 ltmrval = ltmrval | lastbit;
+[; ;newmain.c: 179:                 lastbit = lastbit << 7;
+[e = _ltmrval -> | -> _ltmrval `i -> _lastbit `i `uc ]
+"180
+[; ;newmain.c: 180:                 intermbit = intermbit << 7;
+[e = _htmrval -> | -> _htmrval `i -> _intermbit `i `uc ]
+"181
+[; ;newmain.c: 181:                 ltmrval = ltmrval | lastbit;
 }
 [e :U 518 ]
-"180
-[; ;newmain.c: 180:                 htmrval = htmrval | intermbit;
-[e $ ! == -> _level `i -> 2 `i 519  ]
-"181
-[; ;newmain.c: 181:                 num--;
-{
 "182
-[; ;newmain.c: 182:             }
-[e = _num -> -> 3 `i `uc ]
+[; ;newmain.c: 182:                 htmrval = htmrval | intermbit;
+[e $ ! == -> _level `i -> 2 `i 519  ]
 "183
-[; ;newmain.c: 183:         }
+[; ;newmain.c: 183:                 num--;
+{
+"184
+[; ;newmain.c: 184:             }
+[e = _num -> -> 3 `i `uc ]
+"185
+[; ;newmain.c: 185:         }
 [e $U 520  ]
 [e :U 521 ]
-"184
-[; ;newmain.c: 184:         if (level == 3)
-{
-"185
-[; ;newmain.c: 185:         {
-[e = _lastbit -> & -> 1 `i -> _TMR1L `i `uc ]
 "186
-[; ;newmain.c: 186:             num = 5;
-[e = _intermbit -> & -> 1 `i -> _TMR1H `i `uc ]
+[; ;newmain.c: 186:         if (level == 3)
+{
 "187
-[; ;newmain.c: 187:             while (num > 0)
-[e = _htmrval -> >> -> _htmrval `i -> 8 `i `uc ]
+[; ;newmain.c: 187:         {
+[e = _lastbit -> & -> 1 `i -> _TMR1L `i `uc ]
 "188
-[; ;newmain.c: 188:             {
-[e = _ltmrval -> >> -> _ltmrval `i -> 8 `i `uc ]
+[; ;newmain.c: 188:             num = 5;
+[e = _intermbit -> & -> 1 `i -> _TMR1H `i `uc ]
 "189
-[; ;newmain.c: 189:                 lastbit = 0x01 & TMR1L;
-[e = _lastbit -> << -> _lastbit `i -> 7 `i `uc ]
+[; ;newmain.c: 189:             while (num > 0)
+[e = _htmrval -> >> -> _htmrval `i -> 8 `i `uc ]
 "190
-[; ;newmain.c: 190:                 intermbit = 0x01 & TMR1H;
-[e = _intermbit -> << -> _intermbit `i -> 7 `i `uc ]
+[; ;newmain.c: 190:             {
+[e = _ltmrval -> >> -> _ltmrval `i -> 8 `i `uc ]
 "191
-[; ;newmain.c: 191:                 htmrval = htmrval >> 8;
-[e = _ltmrval -> | -> _ltmrval `i -> _lastbit `i `uc ]
+[; ;newmain.c: 191:                 lastbit = 0x01 & TMR1L;
+[e = _lastbit -> << -> _lastbit `i -> 7 `i `uc ]
 "192
-[; ;newmain.c: 192:                 ltmrval = ltmrval >> 8;
-[e = _htmrval -> | -> _htmrval `i -> _intermbit `i `uc ]
+[; ;newmain.c: 192:                 intermbit = 0x01 & TMR1H;
+[e = _intermbit -> << -> _intermbit `i -> 7 `i `uc ]
 "193
-[; ;newmain.c: 193:                 lastbit = lastbit << 7;
-[e -- _num -> -> 1 `i `uc ]
+[; ;newmain.c: 193:                 htmrval = htmrval >> 8;
+[e = _ltmrval -> | -> _ltmrval `i -> _lastbit `i `uc ]
 "194
-[; ;newmain.c: 194:                 intermbit = intermbit << 7;
+[; ;newmain.c: 194:                 ltmrval = ltmrval >> 8;
+[e = _htmrval -> | -> _htmrval `i -> _intermbit `i `uc ]
+"195
+[; ;newmain.c: 195:                 lastbit = lastbit << 7;
+[e -- _num -> -> 1 `i `uc ]
+"196
+[; ;newmain.c: 196:                 intermbit = intermbit << 7;
 }
 [e :U 520 ]
-"183
-[; ;newmain.c: 183:         }
+"185
+[; ;newmain.c: 185:         }
 [e $ > -> _num `i -> 0 `i 521  ]
 [e :U 522 ]
-"195
-[; ;newmain.c: 195:                 ltmrval = ltmrval | lastbit;
+"197
+[; ;newmain.c: 197:                 ltmrval = ltmrval | lastbit;
 }
 [e :U 519 ]
-"196
-[; ;newmain.c: 196:                 htmrval = htmrval | intermbit;
-[e $ ! == -> _level `i -> 3 `i 523  ]
-"197
-[; ;newmain.c: 197:                 num--;
-{
 "198
-[; ;newmain.c: 198:             }
-[e = _num -> -> 5 `i `uc ]
+[; ;newmain.c: 198:                 htmrval = htmrval | intermbit;
+[e $ ! == -> _level `i -> 3 `i 523  ]
 "199
-[; ;newmain.c: 199:         }
+[; ;newmain.c: 199:                 num--;
+{
+"200
+[; ;newmain.c: 200:             }
+[e = _num -> -> 5 `i `uc ]
+"201
+[; ;newmain.c: 201:         }
 [e $U 524  ]
 [e :U 525 ]
-"200
-[; ;newmain.c: 200:     }
-{
-"201
-[; ;newmain.c: 201: }
-[e = _lastbit -> & -> 1 `i -> _TMR1L `i `uc ]
 "202
-[; ;newmain.c: 202: 
-[e = _intermbit -> & -> 1 `i -> _TMR1H `i `uc ]
+[; ;newmain.c: 202:     }
+{
 "203
-[; ;newmain.c: 203: 
-[e = _htmrval -> >> -> _htmrval `i -> 8 `i `uc ]
+[; ;newmain.c: 203: }
+[e = _lastbit -> & -> 1 `i -> _TMR1L `i `uc ]
 "204
 [; ;newmain.c: 204: 
-[e = _ltmrval -> >> -> _ltmrval `i -> 8 `i `uc ]
+[e = _intermbit -> & -> 1 `i -> _TMR1H `i `uc ]
 "205
-[; ;newmain.c: 205: void input_task()
-[e = _lastbit -> << -> _lastbit `i -> 7 `i `uc ]
+[; ;newmain.c: 205: 
+[e = _htmrval -> >> -> _htmrval `i -> 8 `i `uc ]
 "206
-[; ;newmain.c: 206: {
-[e = _intermbit -> << -> _intermbit `i -> 7 `i `uc ]
+[; ;newmain.c: 206: 
+[e = _ltmrval -> >> -> _ltmrval `i -> 8 `i `uc ]
 "207
-[; ;newmain.c: 207: 
-[e = _ltmrval -> | -> _ltmrval `i -> _lastbit `i `uc ]
+[; ;newmain.c: 207: void input_task()
+[e = _lastbit -> << -> _lastbit `i -> 7 `i `uc ]
 "208
-[; ;newmain.c: 208: 
-[e = _htmrval -> | -> _htmrval `i -> _intermbit `i `uc ]
+[; ;newmain.c: 208: {
+[e = _intermbit -> << -> _intermbit `i -> 7 `i `uc ]
 "209
 [; ;newmain.c: 209: 
-[e -- _num -> -> 1 `i `uc ]
+[e = _ltmrval -> | -> _ltmrval `i -> _lastbit `i `uc ]
 "210
-[; ;newmain.c: 210:     if (!isGameStarted || isGameFinished)
+[; ;newmain.c: 210: 
+[e = _htmrval -> | -> _htmrval `i -> _intermbit `i `uc ]
+"211
+[; ;newmain.c: 211: 
+[e -- _num -> -> 1 `i `uc ]
+"212
+[; ;newmain.c: 212:     if (!isGameStarted || isGameFinished)
 }
 [e :U 524 ]
-"199
-[; ;newmain.c: 199:         }
+"201
+[; ;newmain.c: 201:         }
 [e $ > -> _num `i -> 0 `i 525  ]
 [e :U 526 ]
-"211
-[; ;newmain.c: 211:     {
+"213
+[; ;newmain.c: 213:     {
 }
 [e :U 523 ]
-"212
-[; ;newmain.c: 212:         if (isRC0Pressed)
+"214
+[; ;newmain.c: 214:         if (isRC0Pressed == 1)
 }
 [e :U 513 ]
-"213
-[; ;newmain.c: 213:         {
+"215
+[; ;newmain.c: 215:         {
 [e :UE 511 ]
 }
-"217
-[; ;newmain.c: 217:                 isGameStarted = 1;
+"219
+[; ;newmain.c: 219:                 isGameStarted = 1;
 [v _input_task `(v ~T0 @X0 1 ef ]
-"218
-[; ;newmain.c: 218:                 isGameFinished = 0;
+"220
+[; ;newmain.c: 220:                 isGameFinished = 0;
 {
 [e :U _input_task ]
 [f ]
-"222
-[; ;newmain.c: 222:         }
-[e $ ! || ! != -> _isGameStarted `i -> 0 `i != -> _isGameFinished `i -> 0 `i 528  ]
-"223
-[; ;newmain.c: 223:         else if (PORTCbits.RC0 == 1)
-{
 "224
-[; ;newmain.c: 224:         {
-[e $ ! != -> _isRC0Pressed `i -> 0 `i 529  ]
+[; ;newmain.c: 224:         }
+[e $ ! || ! != -> _isGameStarted `i -> 0 `i != -> _isGameFinished `i -> 0 `i 528  ]
 "225
-[; ;newmain.c: 225:             isRC0Pressed = 1;
+[; ;newmain.c: 225:         else if (PORTCbits.RC0 == 1)
 {
 "226
-[; ;newmain.c: 226:             game_state = G_INIT;
-[e $ ! == -> . . _PORTCbits 0 0 `i -> 0 `i 530  ]
+[; ;newmain.c: 226:         {
+[e $ ! == -> _isRC0Pressed `i -> 1 `i 529  ]
 "227
-[; ;newmain.c: 227:         }
+[; ;newmain.c: 227:             isRC0Pressed = 1;
 {
 "228
-[; ;newmain.c: 228:     }
-[e = _isRC0Pressed -> -> 0 `i `c ]
+[; ;newmain.c: 228:             game_state = G_INIT;
+[e $ ! == -> . . _PORTCbits 0 0 `i -> 0 `i 530  ]
 "229
-[; ;newmain.c: 229: 
-[e = _isGameStarted -> -> 1 `i `uc ]
+[; ;newmain.c: 229:         }
+{
 "230
-[; ;newmain.c: 230:     if (isRG0Pressed == 0)
-[e = _isGameFinished -> -> 0 `i `uc ]
+[; ;newmain.c: 230:     }
+[e = _isRC0Pressed -> -> 0 `i `c ]
 "231
-[; ;newmain.c: 231:     {
-[e = _TRISC -> -> 0 `i `uc ]
+[; ;newmain.c: 231: 
+[e = _isGameStarted -> -> 1 `i `uc ]
 "232
-[; ;newmain.c: 232:         if (PORTGbits.RG0 == 0)
-[e = _PORTC -> -> 0 `i `uc ]
+[; ;newmain.c: 232:     if (isRG0Pressed == 0)
+[e = _isGameFinished -> -> 0 `i `uc ]
 "233
-[; ;newmain.c: 233:         {
+[; ;newmain.c: 233:     {
+[e = _TRISC -> -> 0 `i `uc ]
+"234
+[; ;newmain.c: 234:         if (PORTGbits.RG0 == 0)
+[e = _PORTC -> -> 0 `i `uc ]
+"235
+[; ;newmain.c: 235:         {
 }
 [e :U 530 ]
-"234
-[; ;newmain.c: 234:             isRG0Pressed = 1;
+"236
+[; ;newmain.c: 236:             isRG0Pressed = 1;
 }
 [e $U 531  ]
-"235
-[; ;newmain.c: 235:             whichRG = 0;
+"237
+[; ;newmain.c: 237:             whichRG = 0;
 [e :U 529 ]
 [e $ ! == -> . . _PORTCbits 0 0 `i -> 1 `i 532  ]
-"236
-[; ;newmain.c: 236:         }
-{
-"237
-[; ;newmain.c: 237:     }
-[e = _isRC0Pressed -> -> 1 `i `c ]
 "238
-[; ;newmain.c: 238:     else if (PORTGbits.RG0 == 1)
-[e = _game_state . `E4595 0 ]
+[; ;newmain.c: 238:         }
+{
 "239
-[; ;newmain.c: 239:     {
+[; ;newmain.c: 239:     }
+[e = _isRC0Pressed -> -> 1 `i `c ]
+"240
+[; ;newmain.c: 240:     else if (PORTGbits.RG0 == 1)
+[e = _game_state . `E4596 0 ]
+"241
+[; ;newmain.c: 241:     {
 }
 [e :U 532 ]
 [e :U 531 ]
-"240
-[; ;newmain.c: 240:         isRG0Pressed = 0;
+"242
+[; ;newmain.c: 242:         isRG0Pressed = 0;
 }
 [e :U 528 ]
-"242
-[; ;newmain.c: 242: 
-[e $ ! == -> _isRG0Pressed `i -> 0 `i 533  ]
-"243
-[; ;newmain.c: 243:     if (isRG1Pressed == 0)
-{
 "244
-[; ;newmain.c: 244:     {
-[e $ ! == -> . . _PORTGbits 0 0 `i -> 0 `i 534  ]
+[; ;newmain.c: 244: 
+[e $ ! == -> _isRG0Pressed `i -> 0 `i 533  ]
 "245
-[; ;newmain.c: 245:         if (PORTGbits.RG1 == 0)
+[; ;newmain.c: 245:     if (isRG1Pressed == 0)
 {
 "246
-[; ;newmain.c: 246:         {
-[e = _isRG0Pressed -> -> 1 `i `c ]
+[; ;newmain.c: 246:     {
+[e $ ! == -> . . _PORTGbits 0 0 `i -> 0 `i 534  ]
 "247
-[; ;newmain.c: 247:             isRG1Pressed = 1;
-[e = _whichRG -> -> 0 `i `uc ]
+[; ;newmain.c: 247:         if (PORTGbits.RG1 == 0)
+{
 "248
-[; ;newmain.c: 248:             whichRG = 1;
+[; ;newmain.c: 248:         {
+[e = _isRG0Pressed -> -> 1 `i `c ]
+"249
+[; ;newmain.c: 249:             isRG1Pressed = 1;
+[e = _whichRG -> -> 0 `i `uc ]
+"250
+[; ;newmain.c: 250:             whichRG = 1;
 }
 [e :U 534 ]
-"249
-[; ;newmain.c: 249:         }
+"251
+[; ;newmain.c: 251:         }
 }
 [e $U 535  ]
-"250
-[; ;newmain.c: 250:     }
+"252
+[; ;newmain.c: 252:     }
 [e :U 533 ]
 [e $ ! == -> . . _PORTGbits 0 0 `i -> 1 `i 536  ]
-"251
-[; ;newmain.c: 251:     else if (PORTGbits.RG1 == 1)
-{
-"252
-[; ;newmain.c: 252:     {
-[e = _isRG0Pressed -> -> 0 `i `c ]
 "253
-[; ;newmain.c: 253:         isRG1Pressed = 0;
+[; ;newmain.c: 253:     else if (PORTGbits.RG1 == 1)
+{
+"254
+[; ;newmain.c: 254:     {
+[e = _isRG0Pressed -> -> 0 `i `c ]
+"255
+[; ;newmain.c: 255:         isRG1Pressed = 0;
 }
 [e :U 536 ]
 [e :U 535 ]
-"255
-[; ;newmain.c: 255: 
-[e $ ! == -> _isRG1Pressed `i -> 0 `i 537  ]
-"256
-[; ;newmain.c: 256:     if (isRG2Pressed == 0)
-{
 "257
-[; ;newmain.c: 257:     {
-[e $ ! == -> . . _PORTGbits 0 1 `i -> 0 `i 538  ]
+[; ;newmain.c: 257: 
+[e $ ! == -> _isRG1Pressed `i -> 0 `i 537  ]
 "258
-[; ;newmain.c: 258:         if (PORTGbits.RG2 == 0)
+[; ;newmain.c: 258:     if (isRG2Pressed == 0)
 {
 "259
-[; ;newmain.c: 259:         {
-[e = _isRG1Pressed -> -> 1 `i `c ]
+[; ;newmain.c: 259:     {
+[e $ ! == -> . . _PORTGbits 0 1 `i -> 0 `i 538  ]
 "260
-[; ;newmain.c: 260:             isRG2Pressed = 1;
-[e = _whichRG -> -> 1 `i `uc ]
+[; ;newmain.c: 260:         if (PORTGbits.RG2 == 0)
+{
 "261
-[; ;newmain.c: 261:             whichRG = 2;
+[; ;newmain.c: 261:         {
+[e = _isRG1Pressed -> -> 1 `i `c ]
+"262
+[; ;newmain.c: 262:             isRG2Pressed = 1;
+[e = _whichRG -> -> 1 `i `uc ]
+"263
+[; ;newmain.c: 263:             whichRG = 2;
 }
 [e :U 538 ]
-"262
-[; ;newmain.c: 262:         }
+"264
+[; ;newmain.c: 264:         }
 }
 [e $U 539  ]
-"263
-[; ;newmain.c: 263:     }
+"265
+[; ;newmain.c: 265:     }
 [e :U 537 ]
 [e $ ! == -> . . _PORTGbits 0 1 `i -> 1 `i 540  ]
-"264
-[; ;newmain.c: 264:     else if (PORTGbits.RG2 == 1)
-{
-"265
-[; ;newmain.c: 265:     {
-[e = _isRG1Pressed -> -> 0 `i `c ]
 "266
-[; ;newmain.c: 266:         isRG2Pressed = 0;
+[; ;newmain.c: 266:     else if (PORTGbits.RG2 == 1)
+{
+"267
+[; ;newmain.c: 267:     {
+[e = _isRG1Pressed -> -> 0 `i `c ]
+"268
+[; ;newmain.c: 268:         isRG2Pressed = 0;
 }
 [e :U 540 ]
 [e :U 539 ]
-"268
-[; ;newmain.c: 268: 
-[e $ ! == -> _isRG2Pressed `i -> 0 `i 541  ]
-"269
-[; ;newmain.c: 269:     if (isRG3Pressed == 0)
-{
 "270
-[; ;newmain.c: 270:     {
-[e $ ! == -> . . _PORTGbits 0 2 `i -> 0 `i 542  ]
+[; ;newmain.c: 270: 
+[e $ ! == -> _isRG2Pressed `i -> 0 `i 541  ]
 "271
-[; ;newmain.c: 271:         if (PORTGbits.RG3 == 0)
+[; ;newmain.c: 271:     if (isRG3Pressed == 0)
 {
 "272
-[; ;newmain.c: 272:         {
-[e = _isRG2Pressed -> -> 1 `i `c ]
+[; ;newmain.c: 272:     {
+[e $ ! == -> . . _PORTGbits 0 2 `i -> 0 `i 542  ]
 "273
-[; ;newmain.c: 273:             isRG3Pressed = 1;
-[e = _whichRG -> -> 2 `i `uc ]
+[; ;newmain.c: 273:         if (PORTGbits.RG3 == 0)
+{
 "274
-[; ;newmain.c: 274:             whichRG = 3;
+[; ;newmain.c: 274:         {
+[e = _isRG2Pressed -> -> 1 `i `c ]
+"275
+[; ;newmain.c: 275:             isRG3Pressed = 1;
+[e = _whichRG -> -> 2 `i `uc ]
+"276
+[; ;newmain.c: 276:             whichRG = 3;
 }
 [e :U 542 ]
-"275
-[; ;newmain.c: 275:         }
+"277
+[; ;newmain.c: 277:         }
 }
 [e $U 543  ]
-"276
-[; ;newmain.c: 276:     }
+"278
+[; ;newmain.c: 278:     }
 [e :U 541 ]
 [e $ ! == -> . . _PORTGbits 0 2 `i -> 1 `i 544  ]
-"277
-[; ;newmain.c: 277:     else if (PORTGbits.RG3 == 1)
-{
-"278
-[; ;newmain.c: 278:     {
-[e = _isRG2Pressed -> -> 0 `i `c ]
 "279
-[; ;newmain.c: 279:         isRG3Pressed = 0;
+[; ;newmain.c: 279:     else if (PORTGbits.RG3 == 1)
+{
+"280
+[; ;newmain.c: 280:     {
+[e = _isRG2Pressed -> -> 0 `i `c ]
+"281
+[; ;newmain.c: 281:         isRG3Pressed = 0;
 }
 [e :U 544 ]
 [e :U 543 ]
-"281
-[; ;newmain.c: 281: 
-[e $ ! == -> _isRG3Pressed `i -> 0 `i 545  ]
-"282
-[; ;newmain.c: 282:     if (isRG4Pressed == 0)
-{
 "283
-[; ;newmain.c: 283:     {
-[e $ ! == -> . . _PORTGbits 0 3 `i -> 0 `i 546  ]
+[; ;newmain.c: 283: 
+[e $ ! == -> _isRG3Pressed `i -> 0 `i 545  ]
 "284
-[; ;newmain.c: 284:         if (PORTGbits.RG4 == 0)
+[; ;newmain.c: 284:     if (isRG4Pressed == 0)
 {
 "285
-[; ;newmain.c: 285:         {
-[e = _isRG3Pressed -> -> 1 `i `c ]
+[; ;newmain.c: 285:     {
+[e $ ! == -> . . _PORTGbits 0 3 `i -> 0 `i 546  ]
 "286
-[; ;newmain.c: 286:             isRG4Pressed = 1;
-[e = _whichRG -> -> 3 `i `uc ]
+[; ;newmain.c: 286:         if (PORTGbits.RG4 == 0)
+{
 "287
-[; ;newmain.c: 287:             whichRG = 4;
+[; ;newmain.c: 287:         {
+[e = _isRG3Pressed -> -> 1 `i `c ]
+"288
+[; ;newmain.c: 288:             isRG4Pressed = 1;
+[e = _whichRG -> -> 3 `i `uc ]
+"289
+[; ;newmain.c: 289:             whichRG = 4;
 }
 [e :U 546 ]
-"288
-[; ;newmain.c: 288:         }
+"290
+[; ;newmain.c: 290:         }
 }
 [e $U 547  ]
-"289
-[; ;newmain.c: 289:     }
+"291
+[; ;newmain.c: 291:     }
 [e :U 545 ]
 [e $ ! == -> . . _PORTGbits 0 3 `i -> 1 `i 548  ]
-"290
-[; ;newmain.c: 290:     else if (PORTGbits.RG4 == 1)
-{
-"291
-[; ;newmain.c: 291:     {
-[e = _isRG3Pressed -> -> 0 `i `c ]
 "292
-[; ;newmain.c: 292:         isRG4Pressed = 0;
+[; ;newmain.c: 292:     else if (PORTGbits.RG4 == 1)
+{
+"293
+[; ;newmain.c: 293:     {
+[e = _isRG3Pressed -> -> 0 `i `c ]
+"294
+[; ;newmain.c: 294:         isRG4Pressed = 0;
 }
 [e :U 548 ]
 [e :U 547 ]
-"294
-[; ;newmain.c: 294: }
-[e $ ! == -> _isRG4Pressed `i -> 0 `i 549  ]
-"295
-[; ;newmain.c: 295: 
-{
 "296
-[; ;newmain.c: 296: 
-[e $ ! == -> . . _PORTGbits 0 4 `i -> 0 `i 550  ]
+[; ;newmain.c: 296: }
+[e $ ! == -> _isRG4Pressed `i -> 0 `i 549  ]
 "297
 [; ;newmain.c: 297: 
 {
 "298
 [; ;newmain.c: 298: 
-[e = _isRG4Pressed -> -> 1 `i `c ]
+[e $ ! == -> . . _PORTGbits 0 4 `i -> 0 `i 550  ]
 "299
 [; ;newmain.c: 299: 
-[e = _whichRG -> -> 4 `i `uc ]
+{
 "300
-[; ;newmain.c: 300: void sevenSeg(uint8_t J, uint8_t D);
+[; ;newmain.c: 300: 
+[e = _isRG4Pressed -> -> 1 `i `c ]
+"301
+[; ;newmain.c: 301: 
+[e = _whichRG -> -> 4 `i `uc ]
+"302
+[; ;newmain.c: 302: void sevenSeg(uint8_t J, uint8_t D);
 }
 [e :U 550 ]
-"301
-[; ;newmain.c: 301: void sevenSeg_controller()
+"303
+[; ;newmain.c: 303: void sevenSeg_controller()
 }
 [e $U 551  ]
-"302
-[; ;newmain.c: 302: {
+"304
+[; ;newmain.c: 304: {
 [e :U 549 ]
 [e $ ! == -> . . _PORTGbits 0 4 `i -> 1 `i 552  ]
-"303
-[; ;newmain.c: 303:     switch (game_state)
-{
-"304
-[; ;newmain.c: 304:     {
-[e = _isRG4Pressed -> -> 0 `i `c ]
 "305
-[; ;newmain.c: 305:     case G_INIT:
+[; ;newmain.c: 305:     switch (game_state)
+{
+"306
+[; ;newmain.c: 306:     {
+[e = _isRG4Pressed -> -> 0 `i `c ]
+"307
+[; ;newmain.c: 307:     case G_INIT:
 }
 [e :U 552 ]
 [e :U 551 ]
-"306
-[; ;newmain.c: 306:         if (sevenSegCounter % 2 == 0)
+"308
+[; ;newmain.c: 308:         if (sevenSegCounter % 2 == 0)
 [e :UE 527 ]
 }
-"313
-[; ;newmain.c: 313:             sevenSeg(health, 0);
+"315
+[; ;newmain.c: 315:             sevenSeg(health, 0);
 [v _sevenSeg_controller `(v ~T0 @X0 1 ef ]
-"314
-[; ;newmain.c: 314:         else
+"316
+[; ;newmain.c: 316:         else
 {
 [e :U _sevenSeg_controller ]
 [f ]
-"315
-[; ;newmain.c: 315:             sevenSeg(game_level, 3);
-[e $U 555  ]
-"316
-[; ;newmain.c: 316:         break;
-{
 "317
-[; ;newmain.c: 317:     case LEVEL2_INIT:
-[e :U 556 ]
+[; ;newmain.c: 317:             sevenSeg(game_level, 3);
+[e $U 555  ]
 "318
-[; ;newmain.c: 318:         if (sevenSegCounter % 2 == 0)
-[e $ ! == % -> _sevenSegCounter `i -> 2 `i -> 0 `i 557  ]
+[; ;newmain.c: 318:         break;
+{
 "319
-[; ;newmain.c: 319:             sevenSeg(health, 0);
+[; ;newmain.c: 319:     case LEVEL2_INIT:
+[e :U 556 ]
+"320
+[; ;newmain.c: 320:         if (sevenSegCounter % 2 == 0)
+[e $ ! == % -> _sevenSegCounter `i -> 2 `i -> 0 `i 557  ]
+"321
+[; ;newmain.c: 321:             sevenSeg(health, 0);
 [e ( _sevenSeg (2 , _health -> -> 0 `i `uc ]
 [e $U 558  ]
-"320
-[; ;newmain.c: 320:         else
+"322
+[; ;newmain.c: 322:         else
 [e :U 557 ]
-"321
-[; ;newmain.c: 321:             sevenSeg(game_level, 3);
+"323
+[; ;newmain.c: 323:             sevenSeg(game_level, 3);
 [e ( _sevenSeg (2 , _game_level -> -> 3 `i `uc ]
 [e :U 558 ]
-"322
-[; ;newmain.c: 322:         break;
-[e $U 554  ]
-"323
-[; ;newmain.c: 323:     case LEVEL2:
-[e :U 559 ]
 "324
-[; ;newmain.c: 324:         if (sevenSegCounter % 2 == 0)
-[e $ ! == % -> _sevenSegCounter `i -> 2 `i -> 0 `i 560  ]
+[; ;newmain.c: 324:         break;
+[e $U 554  ]
 "325
-[; ;newmain.c: 325:             sevenSeg(health, 0);
+[; ;newmain.c: 325:     case LEVEL2:
+[e :U 559 ]
+"326
+[; ;newmain.c: 326:         if (sevenSegCounter % 2 == 0)
+[e $ ! == % -> _sevenSegCounter `i -> 2 `i -> 0 `i 560  ]
+"327
+[; ;newmain.c: 327:             sevenSeg(health, 0);
 [e ( _sevenSeg (2 , _health -> -> 0 `i `uc ]
 [e $U 561  ]
-"326
-[; ;newmain.c: 326:         else
+"328
+[; ;newmain.c: 328:         else
 [e :U 560 ]
-"327
-[; ;newmain.c: 327:             sevenSeg(game_level, 3);
+"329
+[; ;newmain.c: 329:             sevenSeg(game_level, 3);
 [e ( _sevenSeg (2 , _game_level -> -> 3 `i `uc ]
 [e :U 561 ]
-"328
-[; ;newmain.c: 328:         break;
-[e $U 554  ]
-"329
-[; ;newmain.c: 329: 
-[e :U 562 ]
 "330
-[; ;newmain.c: 330:     case LEVEL3_INIT:
-[e $ ! == % -> _sevenSegCounter `i -> 2 `i -> 0 `i 563  ]
+[; ;newmain.c: 330:         break;
+[e $U 554  ]
 "331
-[; ;newmain.c: 331:         if (sevenSegCounter % 2 == 0)
+[; ;newmain.c: 331: 
+[e :U 562 ]
+"332
+[; ;newmain.c: 332:     case LEVEL3_INIT:
+[e $ ! == % -> _sevenSegCounter `i -> 2 `i -> 0 `i 563  ]
+"333
+[; ;newmain.c: 333:         if (sevenSegCounter % 2 == 0)
 [e ( _sevenSeg (2 , _health -> -> 0 `i `uc ]
 [e $U 564  ]
-"332
-[; ;newmain.c: 332:             sevenSeg(health, 0);
+"334
+[; ;newmain.c: 334:             sevenSeg(health, 0);
 [e :U 563 ]
-"333
-[; ;newmain.c: 333:         else
+"335
+[; ;newmain.c: 335:         else
 [e ( _sevenSeg (2 , _game_level -> -> 3 `i `uc ]
 [e :U 564 ]
-"334
-[; ;newmain.c: 334:             sevenSeg(game_level, 3);
-[e $U 554  ]
-"335
-[; ;newmain.c: 335:         break;
-[e :U 565 ]
 "336
-[; ;newmain.c: 336:     case LEVEL3:
-[e $ ! == % -> _sevenSegCounter `i -> 2 `i -> 0 `i 566  ]
+[; ;newmain.c: 336:             sevenSeg(game_level, 3);
+[e $U 554  ]
 "337
-[; ;newmain.c: 337:         if (sevenSegCounter % 2 == 0)
+[; ;newmain.c: 337:         break;
+[e :U 565 ]
+"338
+[; ;newmain.c: 338:     case LEVEL3:
+[e $ ! == % -> _sevenSegCounter `i -> 2 `i -> 0 `i 566  ]
+"339
+[; ;newmain.c: 339:         if (sevenSegCounter % 2 == 0)
 [e ( _sevenSeg (2 , _health -> -> 0 `i `uc ]
 [e $U 567  ]
-"338
-[; ;newmain.c: 338:             sevenSeg(health, 0);
+"340
+[; ;newmain.c: 340:             sevenSeg(health, 0);
 [e :U 566 ]
-"339
-[; ;newmain.c: 339:         else
+"341
+[; ;newmain.c: 341:         else
 [e ( _sevenSeg (2 , _game_level -> -> 3 `i `uc ]
 [e :U 567 ]
-"340
-[; ;newmain.c: 340:             sevenSeg(game_level, 3);
-[e $U 554  ]
 "342
-[; ;newmain.c: 342:     case END:
-[e :U 568 ]
-"343
-[; ;newmain.c: 343:         if (sevenSegCounter % 3 == 0)
-[e $ ! == % -> _sevenSegCounter `i -> 2 `i -> 0 `i 569  ]
+[; ;newmain.c: 342:             sevenSeg(game_level, 3);
+[e $U 554  ]
 "344
-[; ;newmain.c: 344:             sevenSeg(11, 0);
+[; ;newmain.c: 344:     case END:
+[e :U 568 ]
+"345
+[; ;newmain.c: 345:         if (sevenSegCounter % 3 == 0)
+[e $ ! == % -> _sevenSegCounter `i -> 2 `i -> 0 `i 569  ]
+"346
+[; ;newmain.c: 346:             sevenSeg(11, 0);
 [e ( _sevenSeg (2 , _health -> -> 0 `i `uc ]
 [e $U 570  ]
-"345
-[; ;newmain.c: 345:         else if (sevenSegCounter % 3 == 1)
+"347
+[; ;newmain.c: 347:         else if (sevenSegCounter % 3 == 1)
 [e :U 569 ]
-"346
-[; ;newmain.c: 346:             sevenSeg(12, 1);
+"348
+[; ;newmain.c: 348:             sevenSeg(12, 1);
 [e ( _sevenSeg (2 , _game_level -> -> 3 `i `uc ]
 [e :U 570 ]
-"347
-[; ;newmain.c: 347:         else
-[e $U 554  ]
-"348
-[; ;newmain.c: 348:             sevenSeg(13, 2);
-[e :U 571 ]
 "349
-[; ;newmain.c: 349:         break;
-[e $ ! == % -> _sevenSegCounter `i -> 2 `i -> 0 `i 572  ]
+[; ;newmain.c: 349:         else
+[e $U 554  ]
 "350
-[; ;newmain.c: 350:     case LOSE:
+[; ;newmain.c: 350:             sevenSeg(13, 2);
+[e :U 571 ]
+"351
+[; ;newmain.c: 351:         break;
+[e $ ! == % -> _sevenSegCounter `i -> 2 `i -> 0 `i 572  ]
+"352
+[; ;newmain.c: 352:     case LOSE:
 [e ( _sevenSeg (2 , _health -> -> 0 `i `uc ]
 [e $U 573  ]
-"351
-[; ;newmain.c: 351:         if (sevenSegCounter % 4 == 0)
+"353
+[; ;newmain.c: 353:         if (sevenSegCounter % 4 == 0)
 [e :U 572 ]
-"352
-[; ;newmain.c: 352:             sevenSeg(10, 0);
+"354
+[; ;newmain.c: 354:             sevenSeg(10, 0);
 [e ( _sevenSeg (2 , _game_level -> -> 3 `i `uc ]
 [e :U 573 ]
-"353
-[; ;newmain.c: 353:         else if (sevenSegCounter % 4 == 1)
-[e $U 554  ]
-"354
-[; ;newmain.c: 354:             sevenSeg(0, 1);
-[e :U 574 ]
 "355
-[; ;newmain.c: 355:         else if (sevenSegCounter % 4 == 2)
-[e $ ! == % -> _sevenSegCounter `i -> 3 `i -> 0 `i 575  ]
+[; ;newmain.c: 355:         else if (sevenSegCounter % 4 == 1)
+[e $U 554  ]
 "356
-[; ;newmain.c: 356:             sevenSeg(5, 2);
+[; ;newmain.c: 356:             sevenSeg(0, 1);
+[e :U 574 ]
+"357
+[; ;newmain.c: 357:         else if (sevenSegCounter % 4 == 2)
+[e $ ! == % -> _sevenSegCounter `i -> 3 `i -> 0 `i 575  ]
+"358
+[; ;newmain.c: 358:             sevenSeg(5, 2);
 [e ( _sevenSeg (2 , -> -> 11 `i `uc -> -> 0 `i `uc ]
 [e $U 576  ]
-"357
-[; ;newmain.c: 357:         else
+"359
+[; ;newmain.c: 359:         else
 [e :U 575 ]
 [e $ ! == % -> _sevenSegCounter `i -> 3 `i -> 1 `i 577  ]
-"358
-[; ;newmain.c: 358:             sevenSeg(11, 3);
+"360
+[; ;newmain.c: 360:             sevenSeg(11, 3);
 [e ( _sevenSeg (2 , -> -> 12 `i `uc -> -> 1 `i `uc ]
 [e $U 578  ]
-"359
-[; ;newmain.c: 359:         break;
+"361
+[; ;newmain.c: 361:         break;
 [e :U 577 ]
-"360
-[; ;newmain.c: 360:     }
+"362
+[; ;newmain.c: 362:     }
 [e ( _sevenSeg (2 , -> -> 13 `i `uc -> -> 2 `i `uc ]
 [e :U 578 ]
 [e :U 576 ]
-"361
-[; ;newmain.c: 361: }
-[e $U 554  ]
-"362
-[; ;newmain.c: 362: 
-[e :U 579 ]
 "363
-[; ;newmain.c: 363: void sevenSeg(uint8_t J, uint8_t D)
-[e $ ! == % -> _sevenSegCounter `i -> 4 `i -> 0 `i 580  ]
+[; ;newmain.c: 363: }
+[e $U 554  ]
 "364
-[; ;newmain.c: 364: {
+[; ;newmain.c: 364: 
+[e :U 579 ]
+"365
+[; ;newmain.c: 365: void sevenSeg(uint8_t J, uint8_t D)
+[e $ ! == % -> _sevenSegCounter `i -> 4 `i -> 0 `i 580  ]
+"366
+[; ;newmain.c: 366: {
 [e ( _sevenSeg (2 , -> -> 10 `i `uc -> -> 0 `i `uc ]
 [e $U 581  ]
-"365
-[; ;newmain.c: 365:     switch (J)
+"367
+[; ;newmain.c: 367:     switch (J)
 [e :U 580 ]
 [e $ ! == % -> _sevenSegCounter `i -> 4 `i -> 1 `i 582  ]
-"366
-[; ;newmain.c: 366:     {
+"368
+[; ;newmain.c: 368:     {
 [e ( _sevenSeg (2 , -> -> 0 `i `uc -> -> 1 `i `uc ]
 [e $U 583  ]
-"367
-[; ;newmain.c: 367: 
+"369
+[; ;newmain.c: 369: 
 [e :U 582 ]
 [e $ ! == % -> _sevenSegCounter `i -> 4 `i -> 2 `i 584  ]
-"368
-[; ;newmain.c: 368: 
+"370
+[; ;newmain.c: 370: 
 [e ( _sevenSeg (2 , -> -> 5 `i `uc -> -> 2 `i `uc ]
 [e $U 585  ]
-"369
-[; ;newmain.c: 369:     case 0:
+"371
+[; ;newmain.c: 371:     case 0:
 [e :U 584 ]
-"370
-[; ;newmain.c: 370:         PORTJ = 0x3f;
+"372
+[; ;newmain.c: 372:         PORTJ = 0x3f;
 [e ( _sevenSeg (2 , -> -> 11 `i `uc -> -> 3 `i `uc ]
 [e :U 585 ]
 [e :U 583 ]
 [e :U 581 ]
-"371
-[; ;newmain.c: 371:         break;
+"373
+[; ;newmain.c: 373:         break;
 [e $U 554  ]
-"372
-[; ;newmain.c: 372:     case 1:
+"374
+[; ;newmain.c: 374:     case 1:
 }
 [e $U 554  ]
 [e :U 555 ]
-[e [\ -> _game_state `ui , $ -> . `E4595 0 `ui 556
- , $ -> . `E4595 1 `ui 559
- , $ -> . `E4595 2 `ui 562
- , $ -> . `E4595 3 `ui 565
- , $ -> . `E4595 4 `ui 568
- , $ -> . `E4595 5 `ui 571
- , $ -> . `E4595 6 `ui 574
- , $ -> . `E4595 7 `ui 579
+[e [\ -> _game_state `ui , $ -> . `E4596 0 `ui 556
+ , $ -> . `E4596 1 `ui 559
+ , $ -> . `E4596 2 `ui 562
+ , $ -> . `E4596 3 `ui 565
+ , $ -> . `E4596 4 `ui 568
+ , $ -> . `E4596 5 `ui 571
+ , $ -> . `E4596 6 `ui 574
+ , $ -> . `E4596 7 `ui 579
  554 ]
 [e :U 554 ]
-"373
-[; ;newmain.c: 373:         PORTJ = 0x06;
+"375
+[; ;newmain.c: 375:         PORTJ = 0x06;
 [e :UE 553 ]
 }
-"375
-[; ;newmain.c: 375:     case 2:
+"377
+[; ;newmain.c: 377:     case 2:
 [v _sevenSeg `(v ~T0 @X0 1 ef2`uc`uc ]
-"376
-[; ;newmain.c: 376:         PORTJ = 0x5b;
+"378
+[; ;newmain.c: 378:         PORTJ = 0x5b;
 {
 [e :U _sevenSeg ]
-"375
-[; ;newmain.c: 375:     case 2:
+"377
+[; ;newmain.c: 377:     case 2:
 [v _J `uc ~T0 @X0 1 r1 ]
 [v _D `uc ~T0 @X0 1 r2 ]
-"376
-[; ;newmain.c: 376:         PORTJ = 0x5b;
-[f ]
-"377
-[; ;newmain.c: 377:         break;
-[e $U 588  ]
 "378
-[; ;newmain.c: 378:     case 3:
+[; ;newmain.c: 378:         PORTJ = 0x5b;
+[f ]
+"379
+[; ;newmain.c: 379:         break;
+[e $U 588  ]
+"380
+[; ;newmain.c: 380:     case 3:
 {
-"381
-[; ;newmain.c: 381:     case 4:
-[e :U 589 ]
-"382
-[; ;newmain.c: 382:         PORTJ = 0x66;
-[e = _PORTJ -> -> 63 `i `uc ]
 "383
-[; ;newmain.c: 383:         break;
-[e $U 587  ]
+[; ;newmain.c: 383:     case 4:
+[e :U 589 ]
 "384
-[; ;newmain.c: 384:     case 5:
-[e :U 590 ]
+[; ;newmain.c: 384:         PORTJ = 0x66;
+[e = _PORTJ -> -> 63 `i `uc ]
 "385
-[; ;newmain.c: 385:         PORTJ = 0x6d;
-[e = _PORTJ -> -> 6 `i `uc ]
+[; ;newmain.c: 385:         break;
+[e $U 587  ]
 "386
-[; ;newmain.c: 386:         break;
-[e $U 587  ]
+[; ;newmain.c: 386:     case 5:
+[e :U 590 ]
 "387
-[; ;newmain.c: 387:     case 6:
-[e :U 591 ]
+[; ;newmain.c: 387:         PORTJ = 0x6d;
+[e = _PORTJ -> -> 6 `i `uc ]
 "388
-[; ;newmain.c: 388:         PORTJ = 0x7d;
-[e = _PORTJ -> -> 91 `i `uc ]
+[; ;newmain.c: 388:         break;
+[e $U 587  ]
 "389
-[; ;newmain.c: 389:         break;
-[e $U 587  ]
+[; ;newmain.c: 389:     case 6:
+[e :U 591 ]
 "390
-[; ;newmain.c: 390:     case 7:
-[e :U 592 ]
+[; ;newmain.c: 390:         PORTJ = 0x7d;
+[e = _PORTJ -> -> 91 `i `uc ]
 "391
-[; ;newmain.c: 391:         PORTJ = 0x07;
-[e = _PORTJ -> -> 79 `i `uc ]
+[; ;newmain.c: 391:         break;
+[e $U 587  ]
 "392
-[; ;newmain.c: 392:         break;
-[e $U 587  ]
+[; ;newmain.c: 392:     case 7:
+[e :U 592 ]
 "393
-[; ;newmain.c: 393:     case 8:
-[e :U 593 ]
+[; ;newmain.c: 393:         PORTJ = 0x07;
+[e = _PORTJ -> -> 79 `i `uc ]
 "394
-[; ;newmain.c: 394:         PORTJ = 0x7f;
-[e = _PORTJ -> -> 102 `i `uc ]
+[; ;newmain.c: 394:         break;
+[e $U 587  ]
 "395
-[; ;newmain.c: 395:         break;
-[e $U 587  ]
+[; ;newmain.c: 395:     case 8:
+[e :U 593 ]
 "396
-[; ;newmain.c: 396:     case 9:
-[e :U 594 ]
+[; ;newmain.c: 396:         PORTJ = 0x7f;
+[e = _PORTJ -> -> 102 `i `uc ]
 "397
-[; ;newmain.c: 397:         PORTJ = 0x6f;
-[e = _PORTJ -> -> 109 `i `uc ]
+[; ;newmain.c: 397:         break;
+[e $U 587  ]
 "398
-[; ;newmain.c: 398:         break;
-[e $U 587  ]
+[; ;newmain.c: 398:     case 9:
+[e :U 594 ]
 "399
-[; ;newmain.c: 399:     case 10:
-[e :U 595 ]
+[; ;newmain.c: 399:         PORTJ = 0x6f;
+[e = _PORTJ -> -> 109 `i `uc ]
 "400
-[; ;newmain.c: 400:         PORTJ = 0x38;
-[e = _PORTJ -> -> 125 `i `uc ]
+[; ;newmain.c: 400:         break;
+[e $U 587  ]
 "401
-[; ;newmain.c: 401:         break;
-[e $U 587  ]
+[; ;newmain.c: 401:     case 10:
+[e :U 595 ]
 "402
-[; ;newmain.c: 402:     case 11:
-[e :U 596 ]
+[; ;newmain.c: 402:         PORTJ = 0x38;
+[e = _PORTJ -> -> 125 `i `uc ]
 "403
-[; ;newmain.c: 403:         PORTJ = 0x79;
-[e = _PORTJ -> -> 7 `i `uc ]
+[; ;newmain.c: 403:         break;
+[e $U 587  ]
 "404
-[; ;newmain.c: 404:         break;
-[e $U 587  ]
+[; ;newmain.c: 404:     case 11:
+[e :U 596 ]
 "405
-[; ;newmain.c: 405:     case 12:
-[e :U 597 ]
+[; ;newmain.c: 405:         PORTJ = 0x79;
+[e = _PORTJ -> -> 7 `i `uc ]
 "406
-[; ;newmain.c: 406:         PORTJ = 0x54;
-[e = _PORTJ -> -> 127 `i `uc ]
+[; ;newmain.c: 406:         break;
+[e $U 587  ]
 "407
-[; ;newmain.c: 407:         break;
-[e $U 587  ]
+[; ;newmain.c: 407:     case 12:
+[e :U 597 ]
 "408
-[; ;newmain.c: 408:     case 13:
-[e :U 598 ]
+[; ;newmain.c: 408:         PORTJ = 0x54;
+[e = _PORTJ -> -> 127 `i `uc ]
 "409
-[; ;newmain.c: 409:         PORTJ = 0x5e;
-[e = _PORTJ -> -> 111 `i `uc ]
+[; ;newmain.c: 409:         break;
+[e $U 587  ]
 "410
-[; ;newmain.c: 410:         break;
-[e $U 587  ]
+[; ;newmain.c: 410:     case 13:
+[e :U 598 ]
 "411
-[; ;newmain.c: 411:     }
-[e :U 599 ]
+[; ;newmain.c: 411:         PORTJ = 0x5e;
+[e = _PORTJ -> -> 111 `i `uc ]
 "412
-[; ;newmain.c: 412:     switch (D)
-[e = _PORTJ -> -> 56 `i `uc ]
+[; ;newmain.c: 412:         break;
+[e $U 587  ]
 "413
-[; ;newmain.c: 413:     {
-[e $U 587  ]
+[; ;newmain.c: 413:     }
+[e :U 599 ]
 "414
-[; ;newmain.c: 414:     case 0:
-[e :U 600 ]
+[; ;newmain.c: 414:     switch (D)
+[e = _PORTJ -> -> 56 `i `uc ]
 "415
-[; ;newmain.c: 415:         PORTH = 0x01;
-[e = _PORTJ -> -> 121 `i `uc ]
+[; ;newmain.c: 415:     {
+[e $U 587  ]
 "416
-[; ;newmain.c: 416:         break;
-[e $U 587  ]
+[; ;newmain.c: 416:     case 0:
+[e :U 600 ]
 "417
-[; ;newmain.c: 417:     case 1:
-[e :U 601 ]
+[; ;newmain.c: 417:         PORTH = 0x01;
+[e = _PORTJ -> -> 121 `i `uc ]
 "418
-[; ;newmain.c: 418:         PORTH = 0x02;
-[e = _PORTJ -> -> 84 `i `uc ]
+[; ;newmain.c: 418:         break;
+[e $U 587  ]
 "419
-[; ;newmain.c: 419:         break;
-[e $U 587  ]
+[; ;newmain.c: 419:     case 1:
+[e :U 601 ]
 "420
-[; ;newmain.c: 420:     case 2:
-[e :U 602 ]
+[; ;newmain.c: 420:         PORTH = 0x02;
+[e = _PORTJ -> -> 84 `i `uc ]
 "421
-[; ;newmain.c: 421:         PORTH = 0x04;
-[e = _PORTJ -> -> 94 `i `uc ]
-"422
-[; ;newmain.c: 422:         break;
+[; ;newmain.c: 421:         break;
 [e $U 587  ]
+"422
+[; ;newmain.c: 422:     case 2:
+[e :U 602 ]
 "423
-[; ;newmain.c: 423:     case 3:
+[; ;newmain.c: 423:         PORTH = 0x04;
+[e = _PORTJ -> -> 94 `i `uc ]
+"424
+[; ;newmain.c: 424:         break;
+[e $U 587  ]
+"425
+[; ;newmain.c: 425:     case 3:
 }
 [e $U 587  ]
 [e :U 588 ]
@@ -2073,50 +2070,50 @@ Version 4.0 HI-TECH Software Intermediate Code
  , $ -> 13 `i 602
  587 ]
 [e :U 587 ]
-"424
-[; ;newmain.c: 424:         PORTH = 0x08;
-[e $U 604  ]
-"425
-[; ;newmain.c: 425:         break;
-{
 "426
-[; ;newmain.c: 426:     }
-[e :U 605 ]
+[; ;newmain.c: 426:         PORTH = 0x08;
+[e $U 604  ]
 "427
-[; ;newmain.c: 427: }
-[e = _PORTH -> -> 1 `i `uc ]
+[; ;newmain.c: 427:         break;
+{
 "428
-[; ;newmain.c: 428: 
-[e $U 603  ]
+[; ;newmain.c: 428:     }
+[e :U 605 ]
 "429
-[; ;newmain.c: 429: 
-[e :U 606 ]
+[; ;newmain.c: 429: }
+[e = _PORTH -> -> 1 `i `uc ]
 "430
 [; ;newmain.c: 430: 
-[e = _PORTH -> -> 2 `i `uc ]
+[e $U 603  ]
 "431
 [; ;newmain.c: 431: 
-[e $U 603  ]
+[e :U 606 ]
 "432
 [; ;newmain.c: 432: 
-[e :U 607 ]
+[e = _PORTH -> -> 2 `i `uc ]
 "433
-[; ;newmain.c: 433: void shape_shifter()
-[e = _PORTH -> -> 4 `i `uc ]
+[; ;newmain.c: 433: 
+[e $U 603  ]
 "434
-[; ;newmain.c: 434: {
-[e $U 603  ]
+[; ;newmain.c: 434: 
+[e :U 607 ]
 "435
-[; ;newmain.c: 435:     PORTF = PORTE;
-[e :U 608 ]
+[; ;newmain.c: 435: void shape_shifter()
+[e = _PORTH -> -> 4 `i `uc ]
 "436
-[; ;newmain.c: 436:     PORTE = PORTD;
-[e = _PORTH -> -> 8 `i `uc ]
-"437
-[; ;newmain.c: 437:     PORTD = PORTC;
+[; ;newmain.c: 436: {
 [e $U 603  ]
+"437
+[; ;newmain.c: 437:     PORTF = PORTE;
+[e :U 608 ]
 "438
-[; ;newmain.c: 438:     PORTC = PORTB;
+[; ;newmain.c: 438:     PORTE = PORTD;
+[e = _PORTH -> -> 8 `i `uc ]
+"439
+[; ;newmain.c: 439:     PORTD = PORTC;
+[e $U 603  ]
+"440
+[; ;newmain.c: 440:     PORTC = PORTB;
 }
 [e $U 603  ]
 [e :U 604 ]
@@ -2126,320 +2123,320 @@ Version 4.0 HI-TECH Software Intermediate Code
  , $ -> 3 `i 608
  603 ]
 [e :U 603 ]
-"439
-[; ;newmain.c: 439:     PORTB = PORTA;
+"441
+[; ;newmain.c: 441:     PORTB = PORTA;
 [e :UE 586 ]
 }
-"445
-[; ;newmain.c: 445:     isGameFinished = 1;
+"447
+[; ;newmain.c: 447:     isGameFinished = 1;
 [v _shape_shifter `(v ~T0 @X0 1 ef ]
-"446
-[; ;newmain.c: 446:     isGameStarted = 0;
+"448
+[; ;newmain.c: 448:     isGameStarted = 0;
 {
 [e :U _shape_shifter ]
 [f ]
-"447
-[; ;newmain.c: 447:     tmr1flag = 0;
-[e = _PORTF _PORTE ]
-"448
-[; ;newmain.c: 448: }
-[e = _PORTE _PORTD ]
 "449
-[; ;newmain.c: 449: 
-[e = _PORTD _PORTC ]
+[; ;newmain.c: 449:     tmr1flag = 0;
+[e = _PORTF _PORTE ]
 "450
-[; ;newmain.c: 450: void health_decreaser()
-[e = _PORTC _PORTB ]
+[; ;newmain.c: 450: }
+[e = _PORTE _PORTD ]
 "451
-[; ;newmain.c: 451: {
-[e = _PORTB _PORTA ]
+[; ;newmain.c: 451: 
+[e = _PORTD _PORTC ]
 "452
-[; ;newmain.c: 452:     health--;
-[e = _PORTA -> -> 0 `i `uc ]
+[; ;newmain.c: 452: void health_decreaser()
+[e = _PORTC _PORTB ]
 "453
-[; ;newmain.c: 453:     if (health == 0)
+[; ;newmain.c: 453: {
+[e = _PORTB _PORTA ]
+"454
+[; ;newmain.c: 454:     health--;
+[e = _PORTA -> -> 0 `i `uc ]
+"455
+[; ;newmain.c: 455:     if (health == 0)
 [e :UE 609 ]
 }
-"455
-[; ;newmain.c: 455:         game_state = LOSE;
+"457
+[; ;newmain.c: 457:         game_state = LOSE;
 [v _reset_task `(v ~T0 @X0 1 ef ]
-"456
-[; ;newmain.c: 456:     }
+"458
+[; ;newmain.c: 458:     }
 {
 [e :U _reset_task ]
 [f ]
-"457
-[; ;newmain.c: 457: }
-[e = _isGameFinished -> -> 1 `i `uc ]
-"458
-[; ;newmain.c: 458: 
-[e = _isGameStarted -> -> 0 `i `uc ]
 "459
-[; ;newmain.c: 459: void game_task()
-[e = _tmr1flag -> -> 0 `i `uc ]
+[; ;newmain.c: 459: }
+[e = _isGameFinished -> -> 1 `i `uc ]
 "460
-[; ;newmain.c: 460: {
+[; ;newmain.c: 460: 
+[e = _isGameStarted -> -> 0 `i `uc ]
+"461
+[; ;newmain.c: 461: void game_task()
+[e = _tmr1flag -> -> 0 `i `uc ]
+"462
+[; ;newmain.c: 462: {
 [e :UE 610 ]
 }
-"462
-[; ;newmain.c: 462: 
+"464
+[; ;newmain.c: 464: 
 [v _health_decreaser `(v ~T0 @X0 1 ef ]
-"463
-[; ;newmain.c: 463: 
+"465
+[; ;newmain.c: 465: 
 {
 [e :U _health_decreaser ]
 [f ]
-"464
-[; ;newmain.c: 464: 
-[e -- _health -> -> 1 `i `uc ]
-"465
-[; ;newmain.c: 465: 
-[e $ ! == -> _health `i -> 0 `i 612  ]
 "466
-[; ;newmain.c: 466:     uint8_t count = 0;
-{
+[; ;newmain.c: 466: 
+[e -- _health -> -> 1 `i `uc ]
 "467
-[; ;newmain.c: 467:     if (isRG0Pressed == 1)
-[e = _game_state . `E4595 7 ]
+[; ;newmain.c: 467: 
+[e $ ! == -> _health `i -> 0 `i 612  ]
 "468
-[; ;newmain.c: 468:     {
+[; ;newmain.c: 468:     uint8_t count = 0;
+{
+"469
+[; ;newmain.c: 469:     if (isRG0Pressed == 1)
+[e = _game_state . `E4596 7 ]
+"470
+[; ;newmain.c: 470:     {
 }
 [e :U 612 ]
-"469
-[; ;newmain.c: 469:         count++;
+"471
+[; ;newmain.c: 471:         count++;
 [e :UE 611 ]
 }
-"471
-[; ;newmain.c: 471:     }
+"473
+[; ;newmain.c: 473:     }
 [v _game_task `(v ~T0 @X0 1 ef ]
-"472
-[; ;newmain.c: 472:     if (isRG1Pressed == 1)
+"474
+[; ;newmain.c: 474:     if (isRG1Pressed == 1)
 {
 [e :U _game_task ]
 [f ]
-"478
-[; ;newmain.c: 478:     {
+"480
+[; ;newmain.c: 480:     {
 [v _count `uc ~T0 @X0 1 a ]
 [e = _count -> -> 0 `i `uc ]
-"479
-[; ;newmain.c: 479:         count++;
-[e $ ! == -> _isRG0Pressed `i -> 1 `i 614  ]
-"480
-[; ;newmain.c: 480:         isRG2Pressed = -1;
-{
 "481
-[; ;newmain.c: 481:     }
-[e ++ _count -> -> 1 `i `uc ]
+[; ;newmain.c: 481:         count++;
+[e $ ! == -> _isRG0Pressed `i -> 1 `i 614  ]
 "482
-[; ;newmain.c: 482:     if (isRG3Pressed == 1)
-[e = _isRG0Pressed -> -U -> 1 `i `c ]
+[; ;newmain.c: 482:         isRG2Pressed = -1;
+{
 "483
-[; ;newmain.c: 483:     {
+[; ;newmain.c: 483:     }
+[e ++ _count -> -> 1 `i `uc ]
+"484
+[; ;newmain.c: 484:     if (isRG3Pressed == 1)
+[e = _isRG0Pressed -> -U -> 1 `i `c ]
+"485
+[; ;newmain.c: 485:     {
 }
 [e :U 614 ]
-"484
-[; ;newmain.c: 484:         count++;
-[e $ ! == -> _isRG1Pressed `i -> 1 `i 615  ]
-"485
-[; ;newmain.c: 485:         isRG3Pressed = -1;
-{
 "486
-[; ;newmain.c: 486:     }
-[e ++ _count -> -> 1 `i `uc ]
+[; ;newmain.c: 486:         count++;
+[e $ ! == -> _isRG1Pressed `i -> 1 `i 615  ]
 "487
-[; ;newmain.c: 487:     if (isRG4Pressed == 1)
-[e = _isRG1Pressed -> -U -> 1 `i `c ]
+[; ;newmain.c: 487:         isRG3Pressed = -1;
+{
 "488
-[; ;newmain.c: 488:     {
+[; ;newmain.c: 488:     }
+[e ++ _count -> -> 1 `i `uc ]
+"489
+[; ;newmain.c: 489:     if (isRG4Pressed == 1)
+[e = _isRG1Pressed -> -U -> 1 `i `c ]
+"490
+[; ;newmain.c: 490:     {
 }
 [e :U 615 ]
-"489
-[; ;newmain.c: 489:         count++;
-[e $ ! == -> _isRG2Pressed `i -> 1 `i 616  ]
-"490
-[; ;newmain.c: 490:         isRG4Pressed = -1;
-{
 "491
-[; ;newmain.c: 491:     }
-[e ++ _count -> -> 1 `i `uc ]
+[; ;newmain.c: 491:         count++;
+[e $ ! == -> _isRG2Pressed `i -> 1 `i 616  ]
 "492
-[; ;newmain.c: 492: 
-[e = _isRG2Pressed -> -U -> 1 `i `c ]
+[; ;newmain.c: 492:         isRG4Pressed = -1;
+{
 "493
-[; ;newmain.c: 493:     if (count > 1)
+[; ;newmain.c: 493:     }
+[e ++ _count -> -> 1 `i `uc ]
+"494
+[; ;newmain.c: 494: 
+[e = _isRG2Pressed -> -U -> 1 `i `c ]
+"495
+[; ;newmain.c: 495:     if (count > 1)
 }
 [e :U 616 ]
-"494
-[; ;newmain.c: 494:     {
-[e $ ! == -> _isRG3Pressed `i -> 1 `i 617  ]
-"495
-[; ;newmain.c: 495:         whichRG = -1;
-{
 "496
-[; ;newmain.c: 496:         isPressed = 1;
-[e ++ _count -> -> 1 `i `uc ]
+[; ;newmain.c: 496:     {
+[e $ ! == -> _isRG3Pressed `i -> 1 `i 617  ]
 "497
-[; ;newmain.c: 497:     }
-[e = _isRG3Pressed -> -U -> 1 `i `c ]
+[; ;newmain.c: 497:         whichRG = -1;
+{
 "498
-[; ;newmain.c: 498: 
-}
-[e :U 617 ]
+[; ;newmain.c: 498:         isPressed = 1;
+[e ++ _count -> -> 1 `i `uc ]
 "499
-[; ;newmain.c: 499: 
-[e $ ! == -> _isRG4Pressed `i -> 1 `i 618  ]
+[; ;newmain.c: 499:     }
+[e = _isRG3Pressed -> -U -> 1 `i `c ]
 "500
 [; ;newmain.c: 500: 
-{
+}
+[e :U 617 ]
 "501
-[; ;newmain.c: 501:     switch (whichRG)
-[e ++ _count -> -> 1 `i `uc ]
+[; ;newmain.c: 501: 
+[e $ ! == -> _isRG4Pressed `i -> 1 `i 618  ]
 "502
-[; ;newmain.c: 502:     {
-[e = _isRG4Pressed -> -U -> 1 `i `c ]
+[; ;newmain.c: 502: 
+{
 "503
-[; ;newmain.c: 503:     case -1:
+[; ;newmain.c: 503:     switch (whichRG)
+[e ++ _count -> -> 1 `i `uc ]
+"504
+[; ;newmain.c: 504:     {
+[e = _isRG4Pressed -> -U -> 1 `i `c ]
+"505
+[; ;newmain.c: 505:     case -1:
 }
 [e :U 618 ]
-"505
-[; ;newmain.c: 505:         break;
-[e $ ! > -> _count `i -> 1 `i 619  ]
-"506
-[; ;newmain.c: 506:     case 0:
-{
 "507
-[; ;newmain.c: 507:         if (PORTFbits.RF0 == 1)
-[e = _whichRG -> -U -> 1 `i `uc ]
+[; ;newmain.c: 507:         break;
+[e $ ! > -> _count `i -> 1 `i 619  ]
 "508
-[; ;newmain.c: 508:             tmr_state = TMR_DONE;
-[e = _isPressed -> -> 1 `i `c ]
+[; ;newmain.c: 508:     case 0:
+{
 "509
-[; ;newmain.c: 509:         else
+[; ;newmain.c: 509:         if (PORTFbits.RF0 == 1)
+[e = _whichRG -> -U -> 1 `i `uc ]
+"510
+[; ;newmain.c: 510:             tmr_state = TMR_DONE;
+[e = _isPressed -> -> 1 `i `c ]
+"511
+[; ;newmain.c: 511:         else
 }
 [e :U 619 ]
-"513
-[; ;newmain.c: 513:         if (PORTFbits.RF1 == 1)
-[e $U 621  ]
-"514
-[; ;newmain.c: 514:             tmr_state = TMR_DONE;
-{
 "515
-[; ;newmain.c: 515:         else
-[e :U 622 ]
+[; ;newmain.c: 515:         if (PORTFbits.RF1 == 1)
+[e $U 621  ]
 "516
-[; ;newmain.c: 516:             health_decreaser();
-[e ( _health_decreaser ..  ]
+[; ;newmain.c: 516:             tmr_state = TMR_DONE;
+{
 "517
-[; ;newmain.c: 517:         break;
-[e $U 620  ]
+[; ;newmain.c: 517:         else
+[e :U 622 ]
 "518
-[; ;newmain.c: 518:     case 2:
-[e :U 623 ]
+[; ;newmain.c: 518:             health_decreaser();
+[e ( _health_decreaser ..  ]
 "519
-[; ;newmain.c: 519:         if (PORTFbits.RF2 == 1)
-[e $ ! == -> . . _PORTFbits 0 0 `i -> 1 `i 624  ]
+[; ;newmain.c: 519:         break;
+[e $U 620  ]
 "520
-[; ;newmain.c: 520:             tmr_state = TMR_DONE;
-[e = _tmr_state . `E4614 1 ]
-[e $U 625  ]
+[; ;newmain.c: 520:     case 2:
+[e :U 623 ]
 "521
-[; ;newmain.c: 521:         else
-[e :U 624 ]
+[; ;newmain.c: 521:         if (PORTFbits.RF2 == 1)
+[e $ ! == -> . . _PORTFbits 0 0 `i -> 1 `i 624  ]
 "522
-[; ;newmain.c: 522:             health_decreaser();
+[; ;newmain.c: 522:             tmr_state = TMR_DONE;
+[e = _tmr_state . `E4615 1 ]
+[e $U 625  ]
+"523
+[; ;newmain.c: 523:         else
+[e :U 624 ]
+"524
+[; ;newmain.c: 524:             health_decreaser();
 [e ( _health_decreaser ..  ]
 [e :U 625 ]
-"523
-[; ;newmain.c: 523:         break;
-[e $U 620  ]
-"524
-[; ;newmain.c: 524:     case 3:
-[e :U 626 ]
 "525
-[; ;newmain.c: 525:         if (PORTFbits.RF3 == 1)
-[e $ ! == -> . . _PORTFbits 0 1 `i -> 1 `i 627  ]
+[; ;newmain.c: 525:         break;
+[e $U 620  ]
 "526
-[; ;newmain.c: 526:             tmr_state = TMR_DONE;
-[e = _tmr_state . `E4614 1 ]
-[e $U 628  ]
+[; ;newmain.c: 526:     case 3:
+[e :U 626 ]
 "527
-[; ;newmain.c: 527:         else
-[e :U 627 ]
+[; ;newmain.c: 527:         if (PORTFbits.RF3 == 1)
+[e $ ! == -> . . _PORTFbits 0 1 `i -> 1 `i 627  ]
 "528
-[; ;newmain.c: 528:             health_decreaser();
+[; ;newmain.c: 528:             tmr_state = TMR_DONE;
+[e = _tmr_state . `E4615 1 ]
+[e $U 628  ]
+"529
+[; ;newmain.c: 529:         else
+[e :U 627 ]
+"530
+[; ;newmain.c: 530:             health_decreaser();
 [e ( _health_decreaser ..  ]
 [e :U 628 ]
-"529
-[; ;newmain.c: 529:         break;
-[e $U 620  ]
-"530
-[; ;newmain.c: 530:     case 4:
-[e :U 629 ]
 "531
-[; ;newmain.c: 531:         if (PORTFbits.RF4 == 1)
-[e $ ! == -> . . _PORTFbits 0 2 `i -> 1 `i 630  ]
+[; ;newmain.c: 531:         break;
+[e $U 620  ]
 "532
-[; ;newmain.c: 532:             tmr_state = TMR_DONE;
-[e = _tmr_state . `E4614 1 ]
-[e $U 631  ]
+[; ;newmain.c: 532:     case 4:
+[e :U 629 ]
 "533
-[; ;newmain.c: 533:         else
-[e :U 630 ]
+[; ;newmain.c: 533:         if (PORTFbits.RF4 == 1)
+[e $ ! == -> . . _PORTFbits 0 2 `i -> 1 `i 630  ]
 "534
-[; ;newmain.c: 534:             health_decreaser();
+[; ;newmain.c: 534:             tmr_state = TMR_DONE;
+[e = _tmr_state . `E4615 1 ]
+[e $U 631  ]
+"535
+[; ;newmain.c: 535:         else
+[e :U 630 ]
+"536
+[; ;newmain.c: 536:             health_decreaser();
 [e ( _health_decreaser ..  ]
 [e :U 631 ]
-"535
-[; ;newmain.c: 535:         break;
-[e $U 620  ]
-"536
-[; ;newmain.c: 536:     default:
-[e :U 632 ]
 "537
 [; ;newmain.c: 537:         break;
-[e $ ! == -> . . _PORTFbits 0 3 `i -> 1 `i 633  ]
+[e $U 620  ]
 "538
-[; ;newmain.c: 538:     }
-[e = _tmr_state . `E4614 1 ]
-[e $U 634  ]
+[; ;newmain.c: 538:     default:
+[e :U 632 ]
 "539
-[; ;newmain.c: 539:     whichRG = 5;
-[e :U 633 ]
+[; ;newmain.c: 539:         break;
+[e $ ! == -> . . _PORTFbits 0 3 `i -> 1 `i 633  ]
 "540
-[; ;newmain.c: 540:     switch (game_state)
+[; ;newmain.c: 540:     }
+[e = _tmr_state . `E4615 1 ]
+[e $U 634  ]
+"541
+[; ;newmain.c: 541:     whichRG = 5;
+[e :U 633 ]
+"542
+[; ;newmain.c: 542:     switch (game_state)
 [e ( _health_decreaser ..  ]
 [e :U 634 ]
-"541
-[; ;newmain.c: 541:     {
-[e $U 620  ]
-"542
-[; ;newmain.c: 542:     case G_INIT:
-[e :U 635 ]
 "543
-[; ;newmain.c: 543:         tmr_start(77);
-[e $ ! == -> . . _PORTFbits 0 4 `i -> 1 `i 636  ]
+[; ;newmain.c: 543:     {
+[e $U 620  ]
 "544
-[; ;newmain.c: 544:         game_state = LEVEL1;
-[e = _tmr_state . `E4614 1 ]
-[e $U 637  ]
+[; ;newmain.c: 544:     case G_INIT:
+[e :U 635 ]
 "545
-[; ;newmain.c: 545: 
-[e :U 636 ]
+[; ;newmain.c: 545:         tmr_start(77);
+[e $ ! == -> . . _PORTFbits 0 4 `i -> 1 `i 636  ]
 "546
-[; ;newmain.c: 546:         randomgen();
+[; ;newmain.c: 546:         game_state = LEVEL1;
+[e = _tmr_state . `E4615 1 ]
+[e $U 637  ]
+"547
+[; ;newmain.c: 547: 
+[e :U 636 ]
+"548
+[; ;newmain.c: 548:         randomgen();
 [e ( _health_decreaser ..  ]
 [e :U 637 ]
-"547
-[; ;newmain.c: 547:         ++level_subcount;
-[e $U 620  ]
-"548
-[; ;newmain.c: 548:         game_level = 1;
-[e :U 638 ]
 "549
-[; ;newmain.c: 549:         break;
+[; ;newmain.c: 549:         ++level_subcount;
 [e $U 620  ]
 "550
-[; ;newmain.c: 550:     case LEVEL1:
+[; ;newmain.c: 550:         game_level = 1;
+[e :U 638 ]
+"551
+[; ;newmain.c: 551:         break;
+[e $U 620  ]
+"552
+[; ;newmain.c: 552:     case LEVEL1:
 }
 [e $U 620  ]
 [e :U 621 ]
@@ -2451,437 +2448,461 @@ Version 4.0 HI-TECH Software Intermediate Code
  , $ -> 4 `i 635
  638 ]
 [e :U 620 ]
-"551
-[; ;newmain.c: 551: 
-[e = _whichRG -> -> 5 `i `uc ]
-"552
-[; ;newmain.c: 552: 
-[e $U 640  ]
 "553
-[; ;newmain.c: 553:         if (tmr_state == TMR_DONE)
-{
+[; ;newmain.c: 553: 
+[e = _whichRG -> -> 5 `i `uc ]
 "554
-[; ;newmain.c: 554:         {
-[e :U 641 ]
+[; ;newmain.c: 554: 
+[e $U 640  ]
 "555
-[; ;newmain.c: 555:             if (isPressed == 0)
-[e ( _tmr_start (1 -> -> 77 `i `uc ]
-"556
-[; ;newmain.c: 556:             {
-[e = _game_state . `E4595 1 ]
-"558
-[; ;newmain.c: 558:             }
-[e ( _randomgen ..  ]
-"559
-[; ;newmain.c: 559:             else
-[e =+ _level_subcount -> -> 1 `i `uc ]
-"560
-[; ;newmain.c: 560:             {
-[e = _game_level -> -> 1 `i `uc ]
-"561
-[; ;newmain.c: 561:                 isPressed = 0;
-[e $U 639  ]
-"562
-[; ;newmain.c: 562:             }
-[e :U 642 ]
-"565
-[; ;newmain.c: 565:                 shape_shifter();
-[e $ ! == -> _tmr_state `ui -> . `E4614 1 `ui 643  ]
-"566
-[; ;newmain.c: 566:                 randomgen();
+[; ;newmain.c: 555:         if (tmr_state == TMR_DONE)
 {
+"556
+[; ;newmain.c: 556:         {
+[e :U 641 ]
+"557
+[; ;newmain.c: 557:             starterDelay++;
+[e ( _tmr_start (1 -> -> 77 `i `uc ]
+"558
+[; ;newmain.c: 558:             if (isPressed == 0 && starterDelay >= 6)
+[e = _game_state . `E4596 1 ]
+"560
+[; ;newmain.c: 560:                 health_decreaser();
+[e ( _randomgen ..  ]
+"561
+[; ;newmain.c: 561:             }
+[e =+ _level_subcount -> -> 1 `i `uc ]
+"562
+[; ;newmain.c: 562:             else
+[e = _game_level -> -> 1 `i `uc ]
+"563
+[; ;newmain.c: 563:             {
+[e $U 639  ]
+"564
+[; ;newmain.c: 564:                 isPressed = 0;
+[e :U 642 ]
 "567
-[; ;newmain.c: 567:             }
-[e $ ! == -> _isPressed `i -> 0 `i 644  ]
+[; ;newmain.c: 567:             {
+[e $ ! == -> _tmr_state `ui -> . `E4615 1 `ui 643  ]
 "568
-[; ;newmain.c: 568:             if (level_subcount >= L1)
+[; ;newmain.c: 568:                 shape_shifter();
 {
 "569
-[; ;newmain.c: 569:             {
-[e ( _health_decreaser ..  ]
+[; ;newmain.c: 569:                 randomgen();
+[e ++ _starterDelay -> -> 1 `i `c ]
 "570
-[; ;newmain.c: 570:                 shape_shifter();
+[; ;newmain.c: 570:             }
+[e $ ! && == -> _isPressed `i -> 0 `i >= -> _starterDelay `i -> 6 `i 644  ]
+"571
+[; ;newmain.c: 571:             if (level_subcount >= L1)
+{
+"572
+[; ;newmain.c: 572:             {
+[e ( _health_decreaser ..  ]
+"573
+[; ;newmain.c: 573:                 shape_shifter();
 }
 [e $U 645  ]
-"571
-[; ;newmain.c: 571: 
-[e :U 644 ]
-"572
-[; ;newmain.c: 572:             }
-{
-"573
-[; ;newmain.c: 573:             ++level_subcount;
-[e = _isPressed -> -> 0 `i `c ]
 "574
-[; ;newmain.c: 574:             if (level_subcount == 6 + L1)
+[; ;newmain.c: 574: 
+[e :U 644 ]
+"575
+[; ;newmain.c: 575:             }
+{
+"576
+[; ;newmain.c: 576:             ++level_subcount;
+[e = _isPressed -> -> 0 `i `c ]
+"577
+[; ;newmain.c: 577:             if (level_subcount == 6 + L1)
 }
 [e :U 645 ]
-"575
-[; ;newmain.c: 575:             {
-[e $ ! < -> _level_subcount `i -> _L1 `i 646  ]
-"576
-[; ;newmain.c: 576:                 game_state = LEVEL2_INIT;
-{
-"577
-[; ;newmain.c: 577:             }
-[e ( _shape_shifter ..  ]
 "578
-[; ;newmain.c: 578:             tmr_start(77);
-[e ( _randomgen ..  ]
+[; ;newmain.c: 578:             {
+[e $ ! < -> _level_subcount `i -> _L1 `i 646  ]
 "579
-[; ;newmain.c: 579:         }
+[; ;newmain.c: 579:                 game_state = LEVEL2_INIT;
+{
+"580
+[; ;newmain.c: 580:             }
+[e ( _shape_shifter ..  ]
+"581
+[; ;newmain.c: 581:             tmr_start(77);
+[e ( _randomgen ..  ]
+"582
+[; ;newmain.c: 582:         }
 }
 [e :U 646 ]
-"580
-[; ;newmain.c: 580:         break;
+"583
+[; ;newmain.c: 583:         break;
 [e $ ! >= -> _level_subcount `i -> _L1 `i 647  ]
-"581
-[; ;newmain.c: 581:     case LEVEL2_INIT:
-{
-"582
-[; ;newmain.c: 582:         level_subcount = 0;
-[e ( _shape_shifter ..  ]
 "584
-[; ;newmain.c: 584:         game_state = LEVEL2;
+[; ;newmain.c: 584:     case LEVEL2_INIT:
+{
+"585
+[; ;newmain.c: 585:         level_subcount = 0;
+[e ( _shape_shifter ..  ]
+"587
+[; ;newmain.c: 587:         game_state = LEVEL2;
 }
 [e :U 647 ]
-"585
-[; ;newmain.c: 585: 
-[e =+ _level_subcount -> -> 1 `i `uc ]
-"586
-[; ;newmain.c: 586:         randomgen();
-[e $ ! == -> _level_subcount `i + -> 6 `i -> _L1 `i 648  ]
-"587
-[; ;newmain.c: 587:         ++level_subcount;
-{
 "588
-[; ;newmain.c: 588:         game_level = 2;
-[e = _game_state . `E4595 2 ]
+[; ;newmain.c: 588: 
+[e =+ _level_subcount -> -> 1 `i `uc ]
 "589
-[; ;newmain.c: 589:         break;
+[; ;newmain.c: 589:         randomgen();
+[e $ ! == -> _level_subcount `i + -> 6 `i -> _L1 `i 648  ]
+"590
+[; ;newmain.c: 590:         ++level_subcount;
+{
+"591
+[; ;newmain.c: 591:         game_level = 2;
+[e = _game_state . `E4596 2 ]
+"592
+[; ;newmain.c: 592:         break;
 }
 [e :U 648 ]
-"590
-[; ;newmain.c: 590:     case LEVEL2:
+"593
+[; ;newmain.c: 593:     case LEVEL2:
 [e ( _tmr_start (1 -> -> 77 `i `uc ]
-"591
-[; ;newmain.c: 591:         if (tmr_state == TMR_DONE)
+"594
+[; ;newmain.c: 594:         if (tmr_state == TMR_DONE)
 }
 [e :U 643 ]
-"592
-[; ;newmain.c: 592:         {
-[e $U 639  ]
-"593
-[; ;newmain.c: 593:             if (isPressed == 0)
-[e :U 649 ]
-"594
-[; ;newmain.c: 594:             {
-[e = _level_subcount -> -> 0 `i `uc ]
 "595
-[; ;newmain.c: 595:                 health_decreaser();
-[e ( _tmr_start (1 -> -> 61 `i `uc ]
+[; ;newmain.c: 595:         {
+[e $U 639  ]
 "596
-[; ;newmain.c: 596:             }
-[e = _game_state . `E4595 3 ]
+[; ;newmain.c: 596:             starterDelay++;
+[e :U 649 ]
+"597
+[; ;newmain.c: 597:             if (isPressed == 0 && starterDelay >= 6)
+[e = _level_subcount -> -> 0 `i `uc ]
 "598
 [; ;newmain.c: 598:             {
-[e ( _randomgen ..  ]
+[e ( _tmr_start (1 -> -> 61 `i `uc ]
 "599
-[; ;newmain.c: 599:                 isPressed = 0;
-[e =+ _level_subcount -> -> 1 `i `uc ]
-"600
-[; ;newmain.c: 600:             }
-[e = _game_level -> -> 2 `i `uc ]
+[; ;newmain.c: 599:                 health_decreaser();
+[e = _game_state . `E4596 3 ]
 "601
-[; ;newmain.c: 601:             if (level_subcount < L2)
-[e $U 639  ]
+[; ;newmain.c: 601:             else
+[e ( _randomgen ..  ]
 "602
 [; ;newmain.c: 602:             {
-[e :U 650 ]
+[e =+ _level_subcount -> -> 1 `i `uc ]
 "603
-[; ;newmain.c: 603:                 shape_shifter();
-[e $ ! == -> _tmr_state `ui -> . `E4614 1 `ui 651  ]
+[; ;newmain.c: 603:                 isPressed = 0;
+[e = _game_level -> -> 2 `i `uc ]
 "604
-[; ;newmain.c: 604:                 randomgen();
-{
+[; ;newmain.c: 604:             }
+[e $U 639  ]
 "605
-[; ;newmain.c: 605:             }
-[e $ ! == -> _isPressed `i -> 0 `i 652  ]
+[; ;newmain.c: 605:             if (level_subcount < L2)
+[e :U 650 ]
 "606
-[; ;newmain.c: 606:             if (level_subcount >= L2)
-{
+[; ;newmain.c: 606:             {
+[e $ ! == -> _tmr_state `ui -> . `E4615 1 `ui 651  ]
 "607
-[; ;newmain.c: 607:             {
-[e ( _health_decreaser ..  ]
+[; ;newmain.c: 607:                 shape_shifter();
+{
 "608
-[; ;newmain.c: 608:                 shape_shifter();
-}
-[e $U 653  ]
+[; ;newmain.c: 608:                 randomgen();
+[e ++ _starterDelay -> -> 1 `i `c ]
 "609
-[; ;newmain.c: 609: 
-[e :U 652 ]
+[; ;newmain.c: 609:             }
+[e $ ! && == -> _isPressed `i -> 0 `i >= -> _starterDelay `i -> 6 `i 652  ]
 "610
-[; ;newmain.c: 610:             }
+[; ;newmain.c: 610:             if (level_subcount >= L2)
 {
 "611
-[; ;newmain.c: 611:             ++level_subcount;
-[e = _isPressed -> -> 0 `i `c ]
+[; ;newmain.c: 611:             {
+[e ( _health_decreaser ..  ]
 "612
-[; ;newmain.c: 612:             if (level_subcount == 6 + L2)
+[; ;newmain.c: 612:                 shape_shifter();
 }
-[e :U 653 ]
+[e $U 653  ]
 "613
-[; ;newmain.c: 613:             {
-[e $ ! < -> _level_subcount `i -> _L2 `i 654  ]
+[; ;newmain.c: 613: 
+[e :U 652 ]
 "614
-[; ;newmain.c: 614:                 game_state = LEVEL3_INIT;
+[; ;newmain.c: 614:             }
 {
 "615
-[; ;newmain.c: 615:             }
-[e ( _shape_shifter ..  ]
+[; ;newmain.c: 615:             ++level_subcount;
+[e = _isPressed -> -> 0 `i `c ]
 "616
-[; ;newmain.c: 616:             tmr_start(61);
-[e ( _randomgen ..  ]
+[; ;newmain.c: 616:             if (level_subcount == 6 + L2)
+}
+[e :U 653 ]
 "617
-[; ;newmain.c: 617:         }
+[; ;newmain.c: 617:             {
+[e $ ! < -> _level_subcount `i -> _L2 `i 654  ]
+"618
+[; ;newmain.c: 618:                 game_state = LEVEL3_INIT;
+{
+"619
+[; ;newmain.c: 619:             }
+[e ( _shape_shifter ..  ]
+"620
+[; ;newmain.c: 620:             tmr_start(61);
+[e ( _randomgen ..  ]
+"621
+[; ;newmain.c: 621:         }
 }
 [e :U 654 ]
-"618
-[; ;newmain.c: 618:         break;
-[e $ ! >= -> _level_subcount `i -> _L2 `i 655  ]
-"619
-[; ;newmain.c: 619:     case LEVEL3_INIT:
-{
-"620
-[; ;newmain.c: 620:         level_subcount = 0;
-[e ( _shape_shifter ..  ]
 "622
-[; ;newmain.c: 622:         game_state = LEVEL3;
+[; ;newmain.c: 622:         break;
+[e $ ! >= -> _level_subcount `i -> _L2 `i 655  ]
+"623
+[; ;newmain.c: 623:     case LEVEL3_INIT:
+{
+"624
+[; ;newmain.c: 624:         level_subcount = 0;
+[e ( _shape_shifter ..  ]
+"626
+[; ;newmain.c: 626:         game_state = LEVEL3;
 }
 [e :U 655 ]
-"623
-[; ;newmain.c: 623: 
-[e =+ _level_subcount -> -> 1 `i `uc ]
-"624
-[; ;newmain.c: 624:         randomgen();
-[e $ ! == -> _level_subcount `i + -> 6 `i -> _L2 `i 656  ]
-"625
-[; ;newmain.c: 625:         ++level_subcount;
-{
-"626
-[; ;newmain.c: 626:         game_level = 3;
-[e = _game_state . `E4595 4 ]
 "627
-[; ;newmain.c: 627:         break;
+[; ;newmain.c: 627: 
+[e =+ _level_subcount -> -> 1 `i `uc ]
+"628
+[; ;newmain.c: 628:         randomgen();
+[e $ ! == -> _level_subcount `i + -> 6 `i -> _L2 `i 656  ]
+"629
+[; ;newmain.c: 629:         ++level_subcount;
+{
+"630
+[; ;newmain.c: 630:         game_level = 3;
+[e = _game_state . `E4596 4 ]
+"631
+[; ;newmain.c: 631:         break;
 }
 [e :U 656 ]
-"628
-[; ;newmain.c: 628:     case LEVEL3:
+"632
+[; ;newmain.c: 632:     case LEVEL3:
 [e ( _tmr_start (1 -> -> 61 `i `uc ]
-"629
-[; ;newmain.c: 629:         if (tmr_state == TMR_DONE)
+"633
+[; ;newmain.c: 633:         if (tmr_state == TMR_DONE)
 }
 [e :U 651 ]
-"630
-[; ;newmain.c: 630:         {
-[e $U 639  ]
-"631
-[; ;newmain.c: 631:             if (isPressed == 0)
-[e :U 657 ]
-"632
-[; ;newmain.c: 632:             {
-[e = _level_subcount -> -> 0 `i `uc ]
-"633
-[; ;newmain.c: 633:                 health_decreaser();
-[e ( _tmr_start (1 -> -> 46 `i `uc ]
 "634
-[; ;newmain.c: 634:             }
-[e = _game_state . `E4595 5 ]
-"636
-[; ;newmain.c: 636:             {
-[e ( _randomgen ..  ]
-"637
-[; ;newmain.c: 637:                 isPressed = 0;
-[e =+ _level_subcount -> -> 1 `i `uc ]
-"638
-[; ;newmain.c: 638:             }
-[e = _game_level -> -> 3 `i `uc ]
-"639
-[; ;newmain.c: 639:             if (level_subcount < L3)
+[; ;newmain.c: 634:         {
 [e $U 639  ]
+"635
+[; ;newmain.c: 635:             starterDelay++;
+[e :U 657 ]
+"636
+[; ;newmain.c: 636:             if (isPressed == 0 && starterDelay >= 6)
+[e = _level_subcount -> -> 0 `i `uc ]
+"637
+[; ;newmain.c: 637:             {
+[e ( _tmr_start (1 -> -> 46 `i `uc ]
+"638
+[; ;newmain.c: 638:                 health_decreaser();
+[e = _game_state . `E4596 5 ]
 "640
-[; ;newmain.c: 640:             {
-[e :U 658 ]
+[; ;newmain.c: 640:             else
+[e ( _randomgen ..  ]
 "641
-[; ;newmain.c: 641:                 shape_shifter();
-[e $ ! == -> _tmr_state `ui -> . `E4614 1 `ui 659  ]
+[; ;newmain.c: 641:             {
+[e =+ _level_subcount -> -> 1 `i `uc ]
 "642
-[; ;newmain.c: 642:                 randomgen();
-{
+[; ;newmain.c: 642:                 isPressed = 0;
+[e = _game_level -> -> 3 `i `uc ]
 "643
 [; ;newmain.c: 643:             }
-[e $ ! == -> _isPressed `i -> 0 `i 660  ]
+[e $U 639  ]
 "644
-[; ;newmain.c: 644:             if (level_subcount >= L3)
-{
+[; ;newmain.c: 644:             if (level_subcount < L3)
+[e :U 658 ]
 "645
 [; ;newmain.c: 645:             {
-[e ( _health_decreaser ..  ]
+[e $ ! == -> _tmr_state `ui -> . `E4615 1 `ui 659  ]
 "646
 [; ;newmain.c: 646:                 shape_shifter();
-}
-[e $U 661  ]
+{
 "647
-[; ;newmain.c: 647: 
-[e :U 660 ]
+[; ;newmain.c: 647:                 randomgen();
+[e ++ _starterDelay -> -> 1 `i `c ]
 "648
 [; ;newmain.c: 648:             }
-{
+[e $ ! && == -> _isPressed `i -> 0 `i >= -> _starterDelay `i -> 6 `i 660  ]
 "649
-[; ;newmain.c: 649:             ++level_subcount;
-[e = _isPressed -> -> 0 `i `c ]
-"650
-[; ;newmain.c: 650:             if (level_subcount == 6 + L3)
-}
-[e :U 661 ]
-"651
-[; ;newmain.c: 651:             {
-[e $ ! < -> _level_subcount `i -> _L3 `i 662  ]
-"652
-[; ;newmain.c: 652:                 game_state = END;
+[; ;newmain.c: 649:             if (level_subcount >= L3)
 {
+"650
+[; ;newmain.c: 650:             {
+[e ( _health_decreaser ..  ]
+"651
+[; ;newmain.c: 651:                 shape_shifter();
+}
+[e $U 661  ]
+"652
+[; ;newmain.c: 652: 
+[e :U 660 ]
 "653
 [; ;newmain.c: 653:             }
-[e ( _shape_shifter ..  ]
+{
 "654
-[; ;newmain.c: 654:             tmr_start(46);
-[e ( _randomgen ..  ]
+[; ;newmain.c: 654:             ++level_subcount;
+[e = _isPressed -> -> 0 `i `c ]
 "655
-[; ;newmain.c: 655:         }
+[; ;newmain.c: 655:             if (level_subcount == 6 + L3)
 }
-[e :U 662 ]
+[e :U 661 ]
 "656
-[; ;newmain.c: 656:         break;
-[e $ ! >= -> _level_subcount `i -> _L3 `i 663  ]
+[; ;newmain.c: 656:             {
+[e $ ! < -> _level_subcount `i -> _L3 `i 662  ]
 "657
-[; ;newmain.c: 657:     case LOSE:
+[; ;newmain.c: 657:                 game_state = END;
 {
 "658
-[; ;newmain.c: 658:         reset_task();
+[; ;newmain.c: 658:             }
 [e ( _shape_shifter ..  ]
+"659
+[; ;newmain.c: 659:             tmr_start(46);
+[e ( _randomgen ..  ]
 "660
-[; ;newmain.c: 660:     case END:
+[; ;newmain.c: 660:         }
+}
+[e :U 662 ]
+"661
+[; ;newmain.c: 661:         break;
+[e $ ! >= -> _level_subcount `i -> _L3 `i 663  ]
+"662
+[; ;newmain.c: 662:     case LOSE:
+{
+"663
+[; ;newmain.c: 663:         reset_task();
+[e ( _shape_shifter ..  ]
+"665
+[; ;newmain.c: 665:     case END:
 }
 [e :U 663 ]
-"661
-[; ;newmain.c: 661:         reset_task();
+"666
+[; ;newmain.c: 666:         reset_task();
 [e =+ _level_subcount -> -> 1 `i `uc ]
-"662
-[; ;newmain.c: 662:         break;
+"667
+[; ;newmain.c: 667:         break;
 [e $ ! == -> _level_subcount `i + -> 6 `i -> _L3 `i 664  ]
-"663
-[; ;newmain.c: 663:     }
+"668
+[; ;newmain.c: 668:     }
 {
-"664
-[; ;newmain.c: 664: }
-[e = _game_state . `E4595 6 ]
-"665
-[; ;newmain.c: 665: 
+"669
+[; ;newmain.c: 669: }
+[e = _game_state . `E4596 6 ]
+"670
+[; ;newmain.c: 670: 
 }
 [e :U 664 ]
-"666
-[; ;newmain.c: 666: void main(void)
+"671
+[; ;newmain.c: 671: void main(void)
 [e ( _tmr_start (1 -> -> 46 `i `uc ]
-"667
-[; ;newmain.c: 667: {
+"672
+[; ;newmain.c: 672: {
 }
 [e :U 659 ]
-"668
-[; ;newmain.c: 668:     init_vars();
-[e $U 639  ]
-"669
-[; ;newmain.c: 669:     init_ports();
-[e :U 665 ]
-"670
-[; ;newmain.c: 670:     tmr_init();
-[e ( _reset_task ..  ]
-"671
-[; ;newmain.c: 671:     init_irq();
-[e $U 639  ]
-"672
-[; ;newmain.c: 672:     while (1)
-[e :U 666 ]
 "673
-[; ;newmain.c: 673:     {
-[e ( _reset_task ..  ]
-"674
-[; ;newmain.c: 674: 
+[; ;newmain.c: 673:     init_vars();
 [e $U 639  ]
+"674
+[; ;newmain.c: 674:     init_ports();
+[e :U 665 ]
 "675
-[; ;newmain.c: 675: 
+[; ;newmain.c: 675:     tmr_init();
+[e ( _reset_task ..  ]
+"676
+[; ;newmain.c: 676:     init_irq();
+[e $U 639  ]
+"677
+[; ;newmain.c: 677:     isRC0Pressed = 0;
+[e :U 666 ]
+"678
+[; ;newmain.c: 678:     isGameStarted = 1;
+[e ( _reset_task ..  ]
+"679
+[; ;newmain.c: 679:     isGameFinished = 0;
+[e $U 639  ]
+"680
+[; ;newmain.c: 680:     TRISC = 0x00;
 }
 [e $U 639  ]
 [e :U 640 ]
-[e [\ -> _game_state `ui , $ -> . `E4595 0 `ui 641
- , $ -> . `E4595 1 `ui 642
- , $ -> . `E4595 2 `ui 649
- , $ -> . `E4595 3 `ui 650
- , $ -> . `E4595 4 `ui 657
- , $ -> . `E4595 5 `ui 658
- , $ -> . `E4595 7 `ui 665
- , $ -> . `E4595 6 `ui 666
+[e [\ -> _game_state `ui , $ -> . `E4596 0 `ui 641
+ , $ -> . `E4596 1 `ui 642
+ , $ -> . `E4596 2 `ui 649
+ , $ -> . `E4596 3 `ui 650
+ , $ -> . `E4596 4 `ui 657
+ , $ -> . `E4596 5 `ui 658
+ , $ -> . `E4596 7 `ui 665
+ , $ -> . `E4596 6 `ui 666
  639 ]
 [e :U 639 ]
-"676
-[; ;newmain.c: 676:         input_task();
+"681
+[; ;newmain.c: 681:     PORTC = 0x00;
 [e :UE 613 ]
 }
 [v $root$_main `(v ~T0 @X0 0 e ]
-"678
-[; ;newmain.c: 678:         if ((isGameStarted == 0) || (isGameFinished == 1))
+"683
+[; ;newmain.c: 683:     while (1)
 [v _main `(v ~T0 @X0 1 ef ]
-"679
-[; ;newmain.c: 679:         {
+"684
+[; ;newmain.c: 684:     {
 {
 [e :U _main ]
 [f ]
-"680
-[; ;newmain.c: 680:             continue;
-[e ( _init_vars ..  ]
-"681
-[; ;newmain.c: 681:         }
-[e ( _init_ports ..  ]
-"682
-[; ;newmain.c: 682:         game_task();
-[e ( _tmr_init ..  ]
-"683
-[; ;newmain.c: 683:     }
-[e ( _init_irq ..  ]
-"684
-[; ;newmain.c: 684: }
-[e :U 669 ]
 "685
-{
+[; ;newmain.c: 685: 
+[e ( _init_vars ..  ]
+"686
+[; ;newmain.c: 686: 
+[e ( _init_ports ..  ]
+"687
+[; ;newmain.c: 687:         input_task();
+[e ( _tmr_init ..  ]
 "688
-[e ( _input_task ..  ]
+[; ;newmain.c: 688:         sevenSeg_controller();
+[e ( _init_irq ..  ]
 "689
-[e ( _sevenSeg_controller ..  ]
+[; ;newmain.c: 689:         if ((isGameStarted == 0) || (isGameFinished == 1))
+[e = _isRC0Pressed -> -> 0 `i `c ]
 "690
-[e $ ! || == -> _isGameStarted `i -> 0 `i == -> _isGameFinished `i -> 1 `i 671  ]
+[; ;newmain.c: 690:         {
+[e = _isGameStarted -> -> 1 `i `uc ]
 "691
-{
+[; ;newmain.c: 691:             continue;
+[e = _isGameFinished -> -> 0 `i `uc ]
 "692
-[e $U 668  ]
+[; ;newmain.c: 692:         }
+[e = _TRISC -> -> 0 `i `uc ]
 "693
+[; ;newmain.c: 693:         game_task();
+[e = _PORTC -> -> 0 `i `uc ]
+"695
+[; ;newmain.c: 695: }
+[e :U 669 ]
+"696
+{
+"699
+[e ( _input_task ..  ]
+"700
+[e ( _sevenSeg_controller ..  ]
+"701
+[e $ ! || == -> _isGameStarted `i -> 0 `i == -> _isGameFinished `i -> 1 `i 671  ]
+"702
+{
+"703
+[e $U 668  ]
+"704
 }
 [e :U 671 ]
-"694
+"705
 [e ( _game_task ..  ]
-"695
+"706
 }
 [e :U 668 ]
 [e $U 669  ]
 [e :U 670 ]
-"696
+"707
 [e :UE 667 ]
 }

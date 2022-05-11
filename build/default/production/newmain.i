@@ -7885,6 +7885,7 @@ int8_t isRG2Pressed;
 int8_t isRG3Pressed;
 int8_t isRG4Pressed;
 int8_t isPressed;
+int8_t starterDelay;
 uint8_t whichRG;
 uint8_t tmr1flag = 0;
 uint8_t ltmrval;
@@ -7925,13 +7926,14 @@ void init_vars()
     sevenSegCounter = 0;
     whichRG = 5;
     isPressed = 0;
+    starterDelay = 0;
 }
 void init_ports()
 {
-    ADCON1 = 0x0f;
+
     TRISA = 0x00;
     TRISB = 0x00;
-    TRISC = 0x01;
+
     TRISD = 0x00;
     TRISE = 0x00;
     TRISF = 0x00;
@@ -8074,7 +8076,7 @@ void input_task()
 
     if (!isGameStarted || isGameFinished)
     {
-        if (isRC0Pressed)
+        if (isRC0Pressed == 1)
         {
             if (PORTCbits.RC0 == 0)
             {
@@ -8417,7 +8419,8 @@ void game_task()
 
         if (tmr_state == TMR_DONE)
         {
-            if (isPressed == 0)
+            starterDelay++;
+            if (isPressed == 0 && starterDelay >= 6)
             {
                 health_decreaser();
             }
@@ -8455,7 +8458,8 @@ void game_task()
     case LEVEL2:
         if (tmr_state == TMR_DONE)
         {
-            if (isPressed == 0)
+            starterDelay++;
+            if (isPressed == 0 && starterDelay >= 6)
             {
                 health_decreaser();
             }
@@ -8493,7 +8497,8 @@ void game_task()
     case LEVEL3:
         if (tmr_state == TMR_DONE)
         {
-            if (isPressed == 0)
+            starterDelay++;
+            if (isPressed == 0 && starterDelay >= 6)
             {
                 health_decreaser();
             }
@@ -8534,6 +8539,12 @@ void main(void)
     init_ports();
     tmr_init();
     init_irq();
+    isRC0Pressed = 0;
+    isGameStarted = 1;
+    isGameFinished = 0;
+    TRISC = 0x00;
+    PORTC = 0x00;
+
     while (1)
     {
 

@@ -14,9 +14,11 @@ uint8_t sevenSegCounter;
 void __interrupt(high_priority) highPriorityISR(void)
 {
     if (INTCONbits.TMR0IF)
+    {
         tmr_isr();
-    sevenSegCounter++;
-    sevenSegCounter %= 12;
+        sevenSegCounter++;
+        sevenSegCounter %= 12;
+    }
 }
 void __interrupt(low_priority) lowPriorityISR(void) {}
 
@@ -140,8 +142,8 @@ void tmr_start(uint8_t ticks)
     tmr_ticks_left = ticks;
     tmr_state = TMR_RUN;
     TMR0 = 0x00;
-    INTCONbits.T0IF = 0;
-    T0CON |= 0x80; // Set TMR0ON
+    INTCONbits.TMR0IF = 0;
+    //T0CON |= 0x80; // Set TMR0ON
 }
 
 void randomgen()
@@ -151,15 +153,15 @@ void randomgen()
 
     if (tmr1flag == 0)
     {
-        htmrval = TMR1H;
         ltmrval = TMR1L;
+        htmrval = TMR1H;
         noteval = 0x07 & ltmrval; // Reading Timer1 value
         tmr1flag = 1;
     }
     if (tmr1flag == 1)
     {
         noteval = 0x07 & ltmrval; // Reading Timer1 value
-        noteval = noteval % 5;
+        noteval = noteval % 5;TMR0ON
         val = 0x01;
         for (i = 0; i < noteval; i++)
         {
@@ -230,6 +232,7 @@ void input_task()
                 isGameFinished = 0;
                 TRISC = 0x00;
                 PORTC = 0x00;
+                T0CON |= 0x80; // Set TMR0ON
             }
         }
         else if (PORTCbits.RC0 == 1)
@@ -524,9 +527,7 @@ void game_task()
     case 1:
         if (PORTFbits.RF1 == 1)
             tmr_state = TMR_DONE;
-        else
-            health_decreaser();
-        break;
+        elseisRC0Pressed
     case 2:
         if (PORTFbits.RF2 == 1)
             tmr_state = TMR_DONE;
@@ -548,6 +549,7 @@ void game_task()
     default:
         break;
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     whichRG = 5;
     switch (game_state)
     {
@@ -689,13 +691,14 @@ void main(void)
     isGameFinished = 0;
     TRISC = 0x00;
     PORTC = 0x00;
-
+    T0CON |= 0x80; // Set TMR0ON
     while (1)
     {
         // TODO: 7seg time-based things
         // TODO: 7seg task
         input_task();
-        sevenSeg_controller();
+        sevenSeg_controller();      // TODO: try to implement in another way
+        // TIMER1 
         if ((isGameStarted == 0) || (isGameFinished == 1))
         {
             continue;
