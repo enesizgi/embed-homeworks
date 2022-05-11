@@ -77,7 +77,7 @@ void init_vars()
 }
 void init_ports()
 {
-    ADCON1 = 0x0f;  //MAYBE ff
+   // ADCON1 = 0x0f;  //MAYBE ff
     TRISA = 0x00; //
     TRISB = 0x00; //
     TRISC = 0x01; // TRIS RC0 will be changed during the game
@@ -99,10 +99,8 @@ void init_ports()
 
 void init_irq()
 {
-    INTCON = 0x10;
-    INTCONbits.TMR0IE = 1; // MAYBE
-    INTCONbits.GIE = 1;
-    RCONbits.IPEN = 0;
+    INTCON = 0xa0;
+    //RCONbits.IPEN = 0; MAYBE
 }
 
 // ************* Timer task and functions ****************
@@ -223,7 +221,7 @@ void input_task()
     // DONT FORGET TO SET THE VARIABLES -1 AGAIN IN GAME TASK  // Setted to 0 MAYBE -1 ?
     if (!isGameStarted || isGameFinished)
     {
-        if (isRC0Pressed)
+        if (isRC0Pressed == 1)
         {
             if (PORTCbits.RC0 == 0)
             {
@@ -686,6 +684,12 @@ void main(void)
     init_ports(); // DONE
     tmr_init();   // DONE
     init_irq();   // DONE
+    isRC0Pressed = 0;
+    isGameStarted = 1;
+    isGameFinished = 0;
+    TRISC = 0x00;
+    PORTC = 0x00;
+
     while (1)
     {
         // TODO: 7seg time-based things
