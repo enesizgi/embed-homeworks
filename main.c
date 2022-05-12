@@ -108,13 +108,12 @@ void init_vars()
     isRG2Pressed = 2;       // This flag is tri-state flag 2 - 1 - 0
     isRG3Pressed = 2;       // This flag is tri-state flag 2 - 1 - 0
     isRG4Pressed = 2;       // This flag is tri-state flag 2 - 1 - 0
-    sevenSegCounter = 0;
-    sevenSeg2WayCounter = 0;
-    sevenSeg3WayCounter = 0;
-    sevenSeg4WayCounter = 0;
+    sevenSeg2WayCounter = 0; // This flag is 0 or 1
+    sevenSeg3WayCounter = 0; // This flag is 0-1-2
+    sevenSeg4WayCounter = 0; // This flag is 0-1-2-3
     whichRG = 5;            // Initialized to 5 which is not in range 0-4
-    starterDelay = 0;
-    level_subcount = 0;
+    starterDelay = 0;      // This variable is used to wait for notes to reach to the RF
+    level_subcount = 0;    // This variable counts generated notes
     game_level = 1;
     game_state = G_INIT;
     tmr1flag = 0;
@@ -168,6 +167,8 @@ uint8_t tmr_ticks_left;          // Number of "ticks" until "done"
 
 void tmr_isr()
 {
+    // We increase all sevenSegWayCounter variables and take modulo operation for all of them.
+    // Using modulo operation caused some problems on our board, so we used simple if else.
     if (sevenSeg2WayCounter == 1)
         sevenSeg2WayCounter = 0;
     else
@@ -405,6 +406,7 @@ void input_task()
 void sevenSeg(uint8_t J, uint8_t D);
 void sevenSeg_controller()
 {
+    // We change the led at every interrupt so we can use both leds. (Left most and right most leds)
     switch (game_state)
     {
     case G_INIT:
@@ -469,6 +471,7 @@ void sevenSeg_controller()
 
 void sevenSeg(uint8_t J, uint8_t D)
 {
+    // This function changes the 7 segment display to the desired value.
     switch (J)
     {
 
@@ -806,10 +809,11 @@ void main(void)
     game_state = INIT_START;
     while (1)
     {
-        input_task();
-        sevenSeg_controller();
+        input_task(); // Takes the input from the user with RC0 and RG0-4
+        sevenSeg_controller(); // This function changes the 7-segment display
         if ((isGameStarted == 0) || (isGameFinished == 1))
         {
+            // This if prevents the game from starting before pressing RC0
             continue;
         }
         game_task();
