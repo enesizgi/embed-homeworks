@@ -68,11 +68,11 @@ int8_t isRG2Pressed;        // Set if RG2 pressed
 int8_t isRG3Pressed;        // Set if RG3 pressed
 int8_t isRG4Pressed;        // Set if RG4 pressed
 int8_t isTruePressed;       // Set if proper RG button pressed for RF, o.w reset
-int8_t starterDelay;        // Health begins to decrease after when the lights on the LEDs arrives RF 
-uint8_t whichRG;
-uint8_t tmr1flag;
-uint8_t ltmrval;
-uint8_t htmrval;
+int8_t starterDelay;        // Health begins to decrease after when the lights on the LEDs arrives RF, so we need wait to decrease health. This variable is used for this purpose on game_task
+uint8_t whichRG;            // When a PORTG button is pressed, this flag is set to that buttons number. For example if RG0 is pressed -> whichRG = 0,..., if RG4 is pressed -> whichRG = 4
+uint8_t tmr1flag;           // Used for reading TMR1 once
+uint8_t ltmrval;            // Used for TMR1 read low
+uint8_t htmrval;            // Used for TMR1 read high
 
 // Game state definitions and the global state
 typedef enum
@@ -89,7 +89,7 @@ typedef enum
 } game_state_t;
 game_state_t game_state;
 
-uint8_t level_subcount;
+uint8_t level_subcount;     // Used for shifting purposes in game_task
 uint8_t L1 = 5, L2 = 10, L3 = 15;
 
 // Current game choices and the countdown
@@ -97,21 +97,22 @@ uint8_t game_level;
 
 void init_vars()
 {
+    // This function initializes variables and it is called when a new game starts
     health = 9;
     level = 1;
     isGameStarted = 0;
     isGameFinished = 0;
     isTruePressed = 0;
-    isRG0Pressed = 2;
-    isRG1Pressed = 2;
-    isRG2Pressed = 2;
-    isRG3Pressed = 2;
-    isRG4Pressed = 2;
+    isRG0Pressed = 2;       // This flag is tri-state flag 2 - 1 - 0
+    isRG1Pressed = 2;       // This flag is tri-state flag 2 - 1 - 0
+    isRG2Pressed = 2;       // This flag is tri-state flag 2 - 1 - 0
+    isRG3Pressed = 2;       // This flag is tri-state flag 2 - 1 - 0
+    isRG4Pressed = 2;       // This flag is tri-state flag 2 - 1 - 0
     sevenSegCounter = 0;
     sevenSeg2WayCounter = 0;
     sevenSeg3WayCounter = 0;
     sevenSeg4WayCounter = 0;
-    whichRG = 5;
+    whichRG = 5;            // Initialized to 5 which is not in range 0-4
     starterDelay = 0;
     level_subcount = 0;
     game_level = 1;
@@ -123,17 +124,18 @@ void init_vars()
 
 void init_ports()
 {
-    ADCON1 = 0x0f;
-    TRISA = 0x00;  //
-    TRISB = 0x00;  //
-    TRISC = 0x01;  // TRIS RC0 will be changed during the game
-    TRISD = 0x00;  //
-    TRISE = 0x00;  //
-    TRISF = 0x00;
-    TRISG = 0x1f; // 0001 1111
-    TRISH = 0x00;
-    TRISJ = 0x00;
+    ADCON1 = 0x0f;      // Configure ADCON1 to use all pins as digital
+    TRISA = 0x00;       // Output
+    TRISB = 0x00;       // Output
+    TRISC = 0x01;       // TRIS RC0 will be changed during the game
+    TRISD = 0x00;       // Output
+    TRISE = 0x00;       // Output
+    TRISF = 0x00;       // Output
+    TRISG = 0x1f;       // Inputs -> 0001 1111
+    TRISH = 0x00;       // Output
+    TRISJ = 0x00;       // Output
 
+    // RESET PORTS
     PORTA = 0x00;
     PORTB = 0x00;
     PORTD = 0x00;
@@ -147,6 +149,7 @@ void init_ports()
 
 void init_irq()
 {
+    // INTCON is configured to use TMR0 interrupts
     INTCON = 0xa0;
 }
 
@@ -161,7 +164,6 @@ typedef enum
     TMR_DONE
 } tmr_state_t;
 tmr_state_t tmr_state = TMR_RUN; // Current timer state
-uint8_t tmr_startreq = 0;        // Flag to request the timer to start
 uint8_t tmr_ticks_left;          // Number of "ticks" until "done"
 
 void tmr_isr()
@@ -184,7 +186,7 @@ void tmr_isr()
 }
 void tmr_init()
 {
-    // In order to achieve a 500ms delay, we will use Timer0 in 8-bit mode.
+    // In order to achieve a 500ms-400ms-300ms delay, we will use Timer0 in 8-bit mode.
     // This setup assumes a 40MHz 18F8722, which corresponds to a 10MHz
     // instruction cycle
     T0CON = 0x47; // internal clock with 1:256 prescaler and 8-bit
@@ -196,11 +198,10 @@ void tmr_init()
 // goes into the DONE state
 void tmr_start(uint8_t ticks)
 {
-    tmr_ticks_left = ticks;
-    tmr_state = TMR_RUN;
-    TMR0 = 0x00;
-    INTCONbits.TMR0IF = 0;
-    // T0CON |= 0x80; // Set TMR0ON
+    tmr_ticks_left = ticks;     
+    tmr_state = TMR_RUN;        // Set timer state to RUN
+    TMR0 = 0x00;                // Clear TMR0
+    INTCONbits.TMR0IF = 0;      // Reset TMR0 Interrupt Flag
 }
 
 void randomgen()
@@ -330,7 +331,7 @@ void input_task()
         if (PORTGbits.RG1 == 0)
         {
             isRG1Pressed = 1;
-            whichRG = 42;
+            whichRG = 1;
         }
     }
     else if (PORTGbits.RG1 == 1)
@@ -387,9 +388,9 @@ void input_task()
 }
 
 // ************* 7 segment display task and functions ****************
-// This is the "display task", which is responsible from maintaining and
-// updating outputs on PORTB, PORTC and PORTD. This task handles all
-// blinking functionality when configured by using the timer task.
+// This is the "7 segment display task", which is responsible from maintaining and
+// updating outputs on PORTJ, PORTH. This task handles all
+// 7 segment-related purposes.
 void sevenSeg(uint8_t J, uint8_t D);
 void sevenSeg_controller()
 {
@@ -525,15 +526,16 @@ void sevenSeg(uint8_t J, uint8_t D)
 // This task handles the overall game logic and control remaining tasks
 // through their utility functions and flags
 
+// This function basiaclly shifts PORTS A --> way to --> F
 void shape_shifter()
 {
-    //T1CON = 0xc1;
     PORTF = PORTE;
     PORTE = PORTD;
     PORTD = PORTC;
     LATC = PORTB;
     PORTB = PORTA;
     
+    // We clear the bits 4-7 of PORTA-..-F
     PORTA &= 0x1f;
     PORTB &= 0x1f;
     LATC &= 0x1f;
@@ -541,14 +543,14 @@ void shape_shifter()
     PORTE &= 0x1f;
     PORTF &= 0x1f;
     
+    // Reset PORTA, after shape_shifter a random note is generated on PORTA
     PORTA = 0x00;
-    //T1CON = 0xc9;
-
 }
 
 void reset_task()
 {
-
+    // This functions basically resets the needed variables.
+    // Configures the game logic control flags and initiliazes PORTS.
     isGameStarted = 0;
     isGameFinished = 1;
     PORTC = 0x00;
@@ -557,6 +559,7 @@ void reset_task()
 
 void health_decreaser()
 {
+    // This function decreases health and if health is 0 --> game state goes to LOSE
     health--;
     if (health == 0)
     {
@@ -566,6 +569,7 @@ void health_decreaser()
 
 void game_task()
 {
+    // This count is for controlling if the player pressed
     uint8_t count = 0;
     if (isRG0Pressed == 1)
     {
@@ -615,7 +619,7 @@ void game_task()
         else
             health_decreaser();
         break;
-    case 42:
+    case 1:
         if (PORTFbits.RF1 == 1) {
             PORTF = 0X00;
             isTruePressed = 1;
