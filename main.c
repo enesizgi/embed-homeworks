@@ -66,7 +66,7 @@ uint8_t game_level;
 void init_vars()
 {
     temp_shift = 0;
-    health = 29;
+    health = 9;
     level = 1;
     isGameStarted = 0;
     isGameFinished = 0;
