@@ -597,6 +597,7 @@ void game_task()
             PORTF = 0X00;
         else
             health_decreaser();
+        break;
     case 2:
         if (PORTFbits.RF2 == 1)
             PORTF = 0X00;
