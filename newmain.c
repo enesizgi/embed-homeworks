@@ -66,7 +66,7 @@ uint8_t game_level;
 void init_vars()
 {
     temp_shift = 0;
-    health = 9;
+    health = 29;
     level = 1;
     isGameStarted = 0;
     isGameFinished = 0;
@@ -318,7 +318,7 @@ void input_task()
         if (PORTGbits.RG1 == 0)
         {
             isRG1Pressed = 1;
-            whichRG = 1;
+            whichRG = 42;
         }
     }
     else if (PORTGbits.RG1 == 1)
@@ -610,7 +610,7 @@ void game_task()
         else
             health_decreaser();
         break;
-    case 1:
+    case 42:
         if (PORTFbits.RF1 == 1)
             //tmr_state = TMR_DONE;
             PORTF = 0X00;
@@ -791,4 +791,5 @@ void main(void)
         }
         game_task();
     }
+    // TODO: RG1 saga sola giden pinleri grubu oku yap.
 }
