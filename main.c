@@ -172,22 +172,20 @@ void tmr_start(uint8_t ticks)
 
 void randomgen()
 {
-    uint8_t noteval, lastbit, intermbit, num, val, i;
-    //PORTA = 0x00;
+    uint8_t noteval, lastbit, intermbit, num, val, i; // 
 
-    if (tmr1flag == 0)
+    if (tmr1flag == 0) // Reading TMR1 value 
     {
-        ltmrval = TMR1L;
-        htmrval = TMR1H;
-        noteval = 0x07 & ltmrval; // Reading Timer1 value
-        tmr1flag = 1;
+        ltmrval = TMR1L; // Saving last 8 bits of TMR1
+        htmrval = TMR1H; // Saving first 8 bits of 
+        noteval = 0x07 & ltmrval; // Reading last 3 bits of Timer1 value
+        tmr1flag = 1; // To read TMR1 value once I use a flag 
         
     }
     if (tmr1flag == 1)
     {
-        noteval = 0x07 & ltmrval; // Reading Timer1 value
-        //noteval = noteval % 5;
-        switch (noteval) {
+        noteval = 0x07 & ltmrval;
+        switch (noteval) { // Getting the remainder from division by 5
             case 5:
                 noteval = 0;
                 break;
@@ -201,26 +199,23 @@ void randomgen()
                 break;
         }
         val = 0x01;
-        //for (i = 0; i < noteval; i++)
-        //{
-            val = val << noteval;
-        //}//
-            PORTA = 0x00;
-        PORTA = val;
-        if (level == 1)
+        val = val << noteval; // Converting the remainder to choose correct RC led
+        PORTA = 0x00;
+        PORTA = val; // Lighting up the corresponding RC led
+        if (level == 1) // Rotation for level 1
         {
-            lastbit = 0x01 & ltmrval;
-            intermbit = 0x01 & htmrval;
-            htmrval = htmrval >> 1;
+            lastbit = 0x01 & ltmrval; //  Saving the value of the last bit of last 8 bit
+            intermbit = 0x01 & htmrval; // Saving the value of the last bit of first 8 bit
+            htmrval = htmrval >> 1; // Making shift but first bit is set to 0 automatically 
             ltmrval = ltmrval >> 1;
-            lastbit = lastbit << 7;
+            lastbit = lastbit << 7; // Shifting the rightmost bit to the leftmost position
             intermbit = intermbit << 7;
-            ltmrval = ltmrval | lastbit;
+            ltmrval = ltmrval | lastbit; // Using OR operation to merge leftmost bit and the remaining bits
             htmrval = htmrval | intermbit;
         }
         if (level == 2)
         {
-            num = 3;
+            num = 3; // Rotating 3 times for level 2 
             while (num > 0)
             {
                 lastbit = 0x01 & ltmrval;
@@ -236,7 +231,7 @@ void randomgen()
         }
         if (level == 3)
         {
-            num = 5;
+            num = 5; // Rotating 5 times for level 3
             while (num > 0)
             {
                 lastbit = 0x01 & ltmrval;
