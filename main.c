@@ -580,7 +580,8 @@ void health_decreaser()
 
 void game_task()
 {
-    // This count is for controlling if the player pressed
+    // This count is for controlling if the player pressed more than one button.
+    // i.e., count is the number of buttons pressed simultaneously
     uint8_t count = 0;
     if (isRG0Pressed == 1)
     {
@@ -608,6 +609,7 @@ void game_task()
         isRG4Pressed = 2;
     }
 
+    // If more than one button is pressed -> set whichRG = -1
     if (count > 1)
     {
         whichRG = -1;
@@ -616,75 +618,79 @@ void game_task()
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /*
+    *-* The value of whichRG represents which button on PORTG is pressed.
+    *-* If RG0 is pressed --> whichRG = 0
+    *-*...
+    *-* If RG4 is pressed --> whichRG = 4
+    *-* whichRG = -1 if more than one button is pressed
+    */
     switch (whichRG)
     {
     case -1:
         while(count--)
-            health_decreaser();
+            health_decreaser();         // Penalty for every more than one presses
         break;
     case 0:
         if (PORTFbits.RF0 == 1) {
-            PORTF = 0X00;
+            PORTF = 0X00;               // Suddenly reset PORTF when true RG is pressed.
             isTruePressed = 1;
         }
         else
-            health_decreaser();
+            health_decreaser();         // Decrease the health if wrong RG is pressed. 
         break;
     case 1:
         if (PORTFbits.RF1 == 1) {
-            PORTF = 0X00;
+            PORTF = 0X00;               // Suddenly reset PORTF when true RG is pressed.
             isTruePressed = 1;
         }
             
         else
-            health_decreaser();
+            health_decreaser();         // Decrease the health if wrong RG is pressed. 
         break;
     case 2:
         if (PORTFbits.RF2 == 1) {
-            PORTF = 0X00;
+            PORTF = 0X00;               // Suddenly reset PORTF when true RG is pressed.
             isTruePressed = 1;
         }
             
         else
-            health_decreaser();
+            health_decreaser();         // Decrease the health if wrong RG is pressed. 
         break;
     case 3:
         if (PORTFbits.RF3 == 1) {
-            PORTF = 0X00;
+            PORTF = 0X00;               // Suddenly reset PORTF when true RG is pressed.
             isTruePressed = 1;
         }
             
         else
-            health_decreaser();
+            health_decreaser();         // Decrease the health if wrong RG is pressed. 
         break;
     case 4:
         if (PORTFbits.RF4 == 1) {
-            PORTF = 0X00;
+            PORTF = 0X00;               // Suddenly reset PORTF when true RG is pressed.
             isTruePressed = 1;
         }
             
         else
-            health_decreaser();
+            health_decreaser();         // Decrease the health if wrong RG is pressed. 
         break;
     default:
         break;
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    whichRG = 5;
+    whichRG = 5;                        // Reset whichRG
     switch (game_state)
     {
     case G_INIT:
-        tmr_start(77); // TMR0 counts 77 times so that 500 ms
+        tmr_start(77);                  // TMR0 counts 77 times so that 500 ms
         game_state = LEVEL1;
-        // shape_shifter();   // Shift RA->RB, RB-RC, ... , RE->RF
-        randomgen(); // generate note
+        randomgen();                    // generate note
         ++level_subcount;
         game_level = 1;
         starterDelay = 0;
         break;
     case LEVEL1:
-        // START state
-
         if (tmr_state == TMR_DONE) // 500 ms passed
         {
             starterDelay++;
@@ -700,7 +706,6 @@ void game_task()
             if (level_subcount >= L1)
             {
                 shape_shifter(); // Shift RA->RB, RB-RC, ... , RE->RF
-                // if(level_subcount == L1) PORTA = 0x00;
             }
             ++level_subcount;
             if (level_subcount == 6 + L1) // 5 is the A B C D E F PORST count  i.e., level_subcount == 11
@@ -715,7 +720,6 @@ void game_task()
         level_subcount = 0;
         tmr_start(61); // TMR0 counts 61 times so that 500 ms
         game_state = LEVEL2;
-        // shape_shifter();   // Shift RA->RB, RB-RC, ... , RE->RF
         randomgen(); // generate note
         ++level_subcount;
         game_level = 2;
@@ -752,7 +756,6 @@ void game_task()
         level_subcount = 0;
         tmr_start(46); // TMR0 counts 46 times so that 300 ms
         game_state = LEVEL3;
-        // shape_shifter();   // Shift RA->RB, RB-RC, ... , RE->RF
         randomgen(); // generate note
         ++level_subcount;
         game_level = 3;
