@@ -290,14 +290,15 @@ void randomgen()
 
 void input_task()
 {
-    ///////////////////////////////////////////////////RC0 TASK///////////////////////////////////////////////////
-
+    /*------------------ RC0 TASK ------------------*/
+    // Below code checks if RC0 being pressed
+    // We use game_state G_INIT at the beginning
     if (!isGameStarted || isGameFinished)
     {
         if (PORTCbits.RC0 == 1)
         {
-            health = 9;
-            game_state = G_INIT;
+            health = 9; // MAYBE Disable?
+            game_state = G_INIT; // MAYBE Disable?
             init_vars();
             init_ports();
             isGameStarted = 1;
@@ -309,81 +310,96 @@ void input_task()
             T0CON |= 0x80; // Set TMR0ON
         }
     }
-    ///////////////////////////////////////////////////RG TASK///////////////////////////////////////////////////
+    /*------------------ RC0 TASK ------------------*/
+    // CHECK IF RG0 PRESSED
     if (isRG0Pressed == 0)
     {
         if (PORTGbits.RG0 == 0)
         {
+            // Button was pressed and now it is released.
+            // We are setting our flag variables.
             isRG0Pressed = 1;
             whichRG = 0;
         }
     }
-    else if (PORTGbits.RG0 == 1)
+    else if (PORTGbits.RG0 == 1) 
     {
+        // Button is pressed but not released yet.
         isRG0Pressed = 0;
-        
-        //whichRG = 0;    // RG0
     }
+    // CHECK IF RG0 PRESSED
 
+    // CHECK IF RG1 PRESSED
     if (isRG1Pressed == 0)
     {
         if (PORTGbits.RG1 == 0)
         {
+            // Button was pressed and now it is released.
+            // We are setting our flag variables.
             isRG1Pressed = 1;
             whichRG = 42;
         }
     }
     else if (PORTGbits.RG1 == 1)
     {
+        // Button is pressed but not released yet.
         isRG1Pressed = 0;
-        
-        //whichRG = 1;    // RG0
     }
+    // CHECK IF RG1 PRESSED
 
+    // CHECK IF RG2 PRESSED
     if (isRG2Pressed == 0)
     {
         if (PORTGbits.RG2 == 0)
         {
+            // Button was pressed and now it is released.
+            // We are setting our flag variables.
             isRG2Pressed = 1;
             whichRG = 2;
         }
     }
     else if (PORTGbits.RG2 == 1)
     {
+        // Button is pressed but not released yet.
         isRG2Pressed = 0;
-        
-        //whichRG = 2;
     }
+    // CHECK IF RG2 PRESSED
 
+    // CHECK IF RG3 PRESSED
     if (isRG3Pressed == 0)
     {
         if (PORTGbits.RG3 == 0)
         {
+            // Button was pressed and now it is released.
+            // We are setting our flag variables.
             isRG3Pressed = 1;
             whichRG = 3;
         }
     }
     else if (PORTGbits.RG3 == 1)
     {
+        // Button is pressed but not released yet.
         isRG3Pressed = 0;
-        
-        //whichRG = 3;
     }
+    // CHECK IF RG3 PRESSED
 
+    // CHECK IF RG4 PRESSED
     if (isRG4Pressed == 0)
     {
         if (PORTGbits.RG4 == 0)
         {
+            // Button was pressed and now it is released.
+            // We are setting our flag variables.
             isRG4Pressed = 1;
             whichRG = 4;
         }
     }
     else if (PORTGbits.RG4 == 1)
     {
+        // Button is pressed but not released yet.
         isRG4Pressed = 0;
-        
-        //whichRG = 4;
     }
+    // CHECK IF RG4 PRESSED
 }
 
 // ************* 7 segment display task and functions ****************
