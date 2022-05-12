@@ -460,8 +460,8 @@ void sevenSeg_controller()
         else
             sevenSeg(11, 3); // E
         break;
-        default:
-            break;
+    default:
+        break;
     }
 }
 
