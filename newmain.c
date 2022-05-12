@@ -45,6 +45,7 @@ uint8_t htmrval;
 // Game state definitions and the global state
 typedef enum
 {
+    INIT_START,
     G_INIT,
     LEVEL1,
     LEVEL2_INIT,
@@ -70,11 +71,11 @@ void init_vars()
     isGameStarted = 0;
     isGameFinished = 0;
     isRC0Pressed = 0;
-    isRG0Pressed = -1;
-    isRG1Pressed = -1;
-    isRG2Pressed = -1;
-    isRG3Pressed = -1;
-    isRG4Pressed = -1;
+    isRG0Pressed = 2;
+    isRG1Pressed = 2;
+    isRG2Pressed = 2;
+    isRG3Pressed = 2;
+    isRG4Pressed = 2;
     sevenSegCounter = 0;
     sevenSeg2WayCounter = 0;
     sevenSeg3WayCounter = 0;
@@ -308,6 +309,8 @@ void input_task()
     else if (PORTGbits.RG0 == 1)
     {
         isRG0Pressed = 0;
+        isPressed = 1;
+        //whichRG = 0;    // RG0
     }
 
     if (isRG1Pressed == 0)
@@ -321,6 +324,8 @@ void input_task()
     else if (PORTGbits.RG1 == 1)
     {
         isRG1Pressed = 0;
+        isPressed = 1;
+        //whichRG = 1;    // RG0
     }
 
     if (isRG2Pressed == 0)
@@ -334,6 +339,8 @@ void input_task()
     else if (PORTGbits.RG2 == 1)
     {
         isRG2Pressed = 0;
+        isPressed = 1;
+        //whichRG = 2;
     }
 
     if (isRG3Pressed == 0)
@@ -347,6 +354,8 @@ void input_task()
     else if (PORTGbits.RG3 == 1)
     {
         isRG3Pressed = 0;
+        isPressed = 1;
+        //whichRG = 3;
     }
 
     if (isRG4Pressed == 0)
@@ -360,6 +369,8 @@ void input_task()
     else if (PORTGbits.RG4 == 1)
     {
         isRG4Pressed = 0;
+        isPressed = 1;
+        //whichRG = 4;
     }
 }
 
@@ -427,6 +438,8 @@ void sevenSeg_controller()
         else
             sevenSeg(11, 3); // E
         break;
+        default:
+            break;
     }
 }
 
@@ -502,7 +515,7 @@ void sevenSeg(uint8_t J, uint8_t D)
 
 void shape_shifter()
 {
-    T1CON = 0xc1;
+    //T1CON = 0xc1;
     PORTF = PORTE;
     PORTE = PORTD;
     PORTD = PORTC;
@@ -522,7 +535,7 @@ void shape_shifter()
     PORTF &= 0x1f;
     
     PORTA = 0x00;
-        T1CON = 0xc9;
+    //T1CON = 0xc9;
 
 }
 
@@ -554,27 +567,27 @@ void game_task()
     if (isRG0Pressed == 1)
     {
         count++;
-        isRG0Pressed = -1;
+        isRG0Pressed = 2;
     }
     if (isRG1Pressed == 1)
     {
         count++;
-        isRG1Pressed = -1;
+        isRG1Pressed = 2;
     }
     if (isRG2Pressed == 1)
     {
         count++;
-        isRG2Pressed = -1;
+        isRG2Pressed = 2;
     }
     if (isRG3Pressed == 1)
     {
         count++;
-        isRG3Pressed = -1;
+        isRG3Pressed = 2;
     }
     if (isRG4Pressed == 1)
     {
         count++;
-        isRG4Pressed = -1;
+        isRG4Pressed = 2;
     }
 
     if (count > 1)
@@ -588,34 +601,36 @@ void game_task()
     switch (whichRG)
     {
     case -1:
-        health_decreaser();
+        while(count--)
+            health_decreaser();
         break;
     case 0:
         if (PORTFbits.RF0 == 1)
-            tmr_state = TMR_DONE; // MAYBE shift fast or just delete RF
+            PORTF = 0X00; // MAYBE shift fast or just delete RF
         else
             health_decreaser();
         break;
     case 1:
         if (PORTFbits.RF1 == 1)
-            tmr_state = TMR_DONE;
+            //tmr_state = TMR_DONE;
+            PORTF = 0X00;
         else
             health_decreaser();
     case 2:
         if (PORTFbits.RF2 == 1)
-            tmr_state = TMR_DONE;
+            PORTF = 0X00;
         else
             health_decreaser();
         break;
     case 3:
         if (PORTFbits.RF3 == 1)
-            tmr_state = TMR_DONE;
+            PORTF = 0X00;
         else
             health_decreaser();
         break;
     case 4:
         if (PORTFbits.RF4 == 1)
-            tmr_state = TMR_DONE;
+            PORTF = 0X00;
         else
             health_decreaser();
         break;
@@ -627,12 +642,13 @@ void game_task()
     switch (game_state)
     {
     case G_INIT:
-        tmr_start(240); // TMR0 counts 77 times so that 500 ms
+        tmr_start(250); // TMR0 counts 77 times so that 500 ms
         game_state = LEVEL1;
         // shape_shifter();   // Shift RA->RB, RB-RC, ... , RE->RF
         randomgen(); // generate note
         ++level_subcount;
         game_level = 1;
+        starterDelay = 0;
         break;
     case LEVEL1:
         // START state
@@ -663,7 +679,7 @@ void game_task()
             {
                 game_state = LEVEL2_INIT;
             }
-            tmr_start(240); // TMR0 counts 77 times so that 500 ms
+            tmr_start(250); // TMR0 counts 77 times so that 500 ms
         }
         break;
     case LEVEL2_INIT:
@@ -674,6 +690,7 @@ void game_task()
         randomgen(); // generate note
         ++level_subcount;
         game_level = 2;
+        starterDelay = 0;
         break;
     case LEVEL2:
         if (tmr_state == TMR_DONE) // 400 ms passed
@@ -713,6 +730,7 @@ void game_task()
         randomgen(); // generate note
         ++level_subcount;
         game_level = 3;
+        starterDelay = 0;
         break;
     case LEVEL3:
         if (tmr_state == TMR_DONE) // 300 ms passed
@@ -759,13 +777,14 @@ void main(void)
     init_ports(); // DONE
     tmr_init();   // DONE
     init_irq();   // DONE
+    game_state = INIT_START;
     while (1)
     {
         // TODO: 7seg time-based things
         // TODO: 7seg task
         input_task();
-        sevenSeg_controller();      // TODO: try to implement in another way
         // TIMER1
+        sevenSeg_controller();      // TODO: try to implement in another way
         if ((isGameStarted == 0) || (isGameFinished == 1))
         {
             continue;
