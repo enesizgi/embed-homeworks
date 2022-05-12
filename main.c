@@ -206,22 +206,20 @@ void tmr_start(uint8_t ticks)
 
 void randomgen()
 {
-    uint8_t noteval, lastbit, intermbit, num, val, i;
-    //PORTA = 0x00;
+    uint8_t noteval, lastbit, intermbit, num, val, i; // 
 
-    if (tmr1flag == 0)
+    if (tmr1flag == 0) // Reading TMR1 value 
     {
-        ltmrval = TMR1L;
-        htmrval = TMR1H;
-        noteval = 0x07 & ltmrval; // Reading Timer1 value
-        tmr1flag = 1;
+        ltmrval = TMR1L; // Saving last 8 bits of TMR1
+        htmrval = TMR1H; // Saving first 8 bits of 
+        noteval = 0x07 & ltmrval; // Reading last 3 bits of Timer1 value
+        tmr1flag = 1; // To read TMR1 value once I use a flag 
         
     }
     if (tmr1flag == 1)
     {
-        noteval = 0x07 & ltmrval; // Reading Timer1 value
-        //noteval = noteval % 5;
-        switch (noteval) {
+        noteval = 0x07 & ltmrval;
+        switch (noteval) { // Getting the remainder from division by 5
             case 5:
                 noteval = 0;
                 break;
@@ -235,26 +233,23 @@ void randomgen()
                 break;
         }
         val = 0x01;
-        //for (i = 0; i < noteval; i++)
-        //{
-            val = val << noteval;
-        //}//
-            PORTA = 0x00;
-        PORTA = val;
-        if (level == 1)
+        val = val << noteval; // Converting the remainder to choose correct RC led
+        PORTA = 0x00;
+        PORTA = val; // Lighting up the corresponding RC led
+        if (level == 1) // Rotation for level 1
         {
-            lastbit = 0x01 & ltmrval;
-            intermbit = 0x01 & htmrval;
-            htmrval = htmrval >> 1;
+            lastbit = 0x01 & ltmrval; //  Saving the value of the last bit of last 8 bit
+            intermbit = 0x01 & htmrval; // Saving the value of the last bit of first 8 bit
+            htmrval = htmrval >> 1; // Making shift but first bit is set to 0 automatically 
             ltmrval = ltmrval >> 1;
-            lastbit = lastbit << 7;
+            lastbit = lastbit << 7; // Shifting the rightmost bit to the leftmost position
             intermbit = intermbit << 7;
-            ltmrval = ltmrval | lastbit;
+            ltmrval = ltmrval | lastbit; // Using OR operation to merge leftmost bit and the remaining bits
             htmrval = htmrval | intermbit;
         }
         if (level == 2)
         {
-            num = 3;
+            num = 3; // Rotating 3 times for level 2 
             while (num > 0)
             {
                 lastbit = 0x01 & ltmrval;
@@ -270,7 +265,7 @@ void randomgen()
         }
         if (level == 3)
         {
-            num = 5;
+            num = 5; // Rotating 5 times for level 3
             while (num > 0)
             {
                 lastbit = 0x01 & ltmrval;
@@ -291,14 +286,15 @@ void randomgen()
 
 void input_task()
 {
-    ///////////////////////////////////////////////////RC0 TASK///////////////////////////////////////////////////
-
+    /*------------------ RC0 TASK ------------------*/
+    // Below code checks if RC0 being pressed
+    // We use game_state G_INIT at the beginning
     if (!isGameStarted || isGameFinished)
     {
         if (PORTCbits.RC0 == 1)
         {
-            health = 9;
-            game_state = G_INIT;
+            health = 9; // MAYBE Disable?
+            game_state = G_INIT; // MAYBE Disable?
             init_vars();
             init_ports();
             isGameStarted = 1;
@@ -310,81 +306,96 @@ void input_task()
             T0CON |= 0x80; // Set TMR0ON
         }
     }
-    ///////////////////////////////////////////////////RG TASK///////////////////////////////////////////////////
+    /*------------------ RC0 TASK ------------------*/
+    // CHECK IF RG0 PRESSED
     if (isRG0Pressed == 0)
     {
         if (PORTGbits.RG0 == 0)
         {
+            // Button was pressed and now it is released.
+            // We are setting our flag variables.
             isRG0Pressed = 1;
             whichRG = 0;
         }
     }
-    else if (PORTGbits.RG0 == 1)
+    else if (PORTGbits.RG0 == 1) 
     {
+        // Button is pressed but not released yet.
         isRG0Pressed = 0;
-        
-        //whichRG = 0;    // RG0
     }
+    // CHECK IF RG0 PRESSED
 
+    // CHECK IF RG1 PRESSED
     if (isRG1Pressed == 0)
     {
         if (PORTGbits.RG1 == 0)
         {
+            // Button was pressed and now it is released.
+            // We are setting our flag variables.
             isRG1Pressed = 1;
             whichRG = 1;
         }
     }
     else if (PORTGbits.RG1 == 1)
     {
+        // Button is pressed but not released yet.
         isRG1Pressed = 0;
-        
-        //whichRG = 1;    // RG0
     }
+    // CHECK IF RG1 PRESSED
 
+    // CHECK IF RG2 PRESSED
     if (isRG2Pressed == 0)
     {
         if (PORTGbits.RG2 == 0)
         {
+            // Button was pressed and now it is released.
+            // We are setting our flag variables.
             isRG2Pressed = 1;
             whichRG = 2;
         }
     }
     else if (PORTGbits.RG2 == 1)
     {
+        // Button is pressed but not released yet.
         isRG2Pressed = 0;
-        
-        //whichRG = 2;
     }
+    // CHECK IF RG2 PRESSED
 
+    // CHECK IF RG3 PRESSED
     if (isRG3Pressed == 0)
     {
         if (PORTGbits.RG3 == 0)
         {
+            // Button was pressed and now it is released.
+            // We are setting our flag variables.
             isRG3Pressed = 1;
             whichRG = 3;
         }
     }
     else if (PORTGbits.RG3 == 1)
     {
+        // Button is pressed but not released yet.
         isRG3Pressed = 0;
-        
-        //whichRG = 3;
     }
+    // CHECK IF RG3 PRESSED
 
+    // CHECK IF RG4 PRESSED
     if (isRG4Pressed == 0)
     {
         if (PORTGbits.RG4 == 0)
         {
+            // Button was pressed and now it is released.
+            // We are setting our flag variables.
             isRG4Pressed = 1;
             whichRG = 4;
         }
     }
     else if (PORTGbits.RG4 == 1)
     {
+        // Button is pressed but not released yet.
         isRG4Pressed = 0;
-        
-        //whichRG = 4;
     }
+    // CHECK IF RG4 PRESSED
 }
 
 // ************* 7 segment display task and functions ****************
