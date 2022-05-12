@@ -26,6 +26,7 @@ void __interrupt(low_priority) lowPriorityISR(void) {}
 // ************* Utility functions ****************
 uint8_t health;
 uint8_t level;
+uint8_t temp_shift;
 uint8_t isGameStarted;
 uint8_t isGameFinished;
 int8_t isRC0Pressed;
@@ -63,6 +64,7 @@ uint8_t game_level;
 
 void init_vars()
 {
+    temp_shift = 0;
     health = 9;
     level = 1;
     isGameStarted = 0;
@@ -174,7 +176,7 @@ void tmr_start(uint8_t ticks)
 void randomgen()
 {
     uint8_t noteval, lastbit, intermbit, num, val, i;
-    PORTA = 0x00;
+    //PORTA = 0x00;
 
     if (tmr1flag == 0)
     {
@@ -187,19 +189,33 @@ void randomgen()
     if (tmr1flag == 1)
     {
         noteval = 0x07 & ltmrval; // Reading Timer1 value
-        noteval = noteval % 5;
-        val = 0x01;
-        for (i = 0; i < noteval; i++)
-        {
-            val = val << 1;
+        //noteval = noteval % 5;
+        switch (noteval) {
+            case 5:
+                noteval = 0;
+                break;
+            case 6:
+                noteval = 1;
+                break;
+            case 7:
+                noteval = 2;
+                break;
+            default:
+                break;
         }
+        val = 0x01;
+        //for (i = 0; i < noteval; i++)
+        //{
+            val = val << noteval;
+        //}//
+            PORTA = 0x00;
         PORTA = val;
         if (level == 1)
         {
-            lastbit = 0x01 & TMR1L;
-            intermbit = 0x01 & TMR1H;
-            htmrval = htmrval >> 8;
-            ltmrval = ltmrval >> 8;
+            lastbit = 0x01 & ltmrval;
+            intermbit = 0x01 & htmrval;
+            htmrval = htmrval >> 1;
+            ltmrval = ltmrval >> 1;
             lastbit = lastbit << 7;
             intermbit = intermbit << 7;
             ltmrval = ltmrval | lastbit;
@@ -210,10 +226,10 @@ void randomgen()
             num = 3;
             while (num > 0)
             {
-                lastbit = 0x01 & TMR1L;
-                intermbit = 0x01 & TMR1H;
-                htmrval = htmrval >> 8;
-                ltmrval = ltmrval >> 8;
+                lastbit = 0x01 & ltmrval;
+                intermbit = 0x01 & htmrval;
+                htmrval = htmrval >> 1;
+                ltmrval = ltmrval >> 1;
                 lastbit = lastbit << 7;
                 intermbit = intermbit << 7;
                 ltmrval = ltmrval | lastbit;
@@ -226,10 +242,10 @@ void randomgen()
             num = 5;
             while (num > 0)
             {
-                lastbit = 0x01 & TMR1L;
-                intermbit = 0x01 & TMR1H;
-                htmrval = htmrval >> 8;
-                ltmrval = ltmrval >> 8;
+                lastbit = 0x01 & ltmrval;
+                intermbit = 0x01 & htmrval;
+                htmrval = htmrval >> 1;
+                ltmrval = ltmrval >> 1;
                 lastbit = lastbit << 7;
                 intermbit = intermbit << 7;
                 ltmrval = ltmrval | lastbit;
@@ -486,12 +502,28 @@ void sevenSeg(uint8_t J, uint8_t D)
 
 void shape_shifter()
 {
+    T1CON = 0xc1;
     PORTF = PORTE;
     PORTE = PORTD;
     PORTD = PORTC;
-    PORTC = PORTB;
+    if(temp_shift != 0)
+    {
+        PORTD = temp_shift;
+    }
+    temp_shift = PORTB;
+    LATC = PORTB;
     PORTB = PORTA;
+    
+    PORTA &= 0x1f;
+    PORTB &= 0x1f;
+    LATC &= 0x1f;
+    PORTD &= 0x1f;
+    PORTE &= 0x1f;
+    PORTF &= 0x1f;
+    
     PORTA = 0x00;
+        T1CON = 0xc9;
+
 }
 
 void reset_task()
@@ -595,7 +627,7 @@ void game_task()
     switch (game_state)
     {
     case G_INIT:
-        tmr_start(77); // TMR0 counts 77 times so that 500 ms
+        tmr_start(240); // TMR0 counts 77 times so that 500 ms
         game_state = LEVEL1;
         // shape_shifter();   // Shift RA->RB, RB-RC, ... , RE->RF
         randomgen(); // generate note
@@ -631,7 +663,7 @@ void game_task()
             {
                 game_state = LEVEL2_INIT;
             }
-            tmr_start(77); // TMR0 counts 77 times so that 500 ms
+            tmr_start(240); // TMR0 counts 77 times so that 500 ms
         }
         break;
     case LEVEL2_INIT:
