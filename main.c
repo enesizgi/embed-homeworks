@@ -41,6 +41,7 @@
 #pragma config WDT = OFF
 
 void tmr_isr();
+uint8_t sevenSegCounter;
 uint8_t sevenSeg2WayCounter;
 uint8_t sevenSeg3WayCounter;
 uint8_t sevenSeg4WayCounter;
@@ -107,6 +108,7 @@ void init_vars()
     isRG2Pressed = 2;       // This flag is tri-state flag 2 - 1 - 0
     isRG3Pressed = 2;       // This flag is tri-state flag 2 - 1 - 0
     isRG4Pressed = 2;       // This flag is tri-state flag 2 - 1 - 0
+    sevenSegCounter = 0;
     sevenSeg2WayCounter = 0;
     sevenSeg3WayCounter = 0;
     sevenSeg4WayCounter = 0;
@@ -460,8 +462,8 @@ void sevenSeg_controller()
         else
             sevenSeg(11, 3); // E
         break;
-    default:
-        break;
+        default:
+            break;
     }
 }
 
