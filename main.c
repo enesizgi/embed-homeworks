@@ -26,7 +26,6 @@ void __interrupt(low_priority) lowPriorityISR(void) {}
 // ************* Utility functions ****************
 uint8_t health;
 uint8_t level;
-uint8_t temp_shift;
 uint8_t isGameStarted;
 uint8_t isGameFinished;
 int8_t isRG0Pressed;
@@ -34,7 +33,7 @@ int8_t isRG1Pressed;
 int8_t isRG2Pressed;
 int8_t isRG3Pressed;
 int8_t isRG4Pressed;
-int8_t isPressed;
+int8_t isTruePressed;
 int8_t starterDelay;
 uint8_t whichRG;
 uint8_t tmr1flag;
@@ -64,11 +63,11 @@ uint8_t game_level;
 
 void init_vars()
 {
-    temp_shift = 0;
     health = 9;
     level = 1;
     isGameStarted = 0;
     isGameFinished = 0;
+    isTruePressed = 0;
     isRG0Pressed = 2;
     isRG1Pressed = 2;
     isRG2Pressed = 2;
@@ -79,7 +78,6 @@ void init_vars()
     sevenSeg3WayCounter = 0;
     sevenSeg4WayCounter = 0;
     whichRG = 5;
-    isPressed = 0;
     starterDelay = 0;
     level_subcount = 0;
     game_level = 1;
@@ -272,10 +270,11 @@ void input_task()
             init_ports();
             isGameStarted = 1;
             isGameFinished = 0;
+            T1CON = 0xc9;
             TRISC = 0x00;
+            T1CONbits.T1OSCEN = 0;
             PORTC = 0x00;
             T0CON |= 0x80; // Set TMR0ON
-            T1CON = 0xc9;
         }
     }
     ///////////////////////////////////////////////////RG TASK///////////////////////////////////////////////////
@@ -290,7 +289,7 @@ void input_task()
     else if (PORTGbits.RG0 == 1)
     {
         isRG0Pressed = 0;
-        isPressed = 1;
+        
         //whichRG = 0;    // RG0
     }
 
@@ -305,7 +304,7 @@ void input_task()
     else if (PORTGbits.RG1 == 1)
     {
         isRG1Pressed = 0;
-        isPressed = 1;
+        
         //whichRG = 1;    // RG0
     }
 
@@ -320,7 +319,7 @@ void input_task()
     else if (PORTGbits.RG2 == 1)
     {
         isRG2Pressed = 0;
-        isPressed = 1;
+        
         //whichRG = 2;
     }
 
@@ -335,7 +334,7 @@ void input_task()
     else if (PORTGbits.RG3 == 1)
     {
         isRG3Pressed = 0;
-        isPressed = 1;
+        
         //whichRG = 3;
     }
 
@@ -350,7 +349,7 @@ void input_task()
     else if (PORTGbits.RG4 == 1)
     {
         isRG4Pressed = 0;
-        isPressed = 1;
+        
         //whichRG = 4;
     }
 }
@@ -500,11 +499,6 @@ void shape_shifter()
     PORTF = PORTE;
     PORTE = PORTD;
     PORTD = PORTC;
-    if(temp_shift != 0)
-    {
-        PORTD = temp_shift;
-    }
-    temp_shift = PORTB;
     LATC = PORTB;
     PORTB = PORTA;
     
@@ -525,6 +519,7 @@ void reset_task()
 
     isGameStarted = 0;
     isGameFinished = 1;
+    PORTC = 0x00;
     init_ports();
 }
 
@@ -574,7 +569,7 @@ void game_task()
     if (count > 1)
     {
         whichRG = -1;
-        isPressed = 1;
+        
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -586,33 +581,47 @@ void game_task()
             health_decreaser();
         break;
     case 0:
-        if (PORTFbits.RF0 == 1)
-            PORTF = 0X00; // MAYBE shift fast or just delete RF
+        if (PORTFbits.RF0 == 1) {
+            PORTF = 0X00;
+            isTruePressed = 1;
+        }
+             // MAYBE shift fast or just delete RF
         else
             health_decreaser();
         break;
     case 42:
-        if (PORTFbits.RF1 == 1)
-            //tmr_state = TMR_DONE;
+        if (PORTFbits.RF1 == 1) {
             PORTF = 0X00;
+            isTruePressed = 1;
+        }
+            
         else
             health_decreaser();
         break;
     case 2:
-        if (PORTFbits.RF2 == 1)
+        if (PORTFbits.RF2 == 1) {
             PORTF = 0X00;
+            isTruePressed = 1;
+        }
+            
         else
             health_decreaser();
         break;
     case 3:
-        if (PORTFbits.RF3 == 1)
+        if (PORTFbits.RF3 == 1) {
             PORTF = 0X00;
+            isTruePressed = 1;
+        }
+            
         else
             health_decreaser();
         break;
     case 4:
-        if (PORTFbits.RF4 == 1)
+        if (PORTFbits.RF4 == 1) {
             PORTF = 0X00;
+            isTruePressed = 1;
+        }
+            
         else
             health_decreaser();
         break;
@@ -624,7 +633,7 @@ void game_task()
     switch (game_state)
     {
     case G_INIT:
-        tmr_start(77); // TMR0 counts 77 times so that 500 ms
+        tmr_start(177); // TMR0 counts 77 times so that 500 ms
         game_state = LEVEL1;
         // shape_shifter();   // Shift RA->RB, RB-RC, ... , RE->RF
         randomgen(); // generate note
@@ -638,13 +647,9 @@ void game_task()
         if (tmr_state == TMR_DONE) // 500 ms passed
         {
             starterDelay++;
-            if (isPressed == 0 && starterDelay >= 6)
+            if (isTruePressed == 0 && starterDelay >= 6)
             {
                 health_decreaser();
-            }
-            else
-            {
-                isPressed = 0;
             }
             if (level_subcount < L1)
             {
@@ -661,7 +666,8 @@ void game_task()
             {
                 game_state = LEVEL2_INIT;
             }
-            tmr_start(77); // TMR0 counts 77 times so that 500 ms
+            tmr_start(177); // TMR0 counts 77 times so that 500 ms
+            isTruePressed = 0;
         }
         break;
     case LEVEL2_INIT:
@@ -678,13 +684,9 @@ void game_task()
         if (tmr_state == TMR_DONE) // 400 ms passed
         {
             starterDelay++;
-            if (isPressed == 0 && starterDelay >= 6)
+            if (isTruePressed == 0 && starterDelay >= 6)
             {
                 health_decreaser();
-            }
-            else
-            {
-                isPressed = 0;
             }
             if (level_subcount < L2)
             {
@@ -702,6 +704,7 @@ void game_task()
                 game_state = LEVEL3_INIT;
             }
             tmr_start(61); // TMR0 counts 61 times so that 400 ms
+            isTruePressed = 0;
         }
         break;
     case LEVEL3_INIT:
@@ -718,13 +721,9 @@ void game_task()
         if (tmr_state == TMR_DONE) // 300 ms passed
         {
             starterDelay++;
-            if (isPressed == 0 && starterDelay >= 6)
+            if (isTruePressed == 0 && starterDelay >= 6)
             {
                 health_decreaser();
-            }
-            else
-            {
-                isPressed = 0;
             }
             if (level_subcount < L3)
             {
@@ -741,7 +740,8 @@ void game_task()
             {
                 game_state = END; // Oyun biter.  TO BE DONE
             }
-            tmr_start(46); // TMR0 counts 46 times so that 500 ms
+            tmr_start(46); // TMR0 counts 46 times so that 300 ms
+            isTruePressed = 0;
         }
         break;
     case LOSE:
