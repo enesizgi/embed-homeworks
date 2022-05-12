@@ -1,11 +1,42 @@
-/*
- * File:   20212_the1.c
- * Author: Afsar Saranli
- */
+/*-*
+ *-* File:   20212_the2.c
+ *-* GROUP 32
+ *-* Author: Ali KOMURCU              2380699
+ *-* Author: Muhammed Enes IZGI       2310142
+ *-* Author: Kerem Can BAKIR          2380152
+ *-* Author: Emre Can KOPARAL         2380673
+
+*-* u --> micro
+*-* m --> mili
+
+*-* TIMER0 Calculations:
+    *-* Oscillator frequency is 40 MHz, so that instruction frequency is 10 MHz. (Fosc = 4*Fins)
+    *-* That means Tins = 1/Fins --> Tins = 0.1 us
+    *-* We used 1:256 prescaler.
+    *-*
+    *-* FOR LEVEL1
+    *-* We need to count 500 ms so that 500000 us.
+    *-* So that we need to count 500000 cycles for 500 ms.
+    *-* From start to interrupt we count 2^8 * 256 * 0.1 = 6553.6 cycles.
+    *-* 500000/6553.6 = 76.29 --> We need to use TMR0 76.29 (~ 77) times to achieve 500 ms. 
+    *-* 
+    *-* FOR LEVEL2
+    *-* We need to count 400 ms so that 400000 us.
+    *-* So that we need to count 400000 cycles for 400 ms.
+    *-* From start to interrupt we count 2^8 * 256 * 0.1 = 6553.6 cycles.
+    *-* 400000/6553.6 = 61.03 --> We need to use TMR0 61.03 (~ 61) times to achieve 400 ms. 
+    *-* 
+    *-* FOR LEVEL3
+    *-* We need to count 300 ms so that 300000 us.
+    *-* So that we need to count 300000 cycles for 300 ms.
+    *-* From start to interrupt we count 2^8 * 256 * 0.1 = 6553.6 cycles.
+    *-* 300000/6553.6 = 45.77 --> We need to use TMR0 45.77 (~ 46) times to achieve 300 ms.
+
+ *-*/
 
 #include <xc.h>
 #include <stdint.h>
-// CONFIG
+// CONFIG Oscillator and TURN OFF Watchdog timer
 #pragma config OSC = HSPLL
 #pragma config WDT = OFF
 
@@ -16,6 +47,9 @@ uint8_t sevenSeg3WayCounter;
 uint8_t sevenSeg4WayCounter;
 void __interrupt(high_priority) highPriorityISR(void)
 {
+    /*-*
+    *-* We used high priority interrupts for TMR0.
+    *-*/
     if (INTCONbits.TMR0IF)
     {
         tmr_isr();
@@ -26,15 +60,15 @@ void __interrupt(low_priority) lowPriorityISR(void) {}
 // ************* Utility functions ****************
 uint8_t health;
 uint8_t level;
-uint8_t isGameStarted;
-uint8_t isGameFinished;
-int8_t isRG0Pressed;
-int8_t isRG1Pressed;
-int8_t isRG2Pressed;
-int8_t isRG3Pressed;
-int8_t isRG4Pressed;
-int8_t isTruePressed;
-int8_t starterDelay;
+uint8_t isGameStarted;      // Set when game starts, reset when game ends
+uint8_t isGameFinished;     // Set when game ends, reset when game starts
+int8_t isRG0Pressed;        // Set if RG0 pressed
+int8_t isRG1Pressed;        // Set if RG1 pressed
+int8_t isRG2Pressed;        // Set if RG2 pressed
+int8_t isRG3Pressed;        // Set if RG3 pressed
+int8_t isRG4Pressed;        // Set if RG4 pressed
+int8_t isTruePressed;       // Set if proper RG button pressed for RF, o.w reset
+int8_t starterDelay;        // Health begins to decrease after when the lights on the LEDs arrives RF 
 uint8_t whichRG;
 uint8_t tmr1flag;
 uint8_t ltmrval;
@@ -89,7 +123,7 @@ void init_vars()
 
 void init_ports()
 {
-    ADCON1 = 0x0f; // MAYBE ff
+    ADCON1 = 0x0f;
     TRISA = 0x00;  //
     TRISB = 0x00;  //
     TRISC = 0x01;  // TRIS RC0 will be changed during the game
@@ -114,7 +148,6 @@ void init_ports()
 void init_irq()
 {
     INTCON = 0xa0;
-    // RCONbits.IPEN = 0; MAYBE
 }
 
 // ************* Timer task and functions ****************
@@ -252,15 +285,15 @@ void randomgen()
 
 void input_task()
 {
-    ///////////////////////////////////////////////////RC0 TASK///////////////////////////////////////////////////
-
-    // DONT FORGET TO SET THE VARIABLES -1 AGAIN IN GAME TASK  // Setted to 0 MAYBE -1 ?
+    /*------------------ RC0 TASK ------------------*/
+    // Below code checks if RC0 being pressed
+    // We use game_state G_INIT at the beginning
     if (!isGameStarted || isGameFinished)
     {
         if (PORTCbits.RC0 == 1)
         {
-            health = 9;
-            game_state = G_INIT;
+            health = 9; // MAYBE Disable?
+            game_state = G_INIT; // MAYBE Disable?
             init_vars();
             init_ports();
             isGameStarted = 1;
@@ -272,81 +305,96 @@ void input_task()
             T0CON |= 0x80; // Set TMR0ON
         }
     }
-    ///////////////////////////////////////////////////RG TASK///////////////////////////////////////////////////
+    /*------------------ RC0 TASK ------------------*/
+    // CHECK IF RG0 PRESSED
     if (isRG0Pressed == 0)
     {
         if (PORTGbits.RG0 == 0)
         {
+            // Button was pressed and now it is released.
+            // We are setting our flag variables.
             isRG0Pressed = 1;
             whichRG = 0;
         }
     }
-    else if (PORTGbits.RG0 == 1)
+    else if (PORTGbits.RG0 == 1) 
     {
+        // Button is pressed but not released yet.
         isRG0Pressed = 0;
-        
-        //whichRG = 0;    // RG0
     }
+    // CHECK IF RG0 PRESSED
 
+    // CHECK IF RG1 PRESSED
     if (isRG1Pressed == 0)
     {
         if (PORTGbits.RG1 == 0)
         {
+            // Button was pressed and now it is released.
+            // We are setting our flag variables.
             isRG1Pressed = 1;
             whichRG = 42;
         }
     }
     else if (PORTGbits.RG1 == 1)
     {
+        // Button is pressed but not released yet.
         isRG1Pressed = 0;
-        
-        //whichRG = 1;    // RG0
     }
+    // CHECK IF RG1 PRESSED
 
+    // CHECK IF RG2 PRESSED
     if (isRG2Pressed == 0)
     {
         if (PORTGbits.RG2 == 0)
         {
+            // Button was pressed and now it is released.
+            // We are setting our flag variables.
             isRG2Pressed = 1;
             whichRG = 2;
         }
     }
     else if (PORTGbits.RG2 == 1)
     {
+        // Button is pressed but not released yet.
         isRG2Pressed = 0;
-        
-        //whichRG = 2;
     }
+    // CHECK IF RG2 PRESSED
 
+    // CHECK IF RG3 PRESSED
     if (isRG3Pressed == 0)
     {
         if (PORTGbits.RG3 == 0)
         {
+            // Button was pressed and now it is released.
+            // We are setting our flag variables.
             isRG3Pressed = 1;
             whichRG = 3;
         }
     }
     else if (PORTGbits.RG3 == 1)
     {
+        // Button is pressed but not released yet.
         isRG3Pressed = 0;
-        
-        //whichRG = 3;
     }
+    // CHECK IF RG3 PRESSED
 
+    // CHECK IF RG4 PRESSED
     if (isRG4Pressed == 0)
     {
         if (PORTGbits.RG4 == 0)
         {
+            // Button was pressed and now it is released.
+            // We are setting our flag variables.
             isRG4Pressed = 1;
             whichRG = 4;
         }
     }
     else if (PORTGbits.RG4 == 1)
     {
+        // Button is pressed but not released yet.
         isRG4Pressed = 0;
-        
-        //whichRG = 4;
     }
+    // CHECK IF RG4 PRESSED
 }
 
 // ************* 7 segment display task and functions ****************
@@ -395,7 +443,7 @@ void sevenSeg_controller()
         else
             sevenSeg(game_level, 3);
         break;
-    case END: // MAYBE rc0 a kadar bunun yanmasi lazim
+    case END:
         if (sevenSeg3WayCounter == 0)
             sevenSeg(11, 0); // E
         else if (sevenSeg3WayCounter == 1)
@@ -529,11 +577,6 @@ void health_decreaser()
 
 void game_task()
 {
-    // switch case RF == RG
-    // tmr_state = TMR_DONE;
-    // Check if the player presses more than one buttons or does not press at all.
-    // MAYBE don't sure about not pressing a button, is it to be punished here or by means of counter ???
-    // Now it does NOT checks for not pressing, if you want to check it go to proper commit.
     uint8_t count = 0;
     if (isRG0Pressed == 1)
     {
@@ -580,7 +623,6 @@ void game_task()
             PORTF = 0X00;
             isTruePressed = 1;
         }
-             // MAYBE shift fast or just delete RF
         else
             health_decreaser();
         break;
@@ -628,7 +670,7 @@ void game_task()
     switch (game_state)
     {
     case G_INIT:
-        tmr_start(177); // TMR0 counts 77 times so that 500 ms
+        tmr_start(77); // TMR0 counts 77 times so that 500 ms
         game_state = LEVEL1;
         // shape_shifter();   // Shift RA->RB, RB-RC, ... , RE->RF
         randomgen(); // generate note
@@ -661,7 +703,7 @@ void game_task()
             {
                 game_state = LEVEL2_INIT;
             }
-            tmr_start(177); // TMR0 counts 77 times so that 500 ms
+            tmr_start(77); // TMR0 counts 77 times so that 500 ms
             isTruePressed = 0;
         }
         break;
@@ -750,23 +792,19 @@ void game_task()
 
 void main(void)
 {
-    init_vars();  // DONE
-    init_ports(); // DONE
-    tmr_init();   // DONE
-    init_irq();   // DONE
+    init_vars();  
+    init_ports(); 
+    tmr_init();   
+    init_irq();   
     game_state = INIT_START;
     while (1)
     {
-        // TODO: 7seg time-based things
-        // TODO: 7seg task
         input_task();
-        // TIMER1
-        sevenSeg_controller();      // TODO: try to implement in another way
+        sevenSeg_controller();
         if ((isGameStarted == 0) || (isGameFinished == 1))
         {
             continue;
         }
         game_task();
     }
-    // TODO: RG1 saga sola giden pinleri grubu oku yap.
 }
