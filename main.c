@@ -624,7 +624,7 @@ void game_task()
     switch (game_state)
     {
     case G_INIT:
-        tmr_start(250); // TMR0 counts 77 times so that 500 ms
+        tmr_start(77); // TMR0 counts 77 times so that 500 ms
         game_state = LEVEL1;
         // shape_shifter();   // Shift RA->RB, RB-RC, ... , RE->RF
         randomgen(); // generate note
@@ -661,12 +661,12 @@ void game_task()
             {
                 game_state = LEVEL2_INIT;
             }
-            tmr_start(250); // TMR0 counts 77 times so that 500 ms
+            tmr_start(77); // TMR0 counts 77 times so that 500 ms
         }
         break;
     case LEVEL2_INIT:
         level_subcount = 0;
-        tmr_start(61); // TMR0 counts 77 times so that 500 ms
+        tmr_start(61); // TMR0 counts 61 times so that 500 ms
         game_state = LEVEL2;
         // shape_shifter();   // Shift RA->RB, RB-RC, ... , RE->RF
         randomgen(); // generate note
@@ -741,7 +741,7 @@ void game_task()
             {
                 game_state = END; // Oyun biter.  TO BE DONE
             }
-            tmr_start(46); // TMR0 counts 77 times so that 500 ms
+            tmr_start(46); // TMR0 counts 46 times so that 500 ms
         }
         break;
     case LOSE:
