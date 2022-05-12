@@ -29,7 +29,6 @@ uint8_t level;
 uint8_t temp_shift;
 uint8_t isGameStarted;
 uint8_t isGameFinished;
-int8_t isRC0Pressed;
 int8_t isRG0Pressed;
 int8_t isRG1Pressed;
 int8_t isRG2Pressed;
@@ -70,7 +69,6 @@ void init_vars()
     level = 1;
     isGameStarted = 0;
     isGameFinished = 0;
-    isRC0Pressed = 0;
     isRG0Pressed = 2;
     isRG1Pressed = 2;
     isRG2Pressed = 2;
@@ -266,35 +264,18 @@ void input_task()
     // DONT FORGET TO SET THE VARIABLES -1 AGAIN IN GAME TASK  // Setted to 0 MAYBE -1 ?
     if (!isGameStarted || isGameFinished)
     {
-        if (isRC0Pressed == 1)
-        {/*
-            if (PORTCbits.RC0== 0)
-            {
-                init_vars();
-                init_ports();
-                isRC0Pressed = 0;
-                isGameStarted = 1;
-                isGameFinished = 0;
-                TRISC = 0x00;
-                PORTC = 0x00;
-                T0CON |= 0x80; // Set TMR0ON
-                T1CON = 0xc9;
-            }*/
-        }
-        else if (PORTCbits.RC0 == 1)
+        if (PORTCbits.RC0 == 1)
         {
             health = 9;
-            isRC0Pressed = 1;
             game_state = G_INIT;
-                init_vars();
-                init_ports();
-                isRC0Pressed = 0;
-                isGameStarted = 1;
-                isGameFinished = 0;
-                TRISC = 0x00;
-                PORTC = 0x00;
-                T0CON |= 0x80; // Set TMR0ON
-                T1CON = 0xc9;
+            init_vars();
+            init_ports();
+            isGameStarted = 1;
+            isGameFinished = 0;
+            TRISC = 0x00;
+            PORTC = 0x00;
+            T0CON |= 0x80; // Set TMR0ON
+            T1CON = 0xc9;
         }
     }
     ///////////////////////////////////////////////////RG TASK///////////////////////////////////////////////////
