@@ -12,7 +12,9 @@ typedef enum {TEM, CDM, TSM} game_state_t;
 game_state_t game_state = TEM;
 
 uint8_t nOfCustom;      // Number of custom characters
-uint8_t sevenSeg3WayCounter;
+uint8_t sevenSeg3WayCounter;    // counter for 7seg display
+uint8_t cursorClm, cursorRow;
+
 uint8_t re0Pressed, re1Pressed, re2Pressed, re3Pressed, re4Pressed, re5Pressed;        // flags for input
 
 char predefined[] = {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
@@ -127,6 +129,7 @@ void init_vars()
     nOfCustom = 0;
     sevenSeg3WayCounter = 0;
     currPred = 0;
+    cursorClm = cursorRow = 0;
 }
 
 void init_ports()
@@ -202,9 +205,74 @@ void game_task()
     switch (game_state)
     {
     case TEM:
+        if(re0Pressed)
+        {
+            re0Pressed = false;
+        }
+
+        if(re1Pressed)
+        {
+            re1Pressed = false;
+        }
+
+        if(re2Pressed)
+        {
+            re2Pressed = false;
+        }
+
+        if(re3Pressed)
+        {
+            re3Pressed = false;
+        }
+
+        if(re4Pressed)
+        {
+            re4Pressed = false;
+            game_state = CDM;
+        }
+
+        if(re5Pressed)
+        {
+            re5Pressed = false;
+            game_state = TSM;
+        }
         break;
 
     case CDM:
+        if(re0Pressed)      // cursor -> right
+        {
+            cursorClm = (cursorClm+1)%4;
+            re0Pressed = false;
+        }
+
+        if(re1Pressed)      // cursor -> down
+        {
+            cursorRow = (cursorRow+1)%8;
+            re1Pressed = false;
+        }
+
+        if(re2Pressed)      // cursor -> up
+        {
+            cursorRow = (cursorRow-1)%8;
+            re2Pressed = false;
+        }
+
+        if(re3Pressed)      // cursor -> left
+        {
+            cursorClm = (cursorClm-1)%4;
+            re3Pressed = false;
+        }
+
+        if(re4Pressed)
+        {
+            re4Pressed = false;
+            // TODO toggle led
+        }
+        if(re5Pressed)
+        {
+            re5Pressed = false;
+            game_state = TEM;
+        }
         break;
 
     case TSM:
