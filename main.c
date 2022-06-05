@@ -7,6 +7,8 @@
 #define true 1
 #define false 0
 
+void tmr_isr();
+
 /*_* GLOBAL DECLERATIONS GO HERE */
 typedef enum {TEM, CDM, TSM} game_state_t;
 game_state_t game_state = TEM;
