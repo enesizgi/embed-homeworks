@@ -8,13 +8,15 @@
 typedef enum {TEM, CDM, TSM} game_state_t;
 game_state_t game_state = TEM;
 
-bool re0Pressed, re1Pressed, re2Pressed, re3Pressed, re4Pressed, re5Pressed;
+uint8_t nOfCustom;      // Number of custom characters
+bool re0Pressed, re1Pressed, re2Pressed, re3Pressed, re4Pressed, re5Pressed;        // flags for input
 
 /*_* Initialize variables */
 void init_vars()
 {
     re0Pressed = re1Pressed = re2Pressed = re3Pressed = re4Pressed = re5Pressed = false;
     game_state = TEM;
+    nOfCustom = 0;
 }
 
 void init_ports()
@@ -22,8 +24,6 @@ void init_ports()
     /*_* INPUT TRISSES*/
     TRISE = 0x3f;       // 0011 1111 -> RE 0-5
     TRISH = 0X10;       // 0001 0000 -> RH4
-
-
 
     /*_* OUTPUT TRISSES*/
     // LCD BASED TRISSES
@@ -38,26 +38,10 @@ void init_ports()
 
 }
 
-
-void game_task()
+void sev_seg_task()
 {
-    switch (game_state)
-    {
-    case TEM:
-        break;
 
-    case CDM:
-        break;
-
-    case TSM:
-        break;
-    
-    default:
-        break;
-    }
 }
-
-
 
 void input_task()
 {
@@ -85,6 +69,29 @@ void input_task()
     {
         re5Pressed = true;
     }
+    
+}
+
+void game_task()
+{
+    switch (game_state)
+    {
+    case TEM:
+        break;
+
+    case CDM:
+        break;
+
+    case TSM:
+        break;
+    
+    default:
+        break;
+    }
+}
+
+void lcd_task()
+{
     
 }
 
