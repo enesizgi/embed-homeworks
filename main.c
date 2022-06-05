@@ -145,14 +145,23 @@ void init_ports()
 
     /*_* OUTPUT TRISSES*/
     // LCD BASED TRISSES
-    // TRISB = TODO
-    // TRISD = TODO 
+    TRISB = 0x00;
+    TRISD = 0x00;
+
+    // Other PORTs
     TRISA = 0X00;
     TRISC = 0X00;
 
     // 7-SEG BASED TRISSES
     // PORTH IS EDITED UPWARDS
     PORTJ = 0X00;
+
+    // Configure ADC
+    ADCON0 = 0x31; // Channel 12; Turn on AD Converter
+    ADCON1 = 0x00; // All analog pins
+    ADCON2 = 0xAA; // Right Align | 12 Tad | Fosc/32
+    ADRESH = 0x00;
+    ADRESL = 0x00;
 
 }
 
