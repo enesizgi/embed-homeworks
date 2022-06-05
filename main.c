@@ -7,6 +7,9 @@
 #define true 1
 #define false 0
 
+void tmr_isr();
+void lcd_task();
+
 /*_* GLOBAL DECLERATIONS GO HERE */
 typedef enum {TEM, CDM, TSM} game_state_t;
 game_state_t game_state = TEM;
@@ -281,11 +284,6 @@ void game_task()
     default:
         break;
     }
-}
-
-void lcd_task()
-{
-    
 }
 
 int main()
