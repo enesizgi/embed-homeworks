@@ -21,18 +21,19 @@ uint8_t cursorClm, cursorRow;
 uint8_t re0Pressed, re1Pressed, re2Pressed, re3Pressed, re4Pressed, re5Pressed;        // flags for input
 
 char predefined[] = {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-uint8_t currPred;
+char currPredChar;
+uint8_t currPredIndex;
 
-char pred_next()
+void pred_next()
 {
-    currPred = (currPred+1)%37;
-    return predefined[currPred];
+    currPredIndex = (currPredIndex+1)%37;
+    currPredChar = predefined[currPredIndex];
 }
 
-char pred_prev()
+void pred_prev()
 {
-    currPred = (currPred-1)%37;
-    return predefined[currPred];
+    currPredIndex = (currPredIndex-1)%37;
+    currPredChar = predefined[currPredIndex];
 }
 
 /*_* Interrupt Service Routines */
@@ -131,8 +132,9 @@ void init_vars()
     game_state = TEM;
     nOfCustom = 0;
     sevenSeg3WayCounter = 0;
-    currPred = 0;
     cursorClm = cursorRow = 0;
+    currPredIndex = 0;
+    currPredChar = predefined[currPredIndex];
 }
 
 void init_ports()
@@ -210,16 +212,19 @@ void game_task()
     case TEM:
         if(re0Pressed)
         {
+            // TODO custom character array and logic
             re0Pressed = false;
         }
 
-        if(re1Pressed)
+        if(re1Pressed)      // predefined -> backwars
         {
+            pred_prev();
             re1Pressed = false;
         }
 
-        if(re2Pressed)
+        if(re2Pressed)      // predefined -> forwards
         {
+            pred_next();
             re2Pressed = false;
         }
 
