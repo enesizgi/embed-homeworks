@@ -4,13 +4,16 @@
 #pragma config OSC = HSPLL
 #pragma config WDT = OFF
 
+#define true 1
+$define false 0
+
 /*_* GLOBAL DECLERATIONS GO HERE */
 typedef enum {TEM, CDM, TSM} game_state_t;
 game_state_t game_state = TEM;
 
 uint8_t nOfCustom;      // Number of custom characters
 uint8_t sevenSeg3WayCounter;
-bool re0Pressed, re1Pressed, re2Pressed, re3Pressed, re4Pressed, re5Pressed;        // flags for input
+uint8_t re0Pressed, re1Pressed, re2Pressed, re3Pressed, re4Pressed, re5Pressed;        // flags for input
 
 /*_* Interrupt Service Routines */
 void __interrupt(high_priority) highPriorityISR(void)
