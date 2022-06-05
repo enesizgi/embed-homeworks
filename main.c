@@ -5,7 +5,7 @@
 #pragma config WDT = OFF
 
 #define true 1
-$define false 0
+#define false 0
 
 /*_* GLOBAL DECLERATIONS GO HERE */
 typedef enum {TEM, CDM, TSM} game_state_t;
@@ -20,12 +20,14 @@ uint8_t currPred;
 
 char pred_next()
 {
-    return predefined[(currPred+1)%37];
+    currPred = (currPred+1)%37;
+    return predefined[currPred];
 }
 
 char pred_prev()
 {
-    return predefined[(currPred-1)%37];
+    currPred = (currPred-1)%37;
+    return predefined[currPred];
 }
 
 /*_* Interrupt Service Routines */
