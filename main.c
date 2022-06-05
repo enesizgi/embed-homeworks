@@ -15,6 +15,19 @@ uint8_t nOfCustom;      // Number of custom characters
 uint8_t sevenSeg3WayCounter;
 uint8_t re0Pressed, re1Pressed, re2Pressed, re3Pressed, re4Pressed, re5Pressed;        // flags for input
 
+char predefined[] = {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+uint8_t currPred;
+
+char pred_next()
+{
+    return predefined[(currPred+1)%37];
+}
+
+char pred_prev()
+{
+    return predefined[(currPred-1)%37];
+}
+
 /*_* Interrupt Service Routines */
 void __interrupt(high_priority) highPriorityISR(void)
 {
@@ -111,6 +124,7 @@ void init_vars()
     game_state = TEM;
     nOfCustom = 0;
     sevenSeg3WayCounter = 0;
+    currPred = 0;
 }
 
 void init_ports()
