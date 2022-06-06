@@ -8,6 +8,11 @@
 #define false 0
 #define _XTAL_FREQ 40000000
 
+#define left 0
+#define right 1
+#define up 2
+#define down 3
+
 void tmr_isr();
 void lcd_task();
 
@@ -15,12 +20,18 @@ void lcd_task();
 typedef enum {TEM, CDM, TSM} game_state_t;
 game_state_t game_state = TEM;
 
-uint8_t nOfCustom;      // Number of custom characters
-uint8_t sevenSeg3WayCounter;
+uint8_t nOfCustom;      // Number of custom characters, range [1-8], both excluded
+uint8_t sevenSeg3WayCounter;    // counter for 7seg display
+uint8_t cursorClm, cursorRow;
+unsigned int result;
+
+// Flags
 uint8_t re0Pressed, re1Pressed, re2Pressed, re3Pressed, re4Pressed, re5Pressed;        // flags for input
+uint8_t adif;
 
 char predefined[] = {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-uint8_t currPred;
+char currPredChar;
+uint8_t currPredIndex;
 
 uint8_t lcd_buf[32][8];
 
@@ -35,16 +46,16 @@ uint8_t lcd_buf[32][8];
 //        0b00000,
 //};
 
-char pred_next()
+void pred_next()
 {
-    currPred = (currPred+1)%37;
-    return predefined[currPred];
+    currPredIndex = (currPredIndex+1)%37;
+    currPredChar = predefined[currPredIndex];
 }
 
-char pred_prev()
+void pred_prev()
 {
-    currPred = (currPred-1)%37;
-    return predefined[currPred];
+    currPredIndex = (currPredIndex-1)%37;
+    currPredChar = predefined[currPredIndex];
 }
 
 /*_* Interrupt Service Routines */
@@ -53,6 +64,11 @@ void __interrupt(high_priority) highPriorityISR(void)
     if (INTCONbits.TMR0IF)
     {
         tmr_isr();
+    }
+    if(PIR1bits.ADIF)
+    {
+        PIR1bits.ADIF = 0x00;
+        adif = true;
     }
 }
 
@@ -140,10 +156,15 @@ void sevenSeg(uint8_t J, uint8_t D)
 void init_vars()
 {
     re0Pressed = re1Pressed = re2Pressed = re3Pressed = re4Pressed = re5Pressed = false;
+    adif = false;
     game_state = TEM;
     nOfCustom = 0;
     sevenSeg3WayCounter = 0;
     currPred = 0;
+    cursorClm = cursorRow = 0;
+    currPredIndex = 0;
+    result = 0;
+    currPredChar = predefined[currPredIndex];
     for (int i = 0; i < 32;i++) {
         for (int j = 0; j < 8; j++) {
             lcd_buf[i][j] = 0;
@@ -199,20 +220,28 @@ void init_ports()
 
     /*_* OUTPUT TRISSES*/
     // LCD BASED TRISSES
-    TRISB = 0x00; // LCD Control RB2/RB5
-    TRISD = 0x00; // LCD Data  RD[4-7]
+    TRISB = 0x00;
+    TRISD = 0x00;
+
+    // Other PORTs
     TRISA = 0X00;
     TRISC = 0X00;
+    TRISJ = 0x00;
+    // 7-SEG BASED TRISSES
+    // PORTH IS EDITED UPWARDS
+    PORTJ = 0X00;
+}
+
+void init_adc()
+{
     // Configure ADC
     ADCON0 = 0x31; // Channel 12; Turn on AD Converter
     ADCON1 = 0x00; // All analog pins
     ADCON2 = 0xAA; // Right Align | 12 Tad | Fosc/32
     ADRESH = 0x00;
     ADRESL = 0x00;
-
-    // 7-SEG BASED TRISSES
-    // PORTH IS EDITED UPWARDS
-    PORTJ = 0X00;
+    PIR1bits.ADIF = 0x00;
+    PIE1bits.ADIE = 0x01;
 
 }
 
@@ -231,9 +260,30 @@ void tmr_init()
     TMR0 = 0x00;  // Initialize TMR0 to 0, without a PRELOAD
 }
 
+void start_adc()
+{
+    ADCON0bits.GODONE = 0x01;
+}
+
 void sev_seg_task()
 {
+    if(sevenSeg3WayCounter == 0)
+        sevenSeg(nOfCustom, 0);
+    else if(sevenSeg3WayCounter == 1)
+        sevenSeg(cursorClm, 2);
+    else
+        sevenSeg(cursorRow, 3);
+}
 
+void adc_finish()
+{
+    if(adif)
+    {
+        result = (ADRESH << 8) + ADRESL; // Get the result;
+        adif = false;
+        init_adc();     // MAYBE we do not enable GIE again and again, because we are not disabling GIE
+        start_adc();
+    }
 }
 
 void input_task()
@@ -265,14 +315,104 @@ void input_task()
     
 }
 
+void inv_cursor(uint8_t dir)
+{
+    switch (dir)
+    {
+    case left:
+        if(cursorClm != 0) cursorClm--;
+        break;
+    case right:
+        if(cursorClm != 3) cursorClm++;
+        break;
+    case up:
+        if(cursorRow != 0) cursorRow--;
+        break;
+    case down:
+        if(cursorRow != 7) cursorRow++;
+        break;
+    
+    default:
+        break;
+    }
+}
+
 void game_task()
 {
     switch (game_state)
     {
     case TEM:
+        if(re0Pressed)
+        {
+            // TODO custom character array and logic
+            re0Pressed = false;
+        }
+
+        if(re1Pressed)      // predefined -> backwars
+        {
+            pred_prev();
+            re1Pressed = false;
+        }
+
+        if(re2Pressed)      // predefined -> forwards
+        {
+            pred_next();
+            re2Pressed = false;
+        }
+
+        if(re3Pressed)
+        {
+            re3Pressed = false;
+        }
+
+        if(re4Pressed)
+        {
+            re4Pressed = false;
+            game_state = CDM;
+        }
+
+        if(re5Pressed)
+        {
+            re5Pressed = false;
+            game_state = TSM;
+        }
         break;
 
     case CDM:
+        if(re0Pressed)      // cursor -> right
+        {
+            inv_cursor(right);
+            re0Pressed = false;
+        }
+
+        if(re1Pressed)      // cursor -> down
+        {
+            inv_cursor(down);
+            re1Pressed = false;
+        }
+
+        if(re2Pressed)      // cursor -> up
+        {
+            inv_cursor(up);
+            re2Pressed = false;
+        }
+
+        if(re3Pressed)      // cursor -> left
+        {
+            inv_cursor(left);
+            re3Pressed = false;
+        }
+
+        if(re4Pressed)
+        {
+            re4Pressed = false;
+            // TODO toggle led
+        }
+        if(re5Pressed)
+        {
+            re5Pressed = false;
+            game_state = TEM;
+        }
         break;
 
     case TSM:
@@ -287,17 +427,19 @@ int main()
 {
     init_vars();
     init_ports();
+    init_adc();
     InitLCDv2();
     init_irq();
     tmr_init();
+    start_adc();
 
     while(1)
     {
+        adc_finish();
         sev_seg_task();
         input_task();
         game_task();
         lcd_task();
-
     }
     return 0;
 }
