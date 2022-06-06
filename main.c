@@ -17,8 +17,11 @@ game_state_t game_state = TEM;
 uint8_t nOfCustom;      // Number of custom characters
 uint8_t sevenSeg3WayCounter;    // counter for 7seg display
 uint8_t cursorClm, cursorRow;
+unsigned int result;
 
+// Flags
 uint8_t re0Pressed, re1Pressed, re2Pressed, re3Pressed, re4Pressed, re5Pressed;        // flags for input
+uint8_t adif;
 
 char predefined[] = {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 char currPredChar;
@@ -42,6 +45,10 @@ void __interrupt(high_priority) highPriorityISR(void)
     if (INTCONbits.TMR0IF)
     {
         tmr_isr();
+    }
+    if(PIR1bits.ADIF)
+    {
+        adif = true;
     }
 }
 
@@ -134,6 +141,7 @@ void init_vars()
     sevenSeg3WayCounter = 0;
     cursorClm = cursorRow = 0;
     currPredIndex = 0;
+    result = 0;
     currPredChar = predefined[currPredIndex];
 }
 
@@ -155,13 +163,18 @@ void init_ports()
     // 7-SEG BASED TRISSES
     // PORTH IS EDITED UPWARDS
     PORTJ = 0X00;
+}
 
+void init_adc()
+{
     // Configure ADC
     ADCON0 = 0x31; // Channel 12; Turn on AD Converter
     ADCON1 = 0x00; // All analog pins
     ADCON2 = 0xAA; // Right Align | 12 Tad | Fosc/32
     ADRESH = 0x00;
     ADRESL = 0x00;
+    PIR1bits.ADIF = 0x00;
+    PIE1bits.ADIE = 0x01;
 
 }
 
@@ -180,9 +193,26 @@ void tmr_init()
     TMR0 = 0x00;  // Initialize TMR0 to 0, without a PRELOAD
 }
 
+void start_adc()
+{
+    ADCON0bits.GODONE = 0x01;
+}
+
 void sev_seg_task()
 {
 
+}
+
+void adc_finish()
+{
+    if(adif)
+    {
+        result = (ADRESH << 8) + ADRESL; // Get the result;
+        PIR1bits.ADIF = 0x00;
+        adif = false;
+        init_adc();
+        start_adc();
+    }
 }
 
 void input_task()
@@ -304,16 +334,18 @@ int main()
 {
     init_vars();
     init_ports();
+    init_adc();
     init_irq();
     tmr_init();
+    start_adc();
 
     while(1)
     {
+        adc_finish();
         sev_seg_task();
         input_task();
         game_task();
         lcd_task();
-
     }
     return 0;
 }
