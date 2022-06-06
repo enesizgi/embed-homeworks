@@ -137,6 +137,7 @@ void sevenSeg(uint8_t J, uint8_t D)
 void init_vars()
 {
     re0Pressed = re1Pressed = re2Pressed = re3Pressed = re4Pressed = re5Pressed = false;
+    adif = false;
     game_state = TEM;
     nOfCustom = 0;
     sevenSeg3WayCounter = 0;
@@ -288,7 +289,7 @@ void game_task()
     case CDM:
         if(re0Pressed)      // cursor -> right
         {
-            cursorClm = (cursorClm+1)%4;
+            cursorClm = (cursorClm+1)%4;        // TODO
             re0Pressed = false;
         }
 
