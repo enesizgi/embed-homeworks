@@ -14,7 +14,6 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>lcd.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>lcd_task.c</itemPath>
     </logicalFolder>

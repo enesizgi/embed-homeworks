@@ -6,6 +6,7 @@
 
 #define true 1
 #define false 0
+#define _XTAL_FREQ 40000000
 
 void tmr_isr();
 void lcd_task();
@@ -20,6 +21,19 @@ uint8_t re0Pressed, re1Pressed, re2Pressed, re3Pressed, re4Pressed, re5Pressed; 
 
 char predefined[] = {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 uint8_t currPred;
+
+uint8_t lcd_buf[32][8];
+
+//uint8_t charmap[8] = {
+//        0b00000,
+//        0b00000,
+//        0b01010,
+//        0b11111,
+//        0b11111,
+//        0b01110, 
+//        0b00100,
+//        0b00000,
+//};
 
 char pred_next()
 {
@@ -130,6 +144,51 @@ void init_vars()
     nOfCustom = 0;
     sevenSeg3WayCounter = 0;
     currPred = 0;
+    for (int i = 0; i < 32;i++) {
+        for (int j = 0; j < 8; j++) {
+            lcd_buf[i][j] = 0;
+        }
+    }
+}
+
+void Pulse(void){
+    PORTBbits.RB5 = 1;
+    __delay_us(30);
+    PORTBbits.RB5 = 0;
+    __delay_us(30);
+}
+
+void SendBusContents(uint8_t data){
+    PORTD = PORTD & 0x0F;           // Clear bus
+    PORTD = PORTD | (data&0xF0);     // Put high 4 bits
+    Pulse();
+    PORTD = PORTD & 0x0F;           // Clear bus
+    PORTD = PORTD | ((data<<4)&0xF0);// Put low 4 bits
+    Pulse();
+}
+
+void InitLCDv2(void) {
+    // Initializing by Instruction
+    __delay_ms(20);
+    PORTD = 0x30;
+    Pulse();
+
+    __delay_ms(6);
+    PORTD = 0x30;
+    Pulse();
+
+    __delay_us(300);
+    PORTD = 0x30;
+    Pulse();
+
+    __delay_ms(2);
+    PORTD = 0x20;
+    Pulse();
+    PORTBbits.RB2 = 0;
+    SendBusContents(0x2C);
+    SendBusContents(0x0C);
+    SendBusContents(0x01);
+    __delay_ms(30);
 }
 
 void init_ports()
@@ -140,10 +199,16 @@ void init_ports()
 
     /*_* OUTPUT TRISSES*/
     // LCD BASED TRISSES
-    // TRISB = TODO
-    // TRISD = TODO 
+    TRISB = 0x00; // LCD Control RB2/RB5
+    TRISD = 0x00; // LCD Data  RD[4-7]
     TRISA = 0X00;
     TRISC = 0X00;
+    // Configure ADC
+    ADCON0 = 0x31; // Channel 12; Turn on AD Converter
+    ADCON1 = 0x00; // All analog pins
+    ADCON2 = 0xAA; // Right Align | 12 Tad | Fosc/32
+    ADRESH = 0x00;
+    ADRESL = 0x00;
 
     // 7-SEG BASED TRISSES
     // PORTH IS EDITED UPWARDS
@@ -222,6 +287,7 @@ int main()
 {
     init_vars();
     init_ports();
+    InitLCDv2();
     init_irq();
     tmr_init();
 
