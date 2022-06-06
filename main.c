@@ -166,7 +166,7 @@ void init_ports()
     // Other PORTs
     TRISA = 0X00;
     TRISC = 0X00;
-
+    TRISJ = 0x00;
     // 7-SEG BASED TRISSES
     // PORTH IS EDITED UPWARDS
     PORTJ = 0X00;
