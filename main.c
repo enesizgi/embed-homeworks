@@ -48,6 +48,7 @@ void __interrupt(high_priority) highPriorityISR(void)
     }
     if(PIR1bits.ADIF)
     {
+        PIR1bits.ADIF = 0x00;
         adif = true;
     }
 }
@@ -208,9 +209,8 @@ void adc_finish()
     if(adif)
     {
         result = (ADRESH << 8) + ADRESL; // Get the result;
-        PIR1bits.ADIF = 0x00;
         adif = false;
-        init_adc();
+        init_adc();     // MAYBE we do not enable GIE again and again, because we are not disabling GIE
         start_adc();
     }
 }

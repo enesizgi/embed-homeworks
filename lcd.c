@@ -1,6 +1,15 @@
 #include "Includes.h"
 #include "lcd.h"
 
+void SendBusContents(uint8_t data){
+  PORTD = PORTD & 0x0F;           // Clear bus
+  PORTD = PORTD | (data&0xF0);     // Put high 4 bits
+  Pulse();                        
+  PORTD = PORTD & 0x0F;           // Clear bus
+  PORTD = PORTD | ((data<<4)&0xF0);// Put low 4 bits
+  Pulse();
+}
+
 void Pulse(void){
     LCD_EN = 1;
     __delay_us(LCD_PULSE);
