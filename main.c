@@ -7,6 +7,11 @@
 #define true 1
 #define false 0
 
+#define left 0
+#define right 1
+#define up 2
+#define down 3
+
 void tmr_isr();
 void lcd_task();
 
@@ -14,7 +19,7 @@ void lcd_task();
 typedef enum {TEM, CDM, TSM} game_state_t;
 game_state_t game_state = TEM;
 
-uint8_t nOfCustom;      // Number of custom characters
+uint8_t nOfCustom;      // Number of custom characters, range [1-8], both excluded
 uint8_t sevenSeg3WayCounter;    // counter for 7seg display
 uint8_t cursorClm, cursorRow;
 unsigned int result;
@@ -202,7 +207,12 @@ void start_adc()
 
 void sev_seg_task()
 {
-
+    if(sevenSeg3WayCounter == 0)
+        sevenSeg(nOfCustom, 0);
+    else if(sevenSeg3WayCounter == 1)
+        sevenSeg(cursorClm, 2);
+    else
+        sevenSeg(cursorRow, 3);
 }
 
 void adc_finish()
@@ -243,6 +253,28 @@ void input_task()
         re5Pressed = true;
     }
     
+}
+
+void inv_cursor(uint8_t dir)
+{
+    switch (dir)
+    {
+    case left:
+        if(cursorClm != 0) cursorClm--;
+        break;
+    case right:
+        if(cursorClm != 3) cursorClm++;
+        break;
+    case up:
+        if(cursorRow != 0) cursorRow--;
+        break;
+    case down:
+        if(cursorRow != 7) cursorRow++;
+        break;
+    
+    default:
+        break;
+    }
 }
 
 void game_task()
@@ -289,25 +321,25 @@ void game_task()
     case CDM:
         if(re0Pressed)      // cursor -> right
         {
-            cursorClm = (cursorClm+1)%4;        // TODO
+            inv_cursor(right);
             re0Pressed = false;
         }
 
         if(re1Pressed)      // cursor -> down
         {
-            cursorRow = (cursorRow+1)%8;
+            inv_cursor(down);
             re1Pressed = false;
         }
 
         if(re2Pressed)      // cursor -> up
         {
-            cursorRow = (cursorRow-1)%8;
+            inv_cursor(up);
             re2Pressed = false;
         }
 
         if(re3Pressed)      // cursor -> left
         {
-            cursorClm = (cursorClm-1)%4;
+            inv_cursor(left);
             re3Pressed = false;
         }
 
