@@ -599,6 +599,9 @@ void game_task()
             cursorClm = 0;
             cursorRow = 0;
             generate_custom_char();
+            currCustIndex = nOfCustom-1;
+            write_lcd(lcd_up + upCursor, cst);
+
         }
 
         break;
