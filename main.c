@@ -51,7 +51,8 @@ char currCustChar;
 uint8_t currCustIndex;
 
 
-uint8_t lcd_buf[32][8];
+uint8_t lcd_buf_up[16][8];
+uint8_t lcd_buf_down[16][8];
 uint8_t custom_chars[8][8];
 
 uint8_t charmap[8] = {
@@ -210,9 +211,10 @@ void init_vars()
 
     count_to_8 = 0;
     currPredChar = predefined[currPredIndex];
-    for (int i = 0; i < 32;i++) {
+    for (int i = 0; i < 16;i++) {
         for (int j = 0; j < 8; j++) {
-            lcd_buf[i][j] = 0;
+            lcd_buf_up[i][j] = 0;
+            lcd_buf_down[i][j] = 0;
         }
     }
     for (int i = 0; i < 8; i++) {
