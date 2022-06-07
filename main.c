@@ -55,42 +55,16 @@ uint8_t first_time_tsm;
 char predefined[] = {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
 
-char predChars[16];
 uint8_t predIndexes[16];
 
 uint8_t mask[16];
-uint8_t pred_mask[16];
+//uint8_t pred_mask[16];
 uint8_t cust_mask[16];
 
 uint8_t currPredIndex;
 int currCustIndex;
 
-
-uint8_t lcd_buf_up[16][8];
-uint8_t lcd_buf_down[16][8];
 uint8_t custom_chars[64];
-
-uint8_t charmap[8] = {
-        0b00000,
-        0b00000,
-        0b01010,
-        0b11111,
-        0b11111,
-        0b01110,
-        0b00100,
-        0b00000,
-};
-
-uint8_t charmap2[8] = {
-        0b10000,
-        0b01000,
-        0b00110,
-        0b00111,
-        0b00111,
-        0b01110,
-        0b01100,
-        0b01111,
-};
 
 void pred_next()
 {
@@ -250,15 +224,15 @@ void init_vars()
     {
         predIndexes[i] = 0;
         mask[i] = 3;
-        pred_mask[i] = 0;
+//        pred_mask[i] = 0;
         cust_mask[i] = 0;
     }
-    for (int i = 0; i < 16;i++) {
-        for (int j = 0; j < 8; j++) {
-            lcd_buf_up[i][j] = 0;
-            lcd_buf_down[i][j] = 0;
-        }
-    }
+//    for (int i = 0; i < 16;i++) {
+//        for (int j = 0; j < 8; j++) {
+//            lcd_buf_up[i][j] = 0;
+//            lcd_buf_down[i][j] = 0;
+//        }
+//    }
     for (int i = 0; i < 64; i++)
     {
             custom_chars[i] = empty;
@@ -373,11 +347,11 @@ void sev_seg_task()
 
 void adc_finish()
 {
-    if(adif)
+    if(adif && game_state != CDM)
     {
         result = (ADRESH << 8) + ADRESL; // Get the result;
         adif = false;
-        init_adc();     // MAYBE we do not enable GIE again and again, because we are not disabling GIE
+//        init_adc();     // MAYBE we do not enable GIE again and again, because we are not disabling GIE
         start_adc();
         adif2 = true;
         upCursor = result/64;        // MAYBE division may be erronous but I think it is OK @Ali
@@ -481,7 +455,6 @@ void shifter()
     }
     tmp[15] = cust_mask[0];
     for(int i=0; i<16; i++) cust_mask[i] = tmp[i];
-
 }
 
 void game_task()
@@ -527,13 +500,23 @@ void game_task()
         {
             re4Pressed = false;
             game_state = CDM;
+//            PIE1bits.ADIE = 0x00;
 //            ADCON0bits.ADON = 0;
+//            ADCON1 = 0x00;
+            LATA = 0x00;
+            LATB = 0X00;
+            LATC = 0x00;
+            LATD = 0x00;
+//            __delay_ms(1000);
         }
 
         if(re5Pressed == true)
         {
             re5Pressed = false;
             game_state = TSM;
+//            ADCON0bits.ADON = 1;
+//            ADCON1 = 0x00;
+//            PIE1bits.ADIE = 0x01;
         }
         break;
 
@@ -592,6 +575,10 @@ void game_task()
             custom_chars[nOfCustom*8+7] = LA7 << 4 | LB7 << 3 | LC7 << 2 | LD7 << 1;
             nOfCustom++;
 
+//            init_adc();
+//            PIE1bits.ADIE = 0x01;
+//            ADCON0bits.ADON = 1;
+//            ADCON1 = 0x0F;
             LATA = 0x00;
             LATB = 0x00;
             LATC = 0x00;
@@ -701,7 +688,7 @@ void write_lcd(uint8_t address, uint8_t mode)        // To use in cst mode, send
             break;
         case prd:
             mask[upCursor] = prd;
-            pred_mask[upCursor] = currPredIndex;
+//            pred_mask[upCursor] = currPredIndex;
             move_cursor(address);
             // Write buf to LCD DDRAM
             PORTBbits.RB2 = 1;
