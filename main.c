@@ -42,17 +42,15 @@ tmr_state_t tmr_state = TMR_RUN;
 uint8_t nOfCustom;      // Number of custom characters, range [1-8], both excluded
 uint8_t sevenSeg3WayCounter;    // counter for 7seg display
 uint8_t cursorClm, cursorRow;
-uint8_t count_to_8;
 
 uint8_t tmr_ticks_left;
 uint8_t upCursor;
 unsigned int result;
 
-int tsm_iter;
 
 // Flags
 uint8_t re0Pressed, re1Pressed, re2Pressed, re3Pressed, re4Pressed, re5Pressed;        // flags for input
-uint8_t adif, adif2;
+uint8_t adif;
 uint8_t first_time_tsm;
 
 char predefined[] = {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
@@ -231,23 +229,14 @@ void init_vars()
     currCustIndex = 0;
     result = 0;
     upCursor = 0;
-    tsm_iter = 0;
-    count_to_8 = 0;
     tmr_ticks_left = 0;
 
     for(int i=0; i<16; i++)
     {
         predIndexes[i] = 0;
         mask[i] = 3;
-//        pred_mask[i] = 0;
         cust_mask[i] = 0;
     }
-//    for (int i = 0; i < 16;i++) {
-//        for (int j = 0; j < 8; j++) {
-//            lcd_buf_up[i][j] = 0;
-//            lcd_buf_down[i][j] = 0;
-//        }
-//    }
     for (int i = 0; i < 64; i++)
     {
             custom_chars[i] = empty;
@@ -368,7 +357,6 @@ void adc_finish()
         adif = false;
 //        init_adc();     // MAYBE we do not enable GIE again and again, because we are not disabling GIE
         start_adc();
-        adif2 = true;
         upCursor = result/64;        // MAYBE division may be erronous but I think it is OK @Ali
         move_cursor(lcd_up + upCursor);        // 1024/16 = 64, so if we divide our result by 64, it will be the index to the cell in the upper side of LCD
     }
@@ -515,23 +503,16 @@ void game_task()
         {
             re4Pressed = false;
             game_state = CDM;
-//            PIE1bits.ADIE = 0x00;
-//            ADCON0bits.ADON = 0;
-//            ADCON1 = 0x00;
             LATA = 0x00;
             LATB = 0X00;
             LATC = 0x00;
             LATD = 0x00;
-//            __delay_ms(1000);
         }
 
         if(re5Pressed == true)
         {
             re5Pressed = false;
             game_state = TSM;
-//            ADCON0bits.ADON = 1;
-//            ADCON1 = 0x00;
-//            PIE1bits.ADIE = 0x01;
         }
         break;
 
@@ -590,10 +571,6 @@ void game_task()
             custom_chars[nOfCustom*8+7] = LA7 << 4 | LB7 << 3 | LC7 << 2 | LD7 << 1;
             nOfCustom++;
 
-//            init_adc();
-//            PIE1bits.ADIE = 0x01;
-//            ADCON0bits.ADON = 1;
-//            ADCON1 = 0x0F;
             LATA = 0x00;
             LATB = 0x00;
             LATC = 0x00;
@@ -667,7 +644,6 @@ void generate_custom_char()
     PORTBbits.RB2 = 0;
 
     SendBusContents(0x40);
-//    count_to_8 = (count_to_8+8) % 64;        // MAYBE DISABLE OVERWRITE
 
     // Start sending charmap
     for(int i=0; i<nOfCustom*8; i++)
@@ -679,7 +655,6 @@ void generate_custom_char()
     // All custom characters generated again
     // Return home
     SendBusContents(0x02);
-
 
 }
 
