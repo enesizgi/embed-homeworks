@@ -22,7 +22,8 @@
 #define lcd_down 0xc0
 #define cst 1
 #define prd 0
-#define empty -1
+
+#define empty 0
 
 void tmr_isr();
 void lcd_task();
@@ -34,10 +35,9 @@ game_state_t game_state = TEM;
 uint8_t nOfCustom;      // Number of custom characters, range [1-8], both excluded
 uint8_t sevenSeg3WayCounter;    // counter for 7seg display
 uint8_t cursorClm, cursorRow;
-uint8_t currPred;
 uint8_t count_to_8;
 
-unsigned int result;
+unsigned int result, upCursor;
 
 // Flags
 uint8_t re0Pressed, re1Pressed, re2Pressed, re3Pressed, re4Pressed, re5Pressed;        // flags for input
@@ -46,6 +46,10 @@ uint8_t adif, adif2;
 char predefined[] = {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 char currPredChar;
 uint8_t currPredIndex;
+
+char currCustChar;
+uint8_t currCustIndex;
+
 
 uint8_t lcd_buf[32][8];
 uint8_t custom_chars[8][8];
@@ -83,6 +87,19 @@ void pred_prev()
     currPredIndex = (currPredIndex-1)%37;
     currPredChar = predefined[currPredIndex];
 }
+
+void cust_next()
+{
+    currCustIndex = (currCustIndex+1)%8;
+    currCustChar = custom_chars[currCustIndex];
+}
+
+void cust_prev()
+{
+    currCustIndex = (currCustIndex-1)%8;
+    currCustChar = custom_chars[currCustIndex];
+}
+
 
 /*_* Interrupt Service Routines */
 void __interrupt(high_priority) highPriorityISR(void)
@@ -186,10 +203,11 @@ void init_vars()
     game_state = TEM;
     nOfCustom = 0;
     sevenSeg3WayCounter = 0;
-    currPred = 0;
     cursorClm = cursorRow = 0;
     currPredIndex = 0;
     result = 0;
+    upCursor = 0;
+
     count_to_8 = 0;
     currPredChar = predefined[currPredIndex];
     for (int i = 0; i < 32;i++) {
@@ -278,7 +296,6 @@ void init_adc()
     ADRESL = 0x00;
     PIR1bits.ADIF = 0x00;
     PIE1bits.ADIE = 0x01;
-
 }
 
 void init_irq()
@@ -320,7 +337,8 @@ void adc_finish()
         init_adc();     // MAYBE we do not enable GIE again and again, because we are not disabling GIE
         start_adc();
         adif2 = true;
-        move_cursor(lcd_up + result/64);        // 1024/16 = 64, so if we divide our result by 64, it will be the index to the cell in the upper side of LCD
+        upCursor = result/64;        // MAYBE division may be erronous but I think it is OK @Ali
+        move_cursor(lcd_up + upCursor);        // 1024/16 = 64, so if we divide our result by 64, it will be the index to the cell in the upper side of LCD
     }
 }
 
@@ -403,9 +421,10 @@ void game_task()
     switch (game_state)
     {
     case TEM:
-        if(re0Pressed == true)
+        if(re0Pressed == true)      // custom -> forward
         {
             // TODO custom character array and logic
+            cst_next();
             re0Pressed = false;
         }
 
@@ -413,16 +432,19 @@ void game_task()
         {
             pred_prev();
             re1Pressed = false;
+            write_lcd(lcd_up + upCursor, prd, currPredChar);
         }
 
         if(re2Pressed == true)      // predefined -> forwards
         {
             pred_next();
             re2Pressed = false;
+            write_lcd(lcd_up + upCursor, prd, currPredChar);
         }
 
-        if(re3Pressed == true)
+        if(re3Pressed == true)      // custom -> backwards
         {
+            cst_prev();
             re3Pressed = false;
         }
 
@@ -592,9 +614,9 @@ void lcd_task()
         buf[5]=0; // Null terminator
 
         // Set DDRAM address to 0 (line 1 cell 1) -> 0x80
-        PORTBbits.RB2 = 0;
-        write_lcd(lcd_up+7, cst, 0);
-        write_lcd(lcd_up+8, cst, 1);
+//        PORTBbits.RB2 = 0;
+//        write_lcd(lcd_up+7, cst, 0);
+//        write_lcd(lcd_up+8, cst, 1);
 
         adif2 = false;
     }
