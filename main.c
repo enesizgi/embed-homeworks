@@ -320,6 +320,7 @@ void adc_finish()
         init_adc();     // MAYBE we do not enable GIE again and again, because we are not disabling GIE
         start_adc();
         adif2 = true;
+        move_cursor(lcd_up + result/64);        // 1024/16 = 64, so if we divide our result by 64, it will be the index to the cell in the upper side of LCD
     }
 }
 
