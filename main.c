@@ -22,6 +22,7 @@
 #define lcd_down 0xc0
 #define cst 1
 #define prd 0
+#define empty -1
 
 void tmr_isr();
 void lcd_task();
@@ -198,7 +199,7 @@ void init_vars()
     }
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            custom_chars[i][j] = -1;
+            custom_chars[i][j] = empty;
         }
     }
 }
@@ -535,11 +536,16 @@ void generate_custom_char(uint8_t chars[])      // TODO: Re-organize this functi
         for(int j=0; j<8; j++)
         {
             PORTBbits.RB2 = 1; // Send Data
-            if(custom_chars[i][j] != -1)
+            if(custom_chars[i][j] != empty)
                 SendBusContents(custom_chars[i][j]);
         }
 
     }
+
+    // All custom characters generated again
+    // Return home
+    SendBusContents(0x02);
+
 
 }
 
