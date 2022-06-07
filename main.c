@@ -27,7 +27,6 @@
 
 
 void tmr_isr();
-void lcd_task();
 void write_lcd(uint8_t address, uint8_t mode);
 void write_lcd2(uint8_t address, uint8_t mode, uint8_t i);
 void move_cursor(uint8_t address);
@@ -37,11 +36,15 @@ void generate_custom_char();
 typedef enum {TEM, CDM, TSM} game_state_t;
 game_state_t game_state = TEM;
 
+typedef enum {TMR_RUN, TMR_DONE} tmr_state_t;
+tmr_state_t tmr_state = TMR_RUN;
+
 uint8_t nOfCustom;      // Number of custom characters, range [1-8], both excluded
 uint8_t sevenSeg3WayCounter;    // counter for 7seg display
 uint8_t cursorClm, cursorRow;
 uint8_t count_to_8;
 
+uint8_t tmr_ticks_left;
 uint8_t upCursor;
 unsigned int result;
 
@@ -134,6 +137,17 @@ void tmr_isr()
         sevenSeg3WayCounter++;
 
     INTCONbits.TMR0IF = 0; // Reset flag
+
+    if (--tmr_ticks_left == 0)
+        tmr_state = TMR_DONE;
+}
+
+void tmr_start(uint8_t ticks)
+{
+    tmr_ticks_left = ticks;     
+    tmr_state = TMR_RUN;        // Set timer state to RUN
+    TMR0 = 0x00;                // Clear TMR0
+    INTCONbits.TMR0IF = 0;      // Reset TMR0 Interrupt Flag
 }
 
 void sevenSeg(uint8_t J, uint8_t D)
@@ -219,6 +233,7 @@ void init_vars()
     upCursor = 0;
     tsm_iter = 0;
     count_to_8 = 0;
+    tmr_ticks_left = 0;
 
     for(int i=0; i<16; i++)
     {
@@ -588,7 +603,6 @@ void game_task()
             generate_custom_char();
             currCustIndex = nOfCustom-1;
             write_lcd(lcd_up + upCursor, cst);
-
         }
 
         break;
@@ -624,17 +638,22 @@ void game_task()
         }
 
 
-        for(int i=0; i<16; i++)
+        if(tmr_state == TMR_DONE)
         {
-            if(mask[i] == prd)
-                write_lcd2(lcd_down + i, prd, i);
-            else if(mask[i] == cst)
-                write_lcd2(lcd_down + i, cst, i);
-            else
-                write_lcd2(lcd_down + i, 3, 0);
+            for(int i=0; i<16; i++)
+            {
+                if(mask[i] == prd)
+                    write_lcd2(lcd_down + i, prd, i);
+                else if(mask[i] == cst)
+                    write_lcd2(lcd_down + i, cst, i);
+                else
+                    write_lcd2(lcd_down + i, 3, 0);
+
+            }
+            shifter();
+            tmr_state = TMR_RUN;
+            tmr_start(46);
         }
-        __delay_ms(300);
-        shifter();
 
         break;
     
@@ -732,24 +751,7 @@ void write_lcd2(uint8_t address, uint8_t mode, uint8_t i)        // To use in cs
     }
 
 }
-void lcd_task()
-{
-    if (adif2) {
-//         4bytes for ADC Res + 1 byte for custom char + 1 byte null;
-        char buf[6];
-        sprintf(buf, "%04u", result);
-        buf[4]=0; // Address of custom char
-        buf[5]=0; // Null terminator
 
-        // Set DDRAM address to 0 (line 1 cell 1) -> 0x80
-//        PORTBbits.RB2 = 0;
-//        write_lcd(lcd_up+7, cst);
-//        write_lcd(lcd_up+8, cst);
-
-        adif2 = false;
-    }
-
-}
 
 int main()
 {
@@ -760,14 +762,13 @@ int main()
     init_irq();
     tmr_init();
     start_adc();
-
+    tmr_start(46);
     while(1)
     {
         adc_finish();
         sev_seg_task();
         input_task();
         game_task();
-        lcd_task();
     }
     return 0;
 }
