@@ -44,16 +44,22 @@ uint8_t count_to_8;
 uint8_t upCursor;
 unsigned int result;
 
+int tsm_iter;
+
 // Flags
 uint8_t re0Pressed, re1Pressed, re2Pressed, re3Pressed, re4Pressed, re5Pressed;        // flags for input
 uint8_t adif, adif2;
+uint8_t first_time_tsm;
 
 char predefined[] = {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
 
 char predChars[16];
 uint8_t predIndexes[16];
+
 uint8_t mask[16];
+uint8_t pred_mask[16];
+uint8_t cust_mask[16];
 
 uint8_t currPredIndex;
 int currCustIndex;
@@ -227,6 +233,7 @@ void init_vars()
 {
     re0Pressed = re1Pressed = re2Pressed = re3Pressed = re4Pressed = re5Pressed = false;
     adif = false;
+    first_time_tsm = true;
     game_state = TEM;
     nOfCustom = 0;
     sevenSeg3WayCounter = 0;
@@ -235,13 +242,15 @@ void init_vars()
     currCustIndex = 0;
     result = 0;
     upCursor = 0;
-
+    tsm_iter = 0;
     count_to_8 = 0;
 
     for(int i=0; i<16; i++)
     {
         predIndexes[i] = 0;
-        mask[i] = 0;
+        mask[i] = 3;
+        pred_mask[i] = 0;
+        cust_mask[i] = 0;
     }
     for (int i = 0; i < 16;i++) {
         for (int j = 0; j < 8; j++) {
@@ -569,13 +578,41 @@ void game_task()
 
         break;
 
-    case TSM:
-//        for(int i=0; i<16; i++)
-//        {
-//            if(mask[i] == cs)
-//                write_lcd(predefined[predIndexes[upCursor]], prd);
-//            else if
-//        }
+    case TSM:       // TODO: Close the cursor here
+        if(first_time_tsm)
+        {
+            move_cursor(lcd_up + 3);
+            PORTBbits.RB2 = 1;
+            SendBusContents('f');
+            SendBusContents('i');
+            SendBusContents('n');
+            SendBusContents('i');
+            SendBusContents('s');
+            SendBusContents('h');
+            SendBusContents('e');
+            SendBusContents('d');
+
+            for(int i=0; i<16; i++)
+            {
+                if(mask[i] == prd)
+                    write_lcd2(lcd_down + i, prd, i);
+                else
+                    write_lcd2(lcd_down + i, cst, i);
+            }
+            first_time_tsm = false;
+        }
+        else
+        {
+            tsm_iter = (tsm_iter+15) % 16;
+            __delay_ms(20);
+            for(int i=0; i<16; i++)
+            {
+                if(mask[i] == prd)
+                    write_lcd2(lcd_down + tsm_iter, prd, i);
+                else
+                    write_lcd2(lcd_down + tsm_iter, cst, i);
+            }
+        }
         break;
     
     default:
@@ -617,6 +654,8 @@ void write_lcd(uint8_t address, uint8_t mode)        // To use in cst mode, send
     switch(mode)
     {
         case cst:
+            mask[upCursor] = cst;
+            cust_mask[upCursor] = currCustIndex;
             move_cursor(address);
             // Write buf to LCD DDRAM
             PORTBbits.RB2 = 1;
@@ -625,6 +664,8 @@ void write_lcd(uint8_t address, uint8_t mode)        // To use in cst mode, send
             move_cursor(address);
             break;
         case prd:
+            mask[upCursor] = prd;
+            pred_mask[upCursor] = currPredIndex;
             move_cursor(address);
             // Write buf to LCD DDRAM
             PORTBbits.RB2 = 1;
@@ -636,6 +677,29 @@ void write_lcd(uint8_t address, uint8_t mode)        // To use in cst mode, send
 
 }
 
+void write_lcd2(uint8_t address, uint8_t mode, uint8_t i)        // To use in cst mode, send 0-1-2-... intead of 0-8-16-...
+{
+    switch(mode)
+    {
+        case cst:
+            move_cursor(address);
+            // Write buf to LCD DDRAM
+            PORTBbits.RB2 = 1;
+            SendBusContents(cust_mask[i]);
+            // Move cursor again the current cell
+            move_cursor(address);
+            break;
+        case prd:
+            move_cursor(address);
+            // Write buf to LCD DDRAM
+            PORTBbits.RB2 = 1;
+            SendBusContents(predefined[predIndexes[i]]);
+            // Move cursor again the current cell
+            move_cursor(address);
+            break;
+    }
+
+}
 void lcd_task()
 {
     if (adif2) {
