@@ -1,4 +1,0 @@
-void lcd_task()
-{
-    
-}
