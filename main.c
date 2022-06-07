@@ -26,7 +26,7 @@
 #define empty 0
 
 
-void tmr_isr();
+void tmr_isr(); 
 void write_lcd(uint8_t address, uint8_t mode);
 void write_lcd2(uint8_t address, uint8_t mode, uint8_t i);
 void move_cursor(uint8_t address);
@@ -41,40 +41,39 @@ tmr_state_t tmr_state = TMR_RUN;
 
 uint8_t nOfCustom;      // Number of custom characters, range [1-8], both excluded
 uint8_t sevenSeg3WayCounter;    // counter for 7seg display
-uint8_t cursorClm, cursorRow;
+uint8_t cursorClm, cursorRow;       // for 7seg display, cursorrow and cursorcolumn 
 
-uint8_t tmr_ticks_left;
-uint8_t upCursor;
+uint8_t tmr_ticks_left;     // for timer
+uint8_t upCursor;       // the current cell of the cursor
 unsigned int result;
 
 
 // Flags
 uint8_t re0Pressed, re1Pressed, re2Pressed, re3Pressed, re4Pressed, re5Pressed;        // flags for input
-uint8_t adif;
-uint8_t first_time_tsm;
+uint8_t adif;       // flag for ADIF 
+uint8_t first_time_tsm;     // First enter in TSM
 
 char predefined[] = {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}; // predefined characters
 
 
-uint8_t predIndexes[16]; // indexes of predefined characters
+uint8_t predIndexes[16]; // current indexes of predefined characters to each cell
 
-uint8_t mask[16];
-//uint8_t pred_mask[16];
-uint8_t cust_mask[16];
+uint8_t mask[16];       // it says to us whether the contents of the cell is coming from custom or predefined cahracter
+uint8_t cust_mask[16];  // it says that the index of the content in the cell whose content is coming from custom character
 
-uint8_t currPredIndex;
-int currCustIndex;
+uint8_t currPredIndex;      // current predefined index
+int currCustIndex;      // current custom character index
 
-uint8_t custom_chars[64];
+uint8_t custom_chars[64];       // array of custom characters
 
 void pred_next()
 {
-    predIndexes[upCursor] = (predIndexes[upCursor] + 1) % 37;
+    predIndexes[upCursor] = (predIndexes[upCursor] + 1) % 37;       // updates the current predefined
 }
 
 void pred_prev()
 {
-    predIndexes[upCursor] = (predIndexes[upCursor] + 36) % 37;
+    predIndexes[upCursor] = (predIndexes[upCursor] + 36) % 37;      // updates the current predefined
 }
 
 void cust_next()
@@ -234,7 +233,7 @@ void init_vars()
     for(int i=0; i<16; i++)
     {
         predIndexes[i] = 0;
-        mask[i] = 3;
+        mask[i] = 3;        // mask -> 0,1,3 -> ternary logic
         cust_mask[i] = 0;
     }
     for (int i = 0; i < 64; i++)
@@ -336,11 +335,14 @@ void tmr_init()
 
 void start_adc()
 {
-    ADCON0bits.GODONE = 0x01;
+    ADCON0bits.GODONE = 0x01;       // Set GODONE
 }
 
 void sev_seg_task()
 {
+    // 3waycounter is for lighting 3 segments on 7segment display
+    // this 3waycounter is incremented in ISR, we can handle the 
+    // flickr by using this kind of counter.
     if(sevenSeg3WayCounter == 0)
         sevenSeg(nOfCustom, 0);
     else if(sevenSeg3WayCounter == 1)
@@ -349,22 +351,24 @@ void sev_seg_task()
         sevenSeg(cursorRow, 3);
 }
 
-void adc_finish()
+// When A/D interrupt comes, this function runs
+void adc_finish()       
 {
     if(adif && game_state != CDM)
     {
-        result = (ADRESH << 8) + ADRESL; // Get the result;
+        result = (ADRESH << 8) + ADRESL; // Read ADC result from ADRESH and ADRESL and store it in 'result'.
         adif = false;
-//        init_adc();     // MAYBE we do not enable GIE again and again, because we are not disabling GIE
-        start_adc();
-        upCursor = result/64;        // MAYBE division may be erronous but I think it is OK @Ali
+        start_adc();        // Set GODONE again
+        upCursor = result/64;   // To decide the position of the cursor, we divide the 'result' by 64.
         move_cursor(lcd_up + upCursor);        // 1024/16 = 64, so if we divide our result by 64, it will be the index to the cell in the upper side of LCD
     }
 }
 
-void input_task()
+// This task is responsible for handling the input from the user. Firstly, it checks if the user has pressed a button. If so, it will change apporpriate variables.
+// Secondly, it will check if the user has released the button. If so, it will modify the corresponding button flag.
+void input_task() 
 {
-    if(PORTEbits.RE0)
+    if(PORTEbits.RE0) // check RE0 is pressed
     {
         re0Pressed = pressed;
     }
@@ -372,7 +376,7 @@ void input_task()
         re0Pressed = true;
     }
 
-    if(PORTEbits.RE1)
+    if(PORTEbits.RE1) // check RE1 is pressed
     {
         re1Pressed = pressed;
     }
@@ -380,7 +384,7 @@ void input_task()
         re1Pressed = true;
     }
 
-    if(PORTEbits.RE2)
+    if(PORTEbits.RE2) // check RE2 is pressed 
     {
         re2Pressed = pressed;
     }
@@ -388,7 +392,7 @@ void input_task()
         re2Pressed = true;
     }
 
-    if(PORTEbits.RE3)
+    if(PORTEbits.RE3) // check RE3 is pressed
     {
         re3Pressed = pressed;
     }
@@ -396,7 +400,7 @@ void input_task()
         re3Pressed = true;
     }
 
-    if(PORTEbits.RE4)
+    if(PORTEbits.RE4) // check RE4 is pressed
     {
         re4Pressed = pressed;
     }
@@ -404,7 +408,7 @@ void input_task()
         re4Pressed = true;
     }
 
-    if(PORTEbits.RE5)
+    if(PORTEbits.RE5) //  check RE5 is pressed
     {
         re5Pressed = pressed;
     }
@@ -414,92 +418,95 @@ void input_task()
     
 }
 
-void inv_cursor(uint8_t direction)
+void inv_cursor(uint8_t direction) // We move the virtual cursor in the LED matrix according to the pressed navigation buttons.
 {
-    switch (direction)
+    switch (direction) 
     {
     case left:
-        if(cursorClm != 0 && re3Pressed == true) cursorClm--;
+        if(cursorClm != 0 && re3Pressed == true) cursorClm--; // If the cursor is not in the leftmost column, we move it to the left.
         break;
     case right:
-        if(cursorClm != 3 && re0Pressed == true) cursorClm++;
+        if(cursorClm != 3 && re0Pressed == true) cursorClm++; // If the cursor is not in the rightmost column, we move it to the right.
         break;
     case up:
-        if(cursorRow != 0 && re2Pressed == true) cursorRow--;
+        if(cursorRow != 0 && re2Pressed == true) cursorRow--; // If the cursor is not in the uppermost row, we move it to the upper.
         break;
     case down:
-        if(cursorRow != 7 && re1Pressed == true) cursorRow++;
+        if(cursorRow != 7 && re1Pressed == true) cursorRow++; // If the cursor is not in the lowermost row, we move it to the lower.
         break;
     default:
         break;
-    }
+    } 
 }
 
-void shifter()
+void shifter() // This function basically rotates left the context of the mentioned arrays. At the end of the function, last element of the array is moved to the first index.
 {
-    int tmp[16];
+    int tmp[16];        // Use a temporary array
+    // Rotate mask array
     for(int i=1; i<16; i++)
     {
         tmp[i-1] = mask[i];
     }
     tmp[15] = mask[0];
-    for(int i=0; i<16; i++) mask[i] = tmp[i];
+    for(int i=0; i<16; i++) mask[i] = tmp[i];       // Copy back to ..
 
+    // Rotate predefined indexes array
     for(int i=1; i<16; i++)
     {
         tmp[i-1] = predIndexes[i];
     }
     tmp[15] = predIndexes[0];
-    for(int i=0; i<16; i++) predIndexes[i] = tmp[i];
+    for(int i=0; i<16; i++) predIndexes[i] = tmp[i];        // Copy back to ..
 
+    // Rotate custom cahracters array 
     for(int i=1; i<16; i++)
     {
         tmp[i-1] = cust_mask[i];
     }
     tmp[15] = cust_mask[0];
-    for(int i=0; i<16; i++) cust_mask[i] = tmp[i];
+    for(int i=0; i<16; i++) cust_mask[i] = tmp[i];      // Copy back to ..
 }
 
-void game_task()
+void game_task() // This function is responsible for the game logic. It checks the game state and performs the appropriate actions.
 {
     switch (game_state)
     {
-    case TEM:
-        if(re0Pressed == true)      // custom -> forward
+    case TEM: // In this state, game is in the Text Entry Mode which takes the predefined characters from the predefined array and displays them on the LCD according to the cursor position.
+        if(re0Pressed == true)      // It is used for iterating over custom characters.
         {
             cust_next();
             re0Pressed = false;
-            if(currCustIndex == -1)     // means print predefined on LCD
+            if(currCustIndex == -1)     // Means print predefined on LCD
                 write_lcd(lcd_up + upCursor, prd);
             else
                 write_lcd(lcd_up + upCursor, cst);
         }
 
-        if(re1Pressed == true)      // predefined -> backwars
+        if(re1Pressed == true)      // To go backwards in predefined array.
         {
             pred_prev();
             re1Pressed = false;
             write_lcd(lcd_up + upCursor, prd);
         }
 
-        if(re2Pressed == true)      // predefined -> forwards
+        if(re2Pressed == true)      // To go forward in predefined array.
         {
             pred_next();
             re2Pressed = false;
             write_lcd(lcd_up + upCursor, prd);
         }
 
-        if(re3Pressed == true)      // custom -> backwards
+        if(re3Pressed == true)      // To go backwards in custom characters array.
         {
             cust_prev();
             re3Pressed = false;
-            if(currCustIndex == -1)     // means print predefined on LCD
+            if(currCustIndex == -1)     // Means print predefined on LCD
                 write_lcd(lcd_up + upCursor, prd);
             else
                 write_lcd(lcd_up + upCursor, cst);
         }
 
-        if(re4Pressed == true)
+        if(re4Pressed == true) // If RE4 is pressed  we switch to the CDM (Character Define Mode) state.
         {
             re4Pressed = false;
             game_state = CDM;
@@ -509,39 +516,39 @@ void game_task()
             LATD = 0x00;
         }
 
-        if(re5Pressed == true)
+        if(re5Pressed == true) // If RE5 is pressed  we switch to the TSM (Text Switch Mode) state.
         {
             re5Pressed = false;
             game_state = TSM;
         }
         break;
 
-    case CDM:
-        if(re0Pressed == true)      // cursor -> right
+    case CDM: // At this state we define custom characters by moving the virtual cursor in LED matrix. When the custom character design finish, we export it to the LCD with RE5 button.
+        if(re0Pressed == true)      // Moves virtual cursor to the right.
         {
             inv_cursor(right);
             re0Pressed = false;
         }
 
-        if(re1Pressed == true)      // cursor -> down
+        if(re1Pressed == true)      // Moves virtual cursor downwards.
         {
             inv_cursor(down);
             re1Pressed = false;
         }
 
-        if(re2Pressed == true)      // cursor -> up
+        if(re2Pressed == true)      // Moves virtual cursor upwards.
         {
             inv_cursor(up);
             re2Pressed = false;
         }
 
-        if(re3Pressed == true)      // cursor -> left
+        if(re3Pressed == true)      // Moves virtual cursor to the left.
         {
             inv_cursor(left);
             re3Pressed = false;
         }
 
-        if(re4Pressed == true)
+        if(re4Pressed == true)      // toggle LED state by XOR'ing the LATs
         {
             re4Pressed = false;
             if (cursorClm == 0) {
@@ -557,10 +564,11 @@ void game_task()
                 LATD ^= 1 << cursorRow;
             }
         }
-        if(re5Pressed == true)
+        if(re5Pressed == true)      // Switch game state to TEM
         {
             re5Pressed = false;
             game_state = TEM;
+            // Store the contents of the user-generated custom character
             custom_chars[nOfCustom*8] = LA0 << 4 | LB0 << 3 | LC0 << 2 | LD0 << 1;
             custom_chars[nOfCustom*8+1] = LA1 << 4 | LB1 << 3 | LC1 << 2 | LD1 << 1;
             custom_chars[nOfCustom*8+2] = LA2 << 4 | LB2 << 3 | LC2 << 2 | LD2 << 1;
@@ -569,23 +577,28 @@ void game_task()
             custom_chars[nOfCustom*8+5] = LA5 << 4 | LB5 << 3 | LC5 << 2 | LD5 << 1;
             custom_chars[nOfCustom*8+6] = LA6 << 4 | LB6 << 3 | LC6 << 2 | LD6 << 1;
             custom_chars[nOfCustom*8+7] = LA7 << 4 | LB7 << 3 | LC7 << 2 | LD7 << 1;
-            nOfCustom++;
+            nOfCustom++;    // Increment number of custom characters
 
+            // Reset LATs
             LATA = 0x00;
             LATB = 0x00;
             LATC = 0x00;
             LATD = 0x00;
+
+            // Reset coordinates of invisible cursor
             cursorClm = 0;
             cursorRow = 0;
             generate_custom_char();
+            
+            // In order to see generated custom character in LCD, we set current custom index to;
             currCustIndex = nOfCustom-1;
             write_lcd(lcd_up + upCursor, cst);
         }
 
         break;
 
-    case TSM:
-        if(first_time_tsm)
+    case TSM:       // Text Scroll Mode
+        if(first_time_tsm)      // Write 'finished' only in first come
         {
             move_cursor(lcd_up);
             SendBusContents(0x0c);      // Trun off the cursor.
@@ -615,21 +628,21 @@ void game_task()
         }
 
 
-        if(tmr_state == TMR_DONE)
+        if(tmr_state == TMR_DONE)       // Check if 300ms is passed, i.e., delay is 300 ms
         {
             for(int i=0; i<16; i++)
             {
-                if(mask[i] == prd)
+                if(mask[i] == prd)      // If the cell is prd, write it to desired cell
                     write_lcd2(lcd_down + i, prd, i);
-                else if(mask[i] == cst)
+                else if(mask[i] == cst)     // If cell is cst, write it to desired cell
                     write_lcd2(lcd_down + i, cst, i);
-                else
+                else        // If non-predefined and non-custom, write it to desired cell
                     write_lcd2(lcd_down + i, 3, 0);
 
             }
-            shifter();
+            shifter();      // Shift left the lower cell by 1
             tmr_state = TMR_RUN;
-            tmr_start(46);
+            tmr_start(46);      // Start timer again
         }
 
         break;
@@ -639,6 +652,9 @@ void game_task()
     }
 }
 
+// Generates all custom characters according to input coming from the user.
+// But input is not handled here, what handled here is sending all the generated
+// custom characters to the CGRAM.
 void generate_custom_char()
 {
     PORTBbits.RB2 = 0;
@@ -666,12 +682,13 @@ void move_cursor(uint8_t address)
 }
 
 
-void write_lcd(uint8_t address, uint8_t mode)        // To use in cst mode, send 0-1-2-... intead of 0-8-16-...
+// Writes to LCD, in a desired cell, a custom character or predefined character 
+void write_lcd(uint8_t address, uint8_t mode)
 {
     switch(mode)
     {
-        case cst:
-            mask[upCursor] = cst;
+        case cst:       // custom 
+            mask[upCursor] = cst;       // set mask to cst
             cust_mask[upCursor] = currCustIndex;
             move_cursor(address);
             // Write buf to LCD DDRAM
@@ -680,9 +697,8 @@ void write_lcd(uint8_t address, uint8_t mode)        // To use in cst mode, send
             // Move cursor again the current cell
             move_cursor(address);
             break;
-        case prd:
-            mask[upCursor] = prd;
-//            pred_mask[upCursor] = currPredIndex;
+        case prd:       // predefined
+            mask[upCursor] = prd;       // set mask to prd
             move_cursor(address);
             // Write buf to LCD DDRAM
             PORTBbits.RB2 = 1;
@@ -694,11 +710,13 @@ void write_lcd(uint8_t address, uint8_t mode)        // To use in cst mode, send
 
 }
 
-void write_lcd2(uint8_t address, uint8_t mode, uint8_t i)        // To use in cst mode, send 0-1-2-... intead of 0-8-16-...
+// The difference from write_lcd is that, write_lcd2 does not edit the mask arrays, 
+// and has a default case for non-predefined and non-custom characters.
+void write_lcd2(uint8_t address, uint8_t mode, uint8_t i)
 {
     switch(mode)
     {
-        case cst:
+        case cst:       // custom
             move_cursor(address);
             // Write buf to LCD DDRAM
             PORTBbits.RB2 = 1;
@@ -706,7 +724,7 @@ void write_lcd2(uint8_t address, uint8_t mode, uint8_t i)        // To use in cs
             // Move cursor again the current cell
             move_cursor(address);
             break;
-        case prd:
+        case prd:       // predefined
             move_cursor(address);
             // Write buf to LCD DDRAM
             PORTBbits.RB2 = 1;
@@ -714,7 +732,7 @@ void write_lcd2(uint8_t address, uint8_t mode, uint8_t i)        // To use in cs
             // Move cursor again the current cell
             move_cursor(address);
             break;
-        default:
+        default:        // not predefined, not custom 
             move_cursor(address);
             // Write buf to LCD DDRAM
             PORTBbits.RB2 = 1;
@@ -730,20 +748,20 @@ void write_lcd2(uint8_t address, uint8_t mode, uint8_t i)        // To use in cs
 
 int main()
 {
-    init_vars();
-    init_ports();
-    init_adc();
-    InitLCDv2();
-    init_irq();
-    tmr_init();
-    start_adc();
-    tmr_start(46);
+    init_vars();        // Initialize variables and stuff
+    init_ports();       // Initialize ports and trisses
+    init_adc();         // Initialize A/D registers
+    InitLCDv2();        // Initialize LCD stuff
+    init_irq();         // Initialize INTCON
+    tmr_init();         // Initialize timer0
+    start_adc();        // Set GODONE
+    tmr_start(46);      // 46 is for 300 ms
     while(1)
     {
-        adc_finish();
-        sev_seg_task();
-        input_task();
-        game_task();
+        adc_finish();       // When A/D conversion finishes, this does some stuff
+        sev_seg_task();     // Handles seven segmetn display
+        input_task();       // Handles inputs on RE
+        game_task();        // Handles main game logic
     }
     return 0;
 }
