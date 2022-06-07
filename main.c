@@ -198,7 +198,7 @@ void init_vars()
     }
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            custom_chars[i][j] = 0;
+            custom_chars[i][j] = -1;
         }
     }
 }
@@ -375,9 +375,9 @@ void input_task()
     
 }
 
-void inv_cursor(uint8_t dir)
+void inv_cursor(uint8_t direction)
 {
-    switch (dir)
+    switch (direction)
     {
     case left:
         if(cursorClm != 0 && re3Pressed == true) cursorClm--;
@@ -522,18 +522,25 @@ void game_task()
     }
 }
 
-void generate_custom_char(uint8_t chars[])
+void generate_custom_char(uint8_t chars[])      // TODO: Re-organize this function
 {
     PORTBbits.RB2 = 0;
 
-    SendBusContents(0x40+count_to_8);
-    count_to_8 = (count_to_8+8) % 64;        // MAYBE DISABLE OVERWRITE
+    SendBusContents(0x40);
+//    count_to_8 = (count_to_8+8) % 64;        // MAYBE DISABLE OVERWRITE
 
     // Start sending charmap
-    for(int i=0; i<8; i++){
-        PORTBbits.RB2 = 1; // Send Data
-        SendBusContents(chars[i]);
+    for(int i=0; i<8; i++)
+    {
+        for(int j=0; j<8; j++)
+        {
+            PORTBbits.RB2 = 1; // Send Data
+            if(custom_chars[i][j] != -1)
+                SendBusContents(custom_chars[i][j]);
+        }
+
     }
+
 }
 
 // Moves the cursor to the desired address
@@ -544,7 +551,7 @@ void move_cursor(uint8_t address)
 }
 
 
-void write_lcd(uint8_t address, uint8_t mode, uint8_t character)
+void write_lcd(uint8_t address, uint8_t mode, uint8_t character)        // To use in cst mode, send 0-1-2-... intead of 0-8-16-...
 {
     switch(mode)
     {
@@ -567,14 +574,10 @@ void write_lcd(uint8_t address, uint8_t mode, uint8_t character)
     }
 
 }
-void lcd_task() {
-    
-    
-//    GODONE = 1; // Start ADC conversion
-//    while(GODONE); // Poll and wait for conversion to finish.
-    if (adif2) {
-//        unsigned int result = (ADRESH << 8) + ADRESL; // Get the result;
 
+void lcd_task() 
+{
+    if (adif2) {
 //         4bytes for ADC Res + 1 byte for custom char + 1 byte null;
         char buf[6];
         sprintf(buf, "%04u", result);
@@ -586,10 +589,7 @@ void lcd_task() {
         write_lcd(lcd_up+7, cst, 0);
         write_lcd(lcd_up+8, cst, 1);
 
-//        adif = false;
         adif2 = false;
-
-//   Write custom char to lcd
     }
 
 }
