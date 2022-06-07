@@ -25,8 +25,12 @@
 
 #define empty 0
 
+
 void tmr_isr();
 void lcd_task();
+void write_lcd(uint8_t address, uint8_t mode);
+void move_cursor(uint8_t address);
+void generate_custom_char();
 
 /*_* GLOBAL DECLERATIONS GO HERE */
 typedef enum {TEM, CDM, TSM} game_state_t;
@@ -37,22 +41,27 @@ uint8_t sevenSeg3WayCounter;    // counter for 7seg display
 uint8_t cursorClm, cursorRow;
 uint8_t count_to_8;
 
-unsigned int result, upCursor;
+uint8_t upCursor;
+unsigned int result;
 
 // Flags
 uint8_t re0Pressed, re1Pressed, re2Pressed, re3Pressed, re4Pressed, re5Pressed;        // flags for input
 uint8_t adif, adif2;
 
 char predefined[] = {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-char currPredChar;
-uint8_t currPredIndex;
 
-uint8_t currCustIndex;
+
+char predChars[16];
+uint8_t predIndexes[16];
+uint8_t mask[16];
+
+uint8_t currPredIndex;
+int currCustIndex;
 
 
 uint8_t lcd_buf_up[16][8];
 uint8_t lcd_buf_down[16][8];
-uint8_t custom_chars[8][8];
+uint8_t custom_chars[64];
 
 uint8_t charmap[8] = {
         0b00000,
@@ -78,14 +87,12 @@ uint8_t charmap2[8] = {
 
 void pred_next()
 {
-    currPredIndex = (currPredIndex+1)%37;
-    currPredChar = predefined[currPredIndex];
+    predIndexes[upCursor] = (predIndexes[upCursor] + 1) % 37;
 }
 
 void pred_prev()
 {
-    currPredIndex = (currPredIndex-1)%37;
-    currPredChar = predefined[currPredIndex];
+    predIndexes[upCursor] = (predIndexes[upCursor] + 36) % 37;
 }
 
 void cust_next()
@@ -230,17 +237,21 @@ void init_vars()
     upCursor = 0;
 
     count_to_8 = 0;
-    currPredChar = predefined[currPredIndex];
+
+    for(int i=0; i<16; i++)
+    {
+        predIndexes[i] = 0;
+        mask[i] = 0;
+    }
     for (int i = 0; i < 16;i++) {
         for (int j = 0; j < 8; j++) {
             lcd_buf_up[i][j] = 0;
             lcd_buf_down[i][j] = 0;
         }
     }
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
-            custom_chars[i][j] = empty;
-        }
+    for (int i = 0; i < 64; i++)
+    {
+            custom_chars[i] = empty;
     }
 }
 
@@ -366,7 +377,6 @@ void adc_finish()
 
 void input_task()
 {
-    // TODO : We should implement button release detection
     if(PORTEbits.RE0)
     {
         re0Pressed = pressed;
@@ -449,23 +459,23 @@ void game_task()
             cust_next();
             re0Pressed = false;
             if(currCustIndex == -1)     // means print predefined on LCD
-                write_lcd(lcd_up + upCursor, prd, currPredChar);
+                write_lcd(lcd_up + upCursor, prd);
             else
-                write_lcd(lcd_up + upCursor, cst, currCustIndex);
+                write_lcd(lcd_up + upCursor, cst);
         }
 
         if(re1Pressed == true)      // predefined -> backwars
         {
             pred_prev();
             re1Pressed = false;
-            write_lcd(lcd_up + upCursor, prd, currPredChar);
+            write_lcd(lcd_up + upCursor, prd);
         }
 
         if(re2Pressed == true)      // predefined -> forwards
         {
             pred_next();
             re2Pressed = false;
-            write_lcd(lcd_up + upCursor, prd, currPredChar);
+            write_lcd(lcd_up + upCursor, prd);
         }
 
         if(re3Pressed == true)      // custom -> backwards
@@ -473,15 +483,16 @@ void game_task()
             cust_prev();
             re3Pressed = false;
             if(currCustIndex == -1)     // means print predefined on LCD
-                write_lcd(lcd_up + upCursor, prd, currPredChar);
+                write_lcd(lcd_up + upCursor, prd);
             else
-                write_lcd(lcd_up + upCursor, cst, currCustIndex);
+                write_lcd(lcd_up + upCursor, cst);
         }
 
         if(re4Pressed == true)
         {
             re4Pressed = false;
             game_state = CDM;
+//            ADCON0bits.ADON = 0;
         }
 
         if(re5Pressed == true)
@@ -537,37 +548,34 @@ void game_task()
         {
             re5Pressed = false;
             game_state = TEM;
-            uint8_t temp[8]; // TODO: @Enes - Replace this with custom_chars array
-            temp[nOfCustom] = LA0 << 4 | LB0 << 3 | LC0 << 2 | LD0 << 1;
-            temp[nOfCustom+1] = LA1 << 4 | LB1 << 3 | LC1 << 2 | LD1 << 1;
-            temp[nOfCustom+2] = LA2 << 4 | LB2 << 3 | LC2 << 2 | LD2 << 1;
-            temp[nOfCustom+3] = LA3 << 4 | LB3 << 3 | LC3 << 2 | LD3 << 1;
-            temp[nOfCustom+4] = LA4 << 4 | LB4 << 3 | LC4 << 2 | LD4 << 1;
-            temp[nOfCustom+5] = LA5 << 4 | LB5 << 3 | LC5 << 2 | LD5 << 1;
-            temp[nOfCustom+6] = LA6 << 4 | LB6 << 3 | LC6 << 2 | LD6 << 1;
-            temp[nOfCustom+7] = LA7 << 4 | LB7 << 3 | LC7 << 2 | LD7 << 1;
-//            custom_chars[nOfCustom] = temp;
-            PORTBbits.RB2 = 0;
-
-            SendBusContents(0x40);
-            // MAYBE send all of the defined custom characters @Enes
-            // Start sending charmap
-            for(int i=0; i<8; i++){
-                PORTBbits.RB2 = 1; // Send Data
-                SendBusContents(temp[i]);
-            }
-            SendBusContents(0x02);
+            custom_chars[nOfCustom*8] = LA0 << 4 | LB0 << 3 | LC0 << 2 | LD0 << 1;
+            custom_chars[nOfCustom*8+1] = LA1 << 4 | LB1 << 3 | LC1 << 2 | LD1 << 1;
+            custom_chars[nOfCustom*8+2] = LA2 << 4 | LB2 << 3 | LC2 << 2 | LD2 << 1;
+            custom_chars[nOfCustom*8+3] = LA3 << 4 | LB3 << 3 | LC3 << 2 | LD3 << 1;
+            custom_chars[nOfCustom*8+4] = LA4 << 4 | LB4 << 3 | LC4 << 2 | LD4 << 1;
+            custom_chars[nOfCustom*8+5] = LA5 << 4 | LB5 << 3 | LC5 << 2 | LD5 << 1;
+            custom_chars[nOfCustom*8+6] = LA6 << 4 | LB6 << 3 | LC6 << 2 | LD6 << 1;
+            custom_chars[nOfCustom*8+7] = LA7 << 4 | LB7 << 3 | LC7 << 2 | LD7 << 1;
             nOfCustom++;
+
             LATA = 0x00;
             LATB = 0x00;
             LATC = 0x00;
             LATD = 0x00;
             cursorClm = 0;
             cursorRow = 0;
+            generate_custom_char();
         }
+
         break;
 
     case TSM:
+//        for(int i=0; i<16; i++)
+//        {
+//            if(mask[i] == cs)
+//                write_lcd(predefined[predIndexes[upCursor]], prd);
+//            else if
+//        }
         break;
     
     default:
@@ -575,7 +583,7 @@ void game_task()
     }
 }
 
-void generate_custom_char(uint8_t chars[])      // TODO: Re-organize this function
+void generate_custom_char()      // TODO: Re-organize this function
 {
     PORTBbits.RB2 = 0;
 
@@ -583,14 +591,10 @@ void generate_custom_char(uint8_t chars[])      // TODO: Re-organize this functi
 //    count_to_8 = (count_to_8+8) % 64;        // MAYBE DISABLE OVERWRITE
 
     // Start sending charmap
-    for(int i=0; i<nOfCustom; i++)
+    for(int i=0; i<nOfCustom*8; i++)
     {
-        for(int j=0; j<8; j++)
-        {
-            PORTBbits.RB2 = 1; // Send Data
-            SendBusContents(custom_chars[i][j]);
-        }
-
+        PORTBbits.RB2 = 1; // Send Data
+        SendBusContents(custom_chars[i]);
     }
 
     // All custom characters generated again
@@ -608,7 +612,7 @@ void move_cursor(uint8_t address)
 }
 
 
-void write_lcd(uint8_t address, uint8_t mode, uint8_t character)        // To use in cst mode, send 0-1-2-... intead of 0-8-16-...
+void write_lcd(uint8_t address, uint8_t mode)        // To use in cst mode, send 0-1-2-... intead of 0-8-16-...
 {
     switch(mode)
     {
@@ -616,7 +620,7 @@ void write_lcd(uint8_t address, uint8_t mode, uint8_t character)        // To us
             move_cursor(address);
             // Write buf to LCD DDRAM
             PORTBbits.RB2 = 1;
-            SendBusContents(character);
+            SendBusContents(currCustIndex);
             // Move cursor again the current cell
             move_cursor(address);
             break;
@@ -624,7 +628,7 @@ void write_lcd(uint8_t address, uint8_t mode, uint8_t character)        // To us
             move_cursor(address);
             // Write buf to LCD DDRAM
             PORTBbits.RB2 = 1;
-            SendBusContents(character);
+            SendBusContents(predefined[predIndexes[upCursor]]);
             // Move cursor again the current cell
             move_cursor(address);
             break;
@@ -632,7 +636,7 @@ void write_lcd(uint8_t address, uint8_t mode, uint8_t character)        // To us
 
 }
 
-void lcd_task() 
+void lcd_task()
 {
     if (adif2) {
 //         4bytes for ADC Res + 1 byte for custom char + 1 byte null;
@@ -643,8 +647,8 @@ void lcd_task()
 
         // Set DDRAM address to 0 (line 1 cell 1) -> 0x80
 //        PORTBbits.RB2 = 0;
-//        write_lcd(lcd_up+7, cst, 0);
-//        write_lcd(lcd_up+8, cst, 1);
+//        write_lcd(lcd_up+7, cst);
+//        write_lcd(lcd_up+8, cst);
 
         adif2 = false;
     }
@@ -661,36 +665,35 @@ int main()
     tmr_init();
     start_adc();
 
-//    INTCONbits.GIE = 1;
 // Define custom char LCD
     // Set CGRAM address 0 -> 0x40
-    PORTBbits.RB2 = 0;
-
-    SendBusContents(0x40);
-//    count_to_8 = (count_to_8+8) % 64;        // MAYBE DISABLE OVERWRITE
-
-    // Start sending charmap
-    for(int i=0; i<8; i++){
-        PORTBbits.RB2 = 1; // Send Data
-        SendBusContents(charmap[i]);
-    }
-
 //    PORTBbits.RB2 = 0;
-
-//    SendBusContents(0x41);
-//    count_to_8 = (count_to_8+8) % 64;        // MAYBE DISABLE OVERWRITE
-
-    // Start sending charmap
-    for(int i=0; i<8; i++){
-        PORTBbits.RB2 = 1; // Send Data
-        SendBusContents(charmap2[i]);
-    }
 //
-//    generate_custom_char(charmap);
-//    generate_custom_char(charmap2);
-
-    SendBusContents(0x02);
-
+//    SendBusContents(0x40);
+////    count_to_8 = (count_to_8+8) % 64;        // MAYBE DISABLE OVERWRITE
+//
+//    // Start sending charmap
+//    for(int i=0; i<8; i++){
+//        PORTBbits.RB2 = 1; // Send Data
+//        SendBusContents(charmap[i]);
+//    }
+//
+////    PORTBbits.RB2 = 0;
+//
+////    SendBusContents(0x41);
+////    count_to_8 = (count_to_8+8) % 64;        // MAYBE DISABLE OVERWRITE
+//
+//    // Start sending charmap
+//    for(int i=0; i<8; i++){
+//        PORTBbits.RB2 = 1; // Send Data
+//        SendBusContents(charmap2[i]);
+//    }
+////
+////    generate_custom_char(charmap);
+////    generate_custom_char(charmap2);
+//
+//    SendBusContents(0x02);
+//    nOfCustom = 2;
     while(1)
     {
         adc_finish();
