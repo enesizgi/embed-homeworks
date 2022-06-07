@@ -47,7 +47,6 @@ char predefined[] = {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
 char currPredChar;
 uint8_t currPredIndex;
 
-char currCustChar;
 uint8_t currCustIndex;
 
 
@@ -91,14 +90,20 @@ void pred_prev()
 
 void cust_next()
 {
-    currCustIndex = (currCustIndex+1)%8;
-    currCustChar = custom_chars[currCustIndex];
+    if(nOfCustom == 0)
+        currCustIndex = -1;
+    currCustIndex++;
+    if(currCustIndex == nOfCustom)
+        currCustIndex = -1;
 }
 
 void cust_prev()
 {
-    currCustIndex = (currCustIndex-1)%8;
-    currCustChar = custom_chars[currCustIndex];
+    if(nOfCustom == 0)
+        currCustIndex = -1;
+    currCustIndex--;
+    if(currCustIndex == -2)     // -1 is -> currpred and if one more backwards -> go to the end of the custom characters
+        currCustIndex = nOfCustom-1;
 }
 
 
@@ -206,6 +211,7 @@ void init_vars()
     sevenSeg3WayCounter = 0;
     cursorClm = cursorRow = 0;
     currPredIndex = 0;
+    currCustIndex = 0;
     result = 0;
     upCursor = 0;
 
@@ -426,8 +432,12 @@ void game_task()
         if(re0Pressed == true)      // custom -> forward
         {
             // TODO custom character array and logic
-            cst_next();
+            cust_next();
             re0Pressed = false;
+            if(currCustIndex == -1)
+                write_lcd(lcd_up + upCursor, prd, currPredChar);
+            else
+                write_lcd(lcd_up + upCursor, cst, currCustIndex);
         }
 
         if(re1Pressed == true)      // predefined -> backwars
@@ -446,8 +456,12 @@ void game_task()
 
         if(re3Pressed == true)      // custom -> backwards
         {
-            cst_prev();
+            cust_prev();
             re3Pressed = false;
+            if(currCustIndex == -1)
+                write_lcd(lcd_up + upCursor, prd, currPredChar);
+            else
+                write_lcd(lcd_up + upCursor, cst, currCustIndex);
         }
 
         if(re4Pressed == true)
@@ -556,13 +570,12 @@ void generate_custom_char(uint8_t chars[])      // TODO: Re-organize this functi
 //    count_to_8 = (count_to_8+8) % 64;        // MAYBE DISABLE OVERWRITE
 
     // Start sending charmap
-    for(int i=0; i<8; i++)
+    for(int i=0; i<nOfCustom; i++)
     {
         for(int j=0; j<8; j++)
         {
             PORTBbits.RB2 = 1; // Send Data
-            if(custom_chars[i][j] != empty)
-                SendBusContents(custom_chars[i][j]);
+            SendBusContents(custom_chars[i][j]);
         }
 
     }
