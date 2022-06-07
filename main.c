@@ -550,8 +550,7 @@ void game_task()
             PORTBbits.RB2 = 0;
 
             SendBusContents(0x40);
-//    count_to_8 = (count_to_8+8) % 64;        // MAYBE DISABLE OVERWRITE
-
+            // MAYBE send all of the defined custom characters @Enes
             // Start sending charmap
             for(int i=0; i<8; i++){
                 PORTBbits.RB2 = 1; // Send Data
