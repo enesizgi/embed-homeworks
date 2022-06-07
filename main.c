@@ -90,18 +90,32 @@ void pred_prev()
 
 void cust_next()
 {
+    // If there is no custom characters, print current predefined
     if(nOfCustom == 0)
+    {
         currCustIndex = -1;
+        return;
+    }
+
     currCustIndex++;
+    // After increment, if it is equal to nofcustom, means beyond the end of cst array, 
+    // take pointer to the beggining, curr pred 
     if(currCustIndex == nOfCustom)
         currCustIndex = -1;
 }
 
 void cust_prev()
 {
+    // If there is no custom characters, print current predefined
     if(nOfCustom == 0)
+    {
         currCustIndex = -1;
+        return;
+    }
+
     currCustIndex--;
+    // After decrement, if it is equal to -2, means beyond -1 (curr pred)
+    // take pointer to the end, nOfcustom-1
     if(currCustIndex == -2)     // -1 is -> currpred and if one more backwards -> go to the end of the custom characters
         currCustIndex = nOfCustom-1;
 }
@@ -434,7 +448,7 @@ void game_task()
             // TODO custom character array and logic
             cust_next();
             re0Pressed = false;
-            if(currCustIndex == -1)
+            if(currCustIndex == -1)     // means print predefined on LCD
                 write_lcd(lcd_up + upCursor, prd, currPredChar);
             else
                 write_lcd(lcd_up + upCursor, cst, currCustIndex);
@@ -458,7 +472,7 @@ void game_task()
         {
             cust_prev();
             re3Pressed = false;
-            if(currCustIndex == -1)
+            if(currCustIndex == -1)     // means print predefined on LCD
                 write_lcd(lcd_up + upCursor, prd, currPredChar);
             else
                 write_lcd(lcd_up + upCursor, cst, currCustIndex);
