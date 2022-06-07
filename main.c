@@ -53,10 +53,10 @@ uint8_t re0Pressed, re1Pressed, re2Pressed, re3Pressed, re4Pressed, re5Pressed; 
 uint8_t adif;
 uint8_t first_time_tsm;
 
-char predefined[] = {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+char predefined[] = {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}; // predefined characters
 
 
-uint8_t predIndexes[16];
+uint8_t predIndexes[16]; // indexes of predefined characters
 
 uint8_t mask[16];
 //uint8_t pred_mask[16];
@@ -115,11 +115,11 @@ void __interrupt(high_priority) highPriorityISR(void)
 {
     if (INTCONbits.TMR0IF)
     {
-        tmr_isr();
+        tmr_isr(); // call timer ISR
     }
     if(PIR1bits.ADIF)
     {
-        PIR1bits.ADIF = 0x00;
+        PIR1bits.ADIF = 0x00; // clear ADIF
         adif = true;
     }
 }
