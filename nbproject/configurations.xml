@@ -4,26 +4,27 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>../lcd_sample/Includes.h</itemPath>
-      <itemPath>../lcd_sample/LCD.h</itemPath>
-      <itemPath>../serial_example/common.h</itemPath>
+      <itemPath>common.h</itemPath>
+      <itemPath>define.h</itemPath>
+      <itemPath>Includes.h</itemPath>
+      <itemPath>LCD.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
                    projectFiles="true">
-      <itemPath>../../../picos/PICos18_v2_10/Linker/18f8722.lkr</itemPath>
+      <itemPath>../../Desktop/picos/Linker/18f8722.lkr</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>../serial_example/common.c</itemPath>
-      <itemPath>../serial_example/int.c</itemPath>
-      <itemPath>../serial_example/main.c</itemPath>
-      <itemPath>../serial_example/taskdesc.c</itemPath>
-      <itemPath>../serial_example/tsk_task0.c</itemPath>
-      <itemPath>../serial_example/tsk_task1.c</itemPath>
-      <itemPath>../lcd_sample/LCD.c</itemPath>
-      <itemPath>../lcd_sample/tsk_task0_lcd.c</itemPath>
+      <itemPath>common.c</itemPath>
+      <itemPath>int.c</itemPath>
+      <itemPath>LCD.c</itemPath>
+      <itemPath>main.c</itemPath>
+      <itemPath>taskdesc.c</itemPath>
+      <itemPath>tsk_task0.c</itemPath>
+      <itemPath>tsk_task0_lcd.c</itemPath>
+      <itemPath>tsk_task1.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -32,9 +33,8 @@
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
-    <Elem>../serial_example</Elem>
-    <Elem>../lcd_sample</Elem>
-    <Elem>../../../picos/PICos18_v2_10/Linker</Elem>
+    <Elem>.</Elem>
+    <Elem>../../Desktop/picos/Linker</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -57,7 +57,7 @@
       <compileType>
         <linkerTool>
           <linkerLibItems>
-            <linkerLibFileItem>../../../picos/PICos18_v2_10/Kernel/picos18.lib</linkerLibFileItem>
+            <linkerLibFileItem>../../Desktop/picos/Kernel/picos18.lib</linkerLibFileItem>
           </linkerLibItems>
         </linkerTool>
         <archiverTool>
@@ -98,8 +98,7 @@
         <property key="enable-ot" value="true"/>
         <property key="enable-ou" value="true"/>
         <property key="enable-ow" value="true"/>
-        <property key="extra-include-directories"
-                  value="../../../picos/PICos18_v2_10/Include"/>
+        <property key="extra-include-directories" value="../../Desktop/picos/Include"/>
         <property key="optimization-master" value="Enable all"/>
         <property key="preprocessor-macros" value=""/>
         <property key="procedural-abstraction-passes" value="4"/>
@@ -117,8 +116,7 @@
       </C18-AS>
       <C18-LD>
         <property key="cod-file" value="false"/>
-        <property key="extra-lib-directories"
-                  value="../../../picos/PICos18_v2_10/Kernel"/>
+        <property key="extra-lib-directories" value="../../Desktop/picos/Kernel"/>
         <property key="hex-output-format" value="INHX32"/>
         <property key="map-file" value="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map"/>
       </C18-LD>
@@ -139,7 +137,6 @@
                   value="Press to browse for a specific firmware version"/>
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
-        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>
