@@ -23,9 +23,9 @@ TASK(TASK0_LCD)
     WaitEvent(ALARM_EVENT);
     ClearEvent(ALARM_EVENT);
 
-    ClearLCDScreen();
-    LcdPrintString(&rcvd_chr, 0, 0);
-    LcdPrintString(&a, 0, 1);
+    // ClearLCDScreen();
+    // LcdPrintString(&rcvd_chr, 0, 0);
+    // LcdPrintString(&a, 0, 1);
     TerminateTask();
 }
 
