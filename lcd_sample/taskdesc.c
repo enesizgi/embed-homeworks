@@ -1,4 +1,4 @@
-#include "define.h"
+#include "common.h"
 
 /**********************************************************************
  * --------------------- COUNTER & ALARM DEFINITION -------------------
@@ -40,7 +40,7 @@ AlarmObject Alarm_list[] =
      0,                                    /* AlarmValue              */
      0,                                    /* Cycle                   */
      &Counter_kernel,                      /* ptrCounter              */
-     TASK0_ID,                             /* TaskID2Activate         */
+     TASK0_ID_LCD,                             /* TaskID2Activate         */
      ALARM_EVENT,                          /* EventToPost             */
      0                                     /* CallBack                */
    },
@@ -83,13 +83,13 @@ unsigned char RESOURCENUMBER = _RESOURCENUMBER_;
  * ----------------------- TASK & STACK DEFINITION --------------------
  **********************************************************************/
 #define DEFAULT_STACK_SIZE      256
-DeclareTask(TASK0);
+DeclareTask(TASK0_LCD);
 DeclareTask(LCD);
 
 // to avoid any C18 map error : regroup the stacks into blocks
 // of 256 bytes (except the last one).
-#pragma		udata      STACK_A   
-volatile unsigned char stack0[DEFAULT_STACK_SIZE];
+#pragma		udata      _A   
+volatile unsigned char stack0_lcd[DEFAULT_STACK_SIZE];
 #pragma		udata      STACK_B
 volatile unsigned char stack_lcd[DEFAULT_STACK_SIZE];
 #pragma		udata
@@ -100,14 +100,14 @@ volatile unsigned char stack_lcd[DEFAULT_STACK_SIZE];
 #pragma		romdata		DESC_ROM
 const rom unsigned int descromarea;
 /**********************************************************************
- * -----------------------------  task 0 ------------------------------
+ * -----------------------------  task 0 LCD ------------------------------
  **********************************************************************/
-rom_desc_tsk rom_desc_task0 = {
-	TASK0_PRIO,                       /* prioinit from 0 to 15       */
+rom_desc_tsk rom_desc_task0_lcd = {
+	TASK0_LCD_PRIO,                       /* prioinit from 0 to 15       */
 	stack0,                           /* stack address (16 bits)     */
-	TASK0,                            /* start address (16 bits)     */
+	TASK0_LCD,                            /* start address (16 bits)     */
 	READY,                            /* state at init phase         */
-	TASK0_ID,                         /* id_tsk from 0 to 15         */
+	TASK0_ID_LCD,                         /* id_tsk from 0 to 15         */
 	sizeof(stack0)                    /* stack size    (16 bits)     */
 };
 

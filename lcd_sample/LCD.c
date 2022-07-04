@@ -1,4 +1,4 @@
-#include "define.h"
+#include "../serial_example/common.h"
 #include <p18cxxx.h>
 #include <p18f8722.h>
 #include "LCD.h"

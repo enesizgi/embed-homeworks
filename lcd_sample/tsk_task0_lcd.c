@@ -1,4 +1,4 @@
-#include "define.h"
+#include "../serial_example/common.h"
 #include "LCD.h"
 
 /**********************************************************************
@@ -6,25 +6,27 @@
  **********************************************************************/
 
 extern const char string_pool[2][16];
+extern char rcvd_chr;
 
 /**********************************************************************
- * ------------------------------ TASK0 -------------------------------
+ * ------------------------------ TASK0_LCD -------------------------------
  * 
  * Writes various strings to LCD 
  * 
  **********************************************************************/
-TASK(TASK0)
+TASK(TASK0_LCD)
 {
-    SetRelAlarm(ALARM_TSK0, 100, 350);
+    char a = 'A';
+
+    SetRelAlarm(ALARM_TSK0_LCD, 100, 350);
 
     WaitEvent(ALARM_EVENT);
     ClearEvent(ALARM_EVENT);
 
     ClearLCDScreen();
-
-    LcdPrintString(string_pool[0], 0, 0);
-    LcdPrintString(string_pool[1], 0, 1);
+    LcdPrintString(&rcvd_chr, 0, 0);
+    LcdPrintString(&a, 0, 1);
     TerminateTask();
 }
 
-/* End of File : tsk_task0.c */
+/* End of File : tsk_task0_LCD.c */
