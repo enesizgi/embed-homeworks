@@ -1,5 +1,8 @@
 #include "common.h"
 
+void transmitData();
+void dataReceived();
+
 /**********************************************************************
  * Function you want to call when an IT occurs.
  **********************************************************************/
