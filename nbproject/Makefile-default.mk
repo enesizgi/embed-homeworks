@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=common.c int.c main.c taskdesc.c tsk_task0.c tsk_task1.c
+SOURCEFILES_QUOTED_IF_SPACED=common.c int.c main.c taskdesc.c tsk_task0.c tsk_task1.c tsk_task2.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/common.o ${OBJECTDIR}/int.o ${OBJECTDIR}/main.o ${OBJECTDIR}/taskdesc.o ${OBJECTDIR}/tsk_task0.o ${OBJECTDIR}/tsk_task1.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/common.o.d ${OBJECTDIR}/int.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/taskdesc.o.d ${OBJECTDIR}/tsk_task0.o.d ${OBJECTDIR}/tsk_task1.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/common.o ${OBJECTDIR}/int.o ${OBJECTDIR}/main.o ${OBJECTDIR}/taskdesc.o ${OBJECTDIR}/tsk_task0.o ${OBJECTDIR}/tsk_task1.o ${OBJECTDIR}/tsk_task2.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/common.o.d ${OBJECTDIR}/int.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/taskdesc.o.d ${OBJECTDIR}/tsk_task0.o.d ${OBJECTDIR}/tsk_task1.o.d ${OBJECTDIR}/tsk_task2.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/common.o ${OBJECTDIR}/int.o ${OBJECTDIR}/main.o ${OBJECTDIR}/taskdesc.o ${OBJECTDIR}/tsk_task0.o ${OBJECTDIR}/tsk_task1.o
+OBJECTFILES=${OBJECTDIR}/common.o ${OBJECTDIR}/int.o ${OBJECTDIR}/main.o ${OBJECTDIR}/taskdesc.o ${OBJECTDIR}/tsk_task0.o ${OBJECTDIR}/tsk_task1.o ${OBJECTDIR}/tsk_task2.o
 
 # Source Files
-SOURCEFILES=common.c int.c main.c taskdesc.c tsk_task0.c tsk_task1.c
+SOURCEFILES=common.c int.c main.c taskdesc.c tsk_task0.c tsk_task1.c tsk_task2.c
 
 
 
@@ -150,6 +150,14 @@ ${OBJECTDIR}/tsk_task1.o: tsk_task1.c  nbproject/Makefile-${CND_CONF}.mk
 	@${DEP_GEN} -d ${OBJECTDIR}/tsk_task1.o 
 	@${FIXDEPS} "${OBJECTDIR}/tsk_task1.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
+${OBJECTDIR}/tsk_task2.o: tsk_task2.c  nbproject/Makefile-${CND_CONF}.mk 
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/tsk_task2.o.d 
+	@${RM} ${OBJECTDIR}/tsk_task2.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -p$(MP_PROCESSOR_OPTION) -I"../../Desktop/picos/Include" -ms -oa-  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/tsk_task2.o   tsk_task2.c 
+	@${DEP_GEN} -d ${OBJECTDIR}/tsk_task2.o 
+	@${FIXDEPS} "${OBJECTDIR}/tsk_task2.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
+	
 else
 ${OBJECTDIR}/common.o: common.c  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}" 
@@ -198,6 +206,14 @@ ${OBJECTDIR}/tsk_task1.o: tsk_task1.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -I"../../Desktop/picos/Include" -ms -oa-  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/tsk_task1.o   tsk_task1.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/tsk_task1.o 
 	@${FIXDEPS} "${OBJECTDIR}/tsk_task1.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
+	
+${OBJECTDIR}/tsk_task2.o: tsk_task2.c  nbproject/Makefile-${CND_CONF}.mk 
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/tsk_task2.o.d 
+	@${RM} ${OBJECTDIR}/tsk_task2.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -I"../../Desktop/picos/Include" -ms -oa-  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/tsk_task2.o   tsk_task2.c 
+	@${DEP_GEN} -d ${OBJECTDIR}/tsk_task2.o 
+	@${FIXDEPS} "${OBJECTDIR}/tsk_task2.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
 endif
 

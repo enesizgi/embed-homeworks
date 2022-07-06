@@ -55,7 +55,7 @@ AlarmObject Alarm_list[] =
      TASK1_ID,                             /* TaskID2Activate         */
      ALARM_EVENT,                          /* EventToPost             */
      0                                     /* CallBack                */
-   },
+   }
  };
 
 #define _ALARMNUMBER_          sizeof(Alarm_list)/sizeof(AlarmObject)
@@ -85,6 +85,7 @@ unsigned char RESOURCENUMBER = _RESOURCENUMBER_;
 #define DEFAULT_STACK_SIZE      128
 DeclareTask(TASK0);
 DeclareTask(TASK1);
+DeclareTask(TASK2);
 
 // to avoid any C18 map error : regroup the stacks into blocks
 // of 256 bytes (except the last one).
@@ -92,6 +93,8 @@ DeclareTask(TASK1);
 volatile unsigned char stack0[DEFAULT_STACK_SIZE];
 #pragma		udata      STACK_B   
 volatile unsigned char stack1[DEFAULT_STACK_SIZE];
+#pragma		udata      STACK_C   
+volatile unsigned char stack2[DEFAULT_STACK_SIZE];
 #pragma		udata
 
 /**********************************************************************
@@ -121,6 +124,18 @@ rom_desc_tsk rom_desc_task1 = {
 	READY,                            /* state at init phase         */
 	TASK1_ID,                         /* id_tsk from 0 to 15         */
 	sizeof(stack1)                    /* stack size    (16 bits)     */
+};
+
+/**********************************************************************
+ * -----------------------------  task 2 ------------------------------
+ **********************************************************************/
+rom_desc_tsk rom_desc_task2 = {
+	TASK2_PRIO,                       /* prioinit from 0 to 15       */
+	stack2,                           /* stack address (16 bits)     */
+	TASK2,                            /* start address (16 bits)     */
+	READY,                            /* state at init phase         */
+	TASK2_ID,                         /* id_tsk from 0 to 15         */
+	sizeof(stack2)                    /* stack size    (16 bits)     */
 };
 
 
